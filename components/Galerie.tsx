@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { galleryItems } from "@/content/site-data";
+import { withBasePath } from "@/lib/basePath";
 import { Container } from "./ui/Container";
 import { FadeIn } from "./ui/FadeIn";
 import { SectionHeading } from "./ui/SectionHeading";
@@ -43,13 +44,19 @@ function BeforeAfterSlider({
   return (
     <div>
       <div className="relative aspect-[4/3] w-full select-none overflow-hidden rounded-2xl border border-navy-900/10 shadow-sm">
-        <Image src={after} alt={`${label} — après nettoyage`} fill unoptimized className="object-cover" />
+        <Image
+          src={withBasePath(after)}
+          alt={`${label} — après nettoyage`}
+          fill
+          unoptimized
+          className="object-cover"
+        />
         <div
           className="absolute inset-0"
           style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
         >
           <Image
-            src={before}
+            src={withBasePath(before)}
             alt={`${label} — avant nettoyage`}
             fill
             unoptimized

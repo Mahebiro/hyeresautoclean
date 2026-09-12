@@ -1,0 +1,68 @@
+name: Aperçu du site (GitHub Pages)
+
+# Publie automatiquement un aperçu visualisable du site à chaque mise à jour
+# de cette branche. Ce n'est PAS la méthode de mise en ligne définitive
+# recommandée (voir README.md, section 6 : déploiement sur Vercel) — c'est
+# uniquement un lien pratique pour visualiser le résultat.
+#
+# ⚠️ Étape unique à faire une fois, à la main : dans le repo GitHub, aller
+# dans Settings → Pages → "Build and deployment" → Source : sélectionner
+# "GitHub Actions". Sans ce réglage (que je ne peux pas activer moi-même),
+# ce workflow tourne mais aucune page n'est publiée.
+
+on:
+  push:
+    branches:
+      - main
+      - claude/youthful-pascal-b24jz6
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Construire le site (export statique)
+        env:
+          GITHUB_PAGES: "true"
+          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+        run: npm run build
+
+      - name: Préparer la publication
+        uses: actions/configure-pages@v5
+
+      - name: Envoyer le résultat
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publier sur GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { storytelling } from "@/content/site-data";
+import { withBasePath } from "@/lib/basePath";
 import { Container } from "./ui/Container";
 import { FadeIn } from "./ui/FadeIn";
 
@@ -11,7 +12,7 @@ export function Storytelling() {
           <FadeIn>
             <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-3xl shadow-premium">
               <Image
-                src="/images/mahe/mahe-placeholder.svg"
+                src={withBasePath("/images/mahe/mahe-placeholder.svg")}
                 alt="Mahé Biro, fondateur de Hyères Auto Clean"
                 fill
                 unoptimized

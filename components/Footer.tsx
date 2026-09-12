@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { company } from "@/content/site-data";
 import { Container } from "./ui/Container";
 
@@ -74,9 +75,9 @@ export function Footer() {
           <p>
             © {year} {company.name}. Tous droits réservés.
           </p>
-          <a href="/mentions-legales" className="hover:text-white">
+          <Link href="/mentions-legales" className="hover:text-white">
             Mentions légales
-          </a>
+          </Link>
         </Container>
       </div>
     </footer>

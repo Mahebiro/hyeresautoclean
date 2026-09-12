@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { company } from "@/content/site-data";
+import { withBasePath } from "@/lib/basePath";
 import { Button } from "./ui/Button";
 import { Container } from "./ui/Container";
 import { FadeIn } from "./ui/FadeIn";
@@ -9,7 +10,7 @@ export function Hero() {
     <section id="top" className="relative overflow-hidden bg-navy-950">
       <div className="absolute inset-0">
         <Image
-          src="/images/hero/hero-placeholder.svg"
+          src={withBasePath("/images/hero/hero-placeholder.svg")}
           alt="Intérieur de voiture propre après un nettoyage Hyères Auto Clean"
           fill
           priority

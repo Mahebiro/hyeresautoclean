@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { company } from "@/content/site-data";
+import { withBasePath } from "@/lib/basePath";
 import { Button } from "./ui/Button";
 import { Container } from "./ui/Container";
 
@@ -23,7 +24,7 @@ export function Header() {
       <Container className="flex h-16 items-center justify-between sm:h-20">
         <a href="#top" className="flex items-center gap-2.5">
           <Image
-            src="/images/logo/logo-placeholder.svg"
+            src={withBasePath("/images/logo/logo-placeholder.svg")}
             alt="Logo Hyères Auto Clean"
             width={40}
             height={40}
