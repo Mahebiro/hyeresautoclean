@@ -25,11 +25,7 @@ export const company = {
 
 // --- Formulaire de réservation ------------------------------------------
 // Adresse à laquelle les demandes de réservation sont envoyées par email.
-// ⚠️ À REMPLACER : créez un compte gratuit sur https://formspree.io,
-// créez un formulaire, et collez ici l'URL qu'il vous donne
-// (ressemble à "https://formspree.io/f/xxxxabcd").
-// Le détail de la marche à suivre est expliqué dans le README.md.
-export const reservationFormEndpoint = "https://formspree.io/f/VOTRE_ID_FORMSPREE";
+export const reservationFormEndpoint = "https://formspree.io/f/xkjnawng";
 
 // --- Formules ----------------------------------------------------------
 
