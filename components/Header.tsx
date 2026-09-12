@@ -24,12 +24,11 @@ export function Header() {
       <Container className="flex h-16 items-center justify-between sm:h-20">
         <a href="#top" className="flex items-center gap-2.5">
           <Image
-            src={withBasePath("/images/logo/logo-placeholder.svg")}
+            src={withBasePath("/images/logo/logo.jpg")}
             alt="Logo Hyères Auto Clean"
             width={40}
             height={40}
             className="rounded-lg"
-            unoptimized
           />
           <span className="font-display text-sm font-bold tracking-wide text-navy-900 sm:text-base">
             {company.name}

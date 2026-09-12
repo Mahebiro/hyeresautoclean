@@ -39,7 +39,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     telephone: company.phone,
     email: company.email,
     url: company.website,
-    image: `${company.website}/images/logo/logo-placeholder.svg`,
+    image: `${company.website}/images/logo/logo.jpg`,
     address: {
       "@type": "PostalAddress",
       addressLocality: "Hyères",

@@ -225,16 +225,14 @@ public/images/             → toutes les images et photos
 
 Le site est fonctionnel et fidèle au brief, mais certains éléments dépendent de vous :
 
-1. **Logo définitif** — à déposer dans `public/images/logo/` à la place du placeholder.
-2. **Photos** :
-   - photo(s) pour le fond de la section d'accueil (Hero) ;
-   - photos avant/après pour la galerie (habitacle, sièges, coffre) ;
-   - votre photo personnelle pour la section "Mon histoire".
-3. **Adresse Formspree** — à renseigner dans `content/site-data.ts` (`reservationFormEndpoint`) pour que les réservations vous parviennent par email (voir section 5).
-4. **Prix des suppléments non confirmés** — sable/terre incrustée, désodorisation, désinfection, protection cuir sont présents dans le code mais **masqués** (`active: false`) car vous n'avez pas encore validé leurs prix. Dès que c'est fait, passez `active` à `true` dans `content/site-data.ts`.
-5. **Mentions légales** — une page modèle a été créée (`/mentions-legales`, accessible depuis le pied de page) mais elle contient des champs à compléter avec vos vraies informations : statut juridique exact, numéro de SIRET, adresse, hébergeur. C'est une obligation légale pour un site professionnel en France.
-6. **Durée d'une intervention** — la FAQ reste volontairement générale sur ce point (« la durée dépend de la taille du véhicule et de la formule »). Si vous souhaitez indiquer une fourchette précise, vous pouvez modifier la réponse correspondante dans `content/site-data.ts`.
-7. **Activer l'aperçu GitHub Pages** — un seul clic dans Settings → Pages → Source : "GitHub Actions" (voir section 0). Je ne peux pas activer ce réglage à votre place, il appartient à votre compte GitHub.
+1. ~~Logo~~ et ~~2 photos (Citroën C1, Mercedes Classe A)~~ — **fournis et déjà intégrés** (logo dans le header, photos en fond du Hero et dans la section Réalisations, en simples photos sans montage avant/après pour l'instant).
+2. **Photos avant/après pour la galerie** — dès que vous avez de vraies paires avant/après, dites-le-moi : je remets le format slider interactif à la place des simples photos actuelles.
+3. **Votre photo personnelle** — pour la section "Mon histoire" (`public/images/mahe/`), toujours en attente.
+4. **Adresse Formspree** — ✅ déjà branchée (`content/site-data.ts`, `reservationFormEndpoint`).
+5. **Prix des suppléments non confirmés** — sable/terre incrustée, désodorisation, désinfection, protection cuir sont présents dans le code mais **masqués** (`active: false`) car vous n'avez pas encore validé leurs prix. Dès que c'est fait, passez `active` à `true` dans `content/site-data.ts`. (Le supplément "Vitres extérieures" à 10 € est lui déjà actif.)
+6. **Mentions légales** — une page modèle a été créée (`/mentions-legales`, accessible depuis le pied de page) mais elle contient des champs à compléter avec vos vraies informations : statut juridique exact, numéro de SIRET, adresse, hébergeur. C'est une obligation légale pour un site professionnel en France.
+7. **Durée d'une intervention** — la FAQ reste volontairement générale sur ce point (« la durée dépend de la taille du véhicule et de la formule »). Si vous souhaitez indiquer une fourchette précise, vous pouvez modifier la réponse correspondante dans `content/site-data.ts`.
+8. **Activer l'aperçu GitHub Pages** — ✅ fait, l'aperçu est en ligne (voir section 0).
 
 Aucune fausse information (avis clients, notes, chiffres, badges) n'a été inventée sur le site, conformément à votre demande.
 

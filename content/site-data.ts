@@ -122,6 +122,12 @@ export const addons: Addon[] = [
     price: 15,
     active: true,
   },
+  {
+    id: "vitres-exterieures",
+    label: "Vitres extérieures",
+    price: 10,
+    active: true,
+  },
   // Suppléments proposés mais pas encore confirmés : passez "active" à
   // true dès que vous avez validé le prix pour les activer sur le site.
   {
@@ -203,27 +209,20 @@ export const steps = [
 ];
 
 // --- Galerie / réalisations ----------------------------------------------
-// Chaque entrée est une paire avant/après. Remplacez les chemins par vos
-// propres photos une fois disponibles (voir README.md).
+// Simples photos en attendant d'avoir assez de contenu pour un format
+// "avant / après". Ajoutez une ligne par photo (chemin + légende) ; vous
+// pourrez remettre un format avant/après plus tard si vous le souhaitez.
 
 export const galleryItems = [
   {
     id: "1",
-    before: "/images/galerie/avant-1.svg",
-    after: "/images/galerie/apres-1.svg",
-    label: "Habitacle",
+    image: "/images/galerie/citroen-c1-interieur.jpg",
+    label: "Citroën C1",
   },
   {
     id: "2",
-    before: "/images/galerie/avant-2.svg",
-    after: "/images/galerie/apres-2.svg",
-    label: "Sièges",
-  },
-  {
-    id: "3",
-    before: "/images/galerie/avant-3.svg",
-    after: "/images/galerie/apres-3.svg",
-    label: "Coffre",
+    image: "/images/galerie/mercedes-classe-a-interieur.jpg",
+    label: "Mercedes Classe A",
   },
 ];
 

@@ -10,14 +10,13 @@ export function Hero() {
     <section id="top" className="relative overflow-hidden bg-navy-950">
       <div className="absolute inset-0">
         <Image
-          src={withBasePath("/images/hero/hero-placeholder.svg")}
-          alt="Intérieur de voiture propre après un nettoyage Hyères Auto Clean"
+          src={withBasePath("/images/hero/hero-mercedes-interieur.jpg")}
+          alt="Intérieur d'une Mercedes Classe A nettoyé par Hyères Auto Clean"
           fill
           priority
-          unoptimized
-          className="object-cover opacity-60"
+          className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-navy-950/70 via-navy-950/70 to-navy-950" />
+        <div className="absolute inset-0 bg-gradient-to-b from-navy-950/80 via-navy-950/55 to-navy-950/95" />
       </div>
 
       <Container className="relative flex min-h-[85vh] flex-col items-center justify-center py-24 text-center sm:min-h-[90vh]">
