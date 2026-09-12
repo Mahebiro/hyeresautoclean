@@ -6,6 +6,18 @@ Vous n'avez pas besoin de savoir coder pour suivre ce guide. Prenez votre temps,
 
 ---
 
+## 0. Voir le site tout de suite (aperçu automatique)
+
+Un aperçu du site est publié automatiquement sur **GitHub Pages** à chaque mise à jour de cette branche, pour que vous puissiez visualiser le résultat sans rien installer.
+
+**Adresse de l'aperçu :** `https://mahebiro.github.io/hyeresautoclean/`
+
+> ⚠️ Il y a une seule chose à activer, une seule fois, à la main (je ne peux pas le faire à votre place) : dans le repo GitHub → **Settings** → **Pages** → section "Build and deployment" → **Source : "GitHub Actions"**. Une fois ce réglage fait, l'adresse ci-dessus affichera le site dans les 1-2 minutes qui suivent (le temps que la publication se termine), et se mettra à jour automatiquement à chaque nouvelle modification poussée sur GitHub.
+
+Cet aperçu GitHub Pages est uniquement pratique pour visualiser le site pendant que vous travaillez dessus. **Pour la mise en ligne définitive avec votre nom de domaine, utilisez Vercel** (voir section 6) : c'est la méthode prévue pour ce projet, plus complète et plus simple à faire évoluer.
+
+---
+
 ## 1. Comprendre les grandes lignes
 
 Le site est fait avec **Next.js** (un outil très utilisé pour créer des sites modernes) et se déploie facilement sur **Vercel**, un service gratuit (pour ce type de site) qui met votre site en ligne automatiquement à chaque modification que vous poussez sur GitHub — exactement comme vous le faisiez avec Framer.
@@ -222,6 +234,7 @@ Le site est fonctionnel et fidèle au brief, mais certains éléments dépendent
 4. **Prix des suppléments non confirmés** — sable/terre incrustée, désodorisation, désinfection, protection cuir sont présents dans le code mais **masqués** (`active: false`) car vous n'avez pas encore validé leurs prix. Dès que c'est fait, passez `active` à `true` dans `content/site-data.ts`.
 5. **Mentions légales** — une page modèle a été créée (`/mentions-legales`, accessible depuis le pied de page) mais elle contient des champs à compléter avec vos vraies informations : statut juridique exact, numéro de SIRET, adresse, hébergeur. C'est une obligation légale pour un site professionnel en France.
 6. **Durée d'une intervention** — la FAQ reste volontairement générale sur ce point (« la durée dépend de la taille du véhicule et de la formule »). Si vous souhaitez indiquer une fourchette précise, vous pouvez modifier la réponse correspondante dans `content/site-data.ts`.
+7. **Activer l'aperçu GitHub Pages** — un seul clic dans Settings → Pages → Source : "GitHub Actions" (voir section 0). Je ne peux pas activer ce réglage à votre place, il appartient à votre compte GitHub.
 
 Aucune fausse information (avis clients, notes, chiffres, badges) n'a été inventée sur le site, conformément à votre demande.
 
