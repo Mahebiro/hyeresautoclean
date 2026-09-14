@@ -224,6 +224,11 @@ export const galleryItems = [
     image: "/images/galerie/mercedes-classe-a-interieur.jpg",
     label: "Mercedes Classe A",
   },
+  {
+    id: "3",
+    image: "/images/galerie/peugeot-308-interieur.jpg",
+    label: "Peugeot 308",
+  },
 ];
 
 // --- FAQ ---------------------------------------------------------------

@@ -11,7 +11,7 @@ export function Galerie() {
       <Container>
         <SectionHeading eyebrow="Réalisations" title="Le résultat en images" />
 
-        <div className="mx-auto mt-14 grid max-w-3xl gap-8 sm:grid-cols-2">
+        <div className="mx-auto mt-14 grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {galleryItems.map((item, index) => (
             <FadeIn key={item.id} delay={index * 0.1}>
               <div className="overflow-hidden rounded-2xl border border-navy-900/10 shadow-sm">
