@@ -71,7 +71,7 @@ Tout se passe dans `content/site-data.ts`. Voici les sections principales :
 export const company = {
   name: "HYÈRES AUTO CLEAN",
   phone: "06 98 24 92 82",
-  email: "mahebiro@yahoo.com",
+  email: "hyeresautoclean@gmail.com",
   instagramHandle: "@hyeres_auto_clean",
   ...
 };
@@ -171,7 +171,7 @@ Le formulaire de réservation utilise un service gratuit et très simple appelé
 
 ### Étapes :
 
-1. Allez sur [https://formspree.io](https://formspree.io) et créez un compte gratuit avec votre adresse email (`mahebiro@yahoo.com`).
+1. Allez sur [https://formspree.io](https://formspree.io) et créez un compte gratuit avec votre adresse email (`hyeresautoclean@gmail.com`).
 2. Cliquez sur **"New Form"** (Nouveau formulaire), donnez-lui un nom (ex : "Réservation Hyères Auto Clean").
 3. Formspree vous donne une adresse qui ressemble à :
    ```
@@ -227,7 +227,7 @@ Le site est fonctionnel et fidèle au brief, mais certains éléments dépendent
 
 1. ~~Logo~~ et ~~2 photos (Citroën C1, Mercedes Classe A)~~ — **fournis et déjà intégrés** (logo dans le header, photos en fond du Hero et dans la section Réalisations, en simples photos sans montage avant/après pour l'instant).
 2. **Photos avant/après pour la galerie** — dès que vous avez de vraies paires avant/après, dites-le-moi : je remets le format slider interactif à la place des simples photos actuelles.
-3. **Votre photo personnelle** — pour la section "Mon histoire" (`public/images/mahe/`), toujours en attente.
+3. ~~Votre photo personnelle~~ — ✅ fournie et intégrée dans la section "Mon histoire".
 4. **Adresse Formspree** — ✅ déjà branchée (`content/site-data.ts`, `reservationFormEndpoint`).
 5. **Prix des suppléments non confirmés** — sable/terre incrustée, désodorisation, désinfection, protection cuir sont présents dans le code mais **masqués** (`active: false`) car vous n'avez pas encore validé leurs prix. Dès que c'est fait, passez `active` à `true` dans `content/site-data.ts`. (Le supplément "Vitres extérieures" à 10 € est lui déjà actif.)
 6. **Mentions légales** — une page modèle a été créée (`/mentions-legales`, accessible depuis le pied de page) mais elle contient des champs à compléter avec vos vraies informations : statut juridique exact, numéro de SIRET, adresse, hébergeur. C'est une obligation légale pour un site professionnel en France.

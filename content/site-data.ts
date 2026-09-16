@@ -17,7 +17,7 @@ export const company = {
   zone: "Hyères & alentours",
   phone: "06 98 24 92 82",
   phoneHref: "tel:+33698249282",
-  email: "mahebiro@yahoo.com",
+  email: "hyeresautoclean@gmail.com",
   instagramHandle: "@hyeres_auto_clean",
   instagramUrl: "https://www.instagram.com/hyeres_auto_clean",
   website: "https://hyeresautoclean.com",
