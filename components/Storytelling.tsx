@@ -12,7 +12,7 @@ export function Storytelling() {
           <FadeIn>
             <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-3xl shadow-premium">
               <Image
-                src={withBasePath("/images/mahe/mahe-biro.jpg")}
+                src={withBasePath("/images/mahe/mahe-biro.png")}
                 alt="Mahé Biro, fondateur de Hyères Auto Clean"
                 fill
                 className="object-cover"
