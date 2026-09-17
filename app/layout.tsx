@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { SelectionProvider } from "@/context/SelectionContext";
-import { company, faq, formulas, pricingGrid, seo } from "@/content/site-data";
+import { company, faq, formulas, pricingGrid, seo, serviceCities } from "@/content/site-data";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -42,16 +42,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   const allPrices = Object.values(pricingGrid).flatMap((sizes) => Object.values(sizes));
   const minPrice = Math.min(...allPrices);
   const maxPrice = Math.max(...allPrices);
+  const areaServed = serviceCities.map((cityName) => ({ "@type": "City", name: cityName }));
 
   const localBusinessJsonLd = {
     "@context": "https://schema.org",
     "@type": "AutoWash",
     name: company.name,
     description: seo.description,
-    areaServed: [
-      { "@type": "City", name: "Hyères" },
-      { "@type": "City", name: "Toulon" },
-    ],
+    areaServed,
     telephone: company.phone,
     email: company.email,
     url: company.website,
@@ -76,10 +74,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       priceCurrency: "EUR",
       price: formula.priceFrom,
       url: `${company.website}/#formules`,
-      areaServed: [
-        { "@type": "City", name: "Hyères" },
-        { "@type": "City", name: "Toulon" },
-      ],
+      areaServed,
     })),
   };
 

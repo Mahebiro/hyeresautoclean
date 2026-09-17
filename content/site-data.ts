@@ -23,6 +23,21 @@ export const company = {
   website: "https://hyeresautoclean.com",
 };
 
+// --- Communes desservies -------------------------------------------------
+// Liste précise utilisée dans la FAQ, la fiche Contact et les données
+// structurées (JSON-LD) pour le référencement local. Le champ "zone"
+// ci-dessus reste volontairement court pour l'affichage (Hero, pied de page) :
+// c'est ici que vous ajoutez ou retirez une commune couverte.
+export const serviceCities = [
+  "Hyères",
+  "Toulon",
+  "La Garde",
+  "La Crau",
+  "La Londe-les-Maures",
+  "Pierrefeu-du-Var",
+  "Cuers",
+];
+
 // --- Formulaire de réservation ------------------------------------------
 // Adresse à laquelle les demandes de réservation sont envoyées par email.
 export const reservationFormEndpoint = "https://formspree.io/f/xkjnawng";
@@ -236,8 +251,7 @@ export const galleryItems = [
 export const faq = [
   {
     question: "Où intervenez-vous ?",
-    answer:
-      "J'interviens à domicile à Hyères, à Toulon, ainsi que dans les communes alentour dans le Var.",
+    answer: `J'interviens à domicile à ${serviceCities.join(", ")}, ainsi que dans les communes alentour du Var.`,
   },
   {
     question: "Dois-je fournir quelque chose pour le nettoyage ?",
@@ -305,5 +319,13 @@ export const seo = {
     "car wash Toulon",
     "car wash à domicile",
     "detailing intérieur voiture Hyères",
+    "nettoyage voiture La Garde",
+    "nettoyage automobile La Garde",
+    "nettoyage voiture La Crau",
+    "nettoyage automobile La Crau",
+    "nettoyage voiture La Londe-les-Maures",
+    "nettoyage voiture Pierrefeu-du-Var",
+    "nettoyage voiture Cuers",
+    "nettoyage automobile à domicile Var",
   ],
 };

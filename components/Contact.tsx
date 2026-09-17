@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { company } from "@/content/site-data";
+import { company, serviceCities } from "@/content/site-data";
 import { Container } from "./ui/Container";
 import { FadeIn } from "./ui/FadeIn";
 import { SectionHeading } from "./ui/SectionHeading";
@@ -27,7 +27,7 @@ export function Contact() {
     },
     {
       label: "Zone d'intervention",
-      value: company.zone,
+      value: serviceCities.join(", "),
       icon: <PinIcon />,
     },
   ];
