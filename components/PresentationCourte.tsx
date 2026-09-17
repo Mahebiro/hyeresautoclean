@@ -12,10 +12,11 @@ export function PresentationCourte() {
         </FadeIn>
         <FadeIn delay={0.1}>
           <p className="mt-6 text-lg leading-relaxed text-navy-700/85">
-            Je me déplace directement chez vous pour redonner à l&apos;intérieur de votre véhicule
-            toute son propreté, avec une méthode soignée et minutieuse. Pas de raccourci, pas de
-            promesse en l&apos;air : uniquement du nettoyage intérieur, réalisé avec attention,
-            pour un résultat qui se voit et se ressent à chaque trajet.
+            Je me déplace directement chez vous, à Hyères, à Toulon et dans les environs, pour
+            redonner à l&apos;intérieur de votre véhicule toute sa propreté, avec une méthode
+            soignée et minutieuse. Pas de raccourci, pas de promesse en l&apos;air : uniquement du
+            nettoyage et du lavage intérieur automobile, réalisés avec attention, pour un résultat
+            qui se voit et se ressent à chaque trajet.
           </p>
         </FadeIn>
       </Container>

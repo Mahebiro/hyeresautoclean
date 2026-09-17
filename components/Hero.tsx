@@ -11,7 +11,7 @@ export function Hero() {
       <div className="absolute inset-0">
         <Image
           src={withBasePath("/images/hero/hero-mercedes-interieur.jpg")}
-          alt="Intérieur d'une Mercedes Classe A nettoyé par Hyères Auto Clean"
+          alt="Nettoyage intérieur automobile à domicile à Hyères et Toulon — intérieur Mercedes Classe A nettoyé par Hyères Auto Clean"
           fill
           priority
           className="object-cover"

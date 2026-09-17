@@ -14,7 +14,7 @@ export const company = {
   name: "HYÈRES AUTO CLEAN",
   activity: "Nettoyage intérieur automobile à domicile",
   slogan: "Chaque détail compte",
-  zone: "Hyères & alentours",
+  zone: "Hyères, Toulon & alentours",
   phone: "06 98 24 92 82",
   phoneHref: "tel:+33698249282",
   email: "hyeresautoclean@gmail.com",
@@ -236,7 +236,8 @@ export const galleryItems = [
 export const faq = [
   {
     question: "Où intervenez-vous ?",
-    answer: "J'interviens à Hyères et dans les communes alentour.",
+    answer:
+      "J'interviens à domicile à Hyères, à Toulon, ainsi que dans les communes alentour dans le Var.",
   },
   {
     question: "Dois-je fournir quelque chose pour le nettoyage ?",
@@ -281,14 +282,28 @@ export const faq = [
 // --- SEO -----------------------------------------------------------------
 
 export const seo = {
-  title: "Nettoyage voiture Hyères — Nettoyage intérieur automobile à domicile",
+  title: "Nettoyage Auto Hyères & Toulon à Domicile | Hyères Auto Clean",
   titleTemplate: "%s | HYÈRES AUTO CLEAN",
   description:
-    "Nettoyage intérieur automobile à domicile à Hyères et ses alentours. Prix instantané avec simulateur, deux formules, vitres intérieures incluses. Chaque détail compte.",
+    "Nettoyage intérieur automobile à domicile à Hyères, Toulon et dans le Var. Prix instantané avec simulateur, lavage intérieur soigné, vitres incluses. Chaque détail compte.",
   keywords: [
+    "nettoyage automobile",
+    "nettoyage automobile à domicile",
     "nettoyage voiture Hyères",
     "nettoyage intérieur voiture Hyères",
     "nettoyage automobile à domicile Hyères",
     "nettoyage voiture à domicile Hyères",
+    "nettoyage voiture Toulon",
+    "nettoyage automobile Toulon",
+    "nettoyage auto à domicile Toulon",
+    "nettoyage automobile Var",
+    "nettoyage voiture Var",
+    "lavage voiture Hyères",
+    "lavage intérieur voiture",
+    "lavage auto à domicile",
+    "car wash Hyères",
+    "car wash Toulon",
+    "car wash à domicile",
+    "detailing intérieur voiture Hyères",
   ],
 };

@@ -23,6 +23,9 @@ export default function OgImage() {
       >
         <div style={{ fontSize: 64, fontWeight: 700, letterSpacing: -1 }}>{company.name}</div>
         <div style={{ fontSize: 30, marginTop: 20, color: "#8cc8ff" }}>{company.activity}</div>
+        <div style={{ fontSize: 22, marginTop: 8, color: "rgba(255,255,255,0.7)" }}>
+          {company.zone}
+        </div>
         <div
           style={{
             display: "flex",

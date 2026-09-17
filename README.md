@@ -130,6 +130,9 @@ export const seo = {
   keywords: [...],
 };
 ```
+Le site est optimisé pour le référencement naturel autour de : nettoyage automobile, lavage intérieur, à domicile, Hyères, Toulon, Var. Le titre et la description sont repris automatiquement dans Google, sur les réseaux sociaux (partage) et dans les données structurées (`app/layout.tsx`) qui aident Google à comprendre votre activité, votre zone et vos prix. Si votre zone d'intervention change (par exemple si vous couvrez davantage de villes), pensez à mettre à jour `company.zone` dans ce même fichier, la FAQ "Où intervenez-vous ?", et le JSON-LD dans `app/layout.tsx` (`areaServed`).
+
+> ℹ️ L'aperçu GitHub Pages (section 0) est volontairement exclu des moteurs de recherche (`noindex`) pour ne pas entrer en concurrence avec votre vrai domaine une fois en ligne sur Vercel.
 
 > ⚠️ Après toute modification, enregistrez le fichier. En local, le site se recharge tout seul. En ligne, il faut valider ("commit") le changement sur GitHub pour que Vercel republie le site.
 

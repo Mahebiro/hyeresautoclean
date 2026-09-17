@@ -18,7 +18,7 @@ export function Galerie() {
                 <div className="relative aspect-[4/3] w-full">
                   <Image
                     src={withBasePath(item.image)}
-                    alt={`Intérieur nettoyé — ${item.label}`}
+                    alt={`Nettoyage intérieur automobile à domicile à Hyères et Toulon — ${item.label}`}
                     fill
                     className="object-cover"
                   />
