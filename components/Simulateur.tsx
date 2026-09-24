@@ -41,7 +41,12 @@ export function Simulateur() {
 
             {/* 2. Taille du véhicule */}
             <div>
-              <p className="text-sm font-semibold text-navy-900">2. Taille de votre véhicule</p>
+              <p className="text-sm font-semibold text-navy-900">
+                2. Taille de votre véhicule{" "}
+                <span className="font-normal text-navy-700/70">
+                  (même prix pour tous les véhicules, utile pour préparer l&apos;intervention)
+                </span>
+              </p>
               <div className="mt-3 grid gap-3 sm:grid-cols-3">
                 {vehicleSizes.map((size) => (
                   <button

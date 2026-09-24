@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  addons,
-  formulas,
-  pricingGrid,
-  vehicleSizes,
-  type FormulaId,
-} from "@/content/site-data";
+import { addons, formulas, type FormulaId } from "@/content/site-data";
 import { useSelection } from "@/context/SelectionContext";
 import { Button } from "./ui/Button";
 import { Container } from "./ui/Container";
@@ -35,59 +29,10 @@ export function Formules() {
         </div>
 
         <FadeIn delay={0.2}>
-          <div className="mt-16">
-            <h3 className="text-center font-display text-xl font-bold text-navy-900">
-              Grille tarifaire selon la taille du véhicule
-            </h3>
-
-            {/* Version tableau (à partir de la taille tablette) */}
-            <div className="mt-8 hidden overflow-hidden rounded-2xl border border-navy-900/10 bg-white shadow-sm sm:block">
-              <table className="w-full text-left text-sm">
-                <thead className="bg-navy-900 text-white">
-                  <tr>
-                    <th className="px-6 py-4 font-semibold">Formule</th>
-                    {vehicleSizes.map((size) => (
-                      <th key={size.id} className="px-6 py-4 font-semibold">
-                        {size.label}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-navy-900/10">
-                  {formulas.map((formula) => (
-                    <tr key={formula.id}>
-                      <td className="px-6 py-4 font-semibold text-navy-900">{formula.name}</td>
-                      {vehicleSizes.map((size) => (
-                        <td key={size.id} className="px-6 py-4 text-navy-700">
-                          {pricingGrid[formula.id][size.id]} €
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            {/* Version cartes empilées (mobile) */}
-            <div className="mt-8 space-y-4 sm:hidden">
-              {formulas.map((formula) => (
-                <div
-                  key={formula.id}
-                  className="rounded-2xl border border-navy-900/10 bg-white p-5 shadow-sm"
-                >
-                  <p className="font-display font-bold text-navy-900">{formula.name}</p>
-                  <ul className="mt-3 space-y-2">
-                    {vehicleSizes.map((size) => (
-                      <li key={size.id} className="flex justify-between text-sm text-navy-700">
-                        <span>{size.label}</span>
-                        <span className="font-semibold">{pricingGrid[formula.id][size.id]} €</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
+          <p className="mt-10 text-center text-sm font-medium text-navy-700/80">
+            Même prix pour toutes les voitures, quelle que soit leur taille — citadine, berline ou
+            SUV.
+          </p>
         </FadeIn>
 
         {activeAddons.length > 0 ? (
@@ -143,7 +88,6 @@ function FormulaCard({
       </p>
 
       <p className="mt-6">
-        <span className="text-sm">à partir de</span>{" "}
         <span className="font-display text-4xl font-bold">{formula.priceFrom} €</span>
       </p>
 

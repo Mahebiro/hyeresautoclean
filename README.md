@@ -89,16 +89,18 @@ export const formulas = [
   ...
 ];
 ```
-Vous pouvez changer les textes, ajouter ou retirer une ligne de prestation (`features`), ou changer le prix affiché "à partir de" (`priceFrom`).
+Vous pouvez changer les textes, ajouter ou retirer une ligne de prestation (`features`), ou changer le prix affiché (`priceFrom`).
 
-### La grille de prix par taille de véhicule
+### Les tarifs
 ```ts
 export const pricingGrid = {
-  essentiel: { citadine: 55, berline: 65, suv: 75 },
-  premium: { citadine: 95, berline: 105, suv: 115 },
+  essentiel: { citadine: 55, berline: 55, suv: 55 },
+  premium: { citadine: 95, berline: 95, suv: 95 },
 };
 ```
-Changez simplement les chiffres. Le simulateur et le formulaire de réservation se mettent à jour automatiquement, partout sur le site.
+Le prix est actuellement **fixe, quelle que soit la taille du véhicule** : 55 € pour l'Essentiel, 95 € pour le Premium, pour toutes les voitures (citadine, berline/break ou SUV). C'est pour ça que les trois valeurs de chaque ligne sont identiques.
+
+Si un jour vous voulez à nouveau différencier le prix selon la taille du véhicule, il suffit de changer chaque valeur individuellement (par exemple `berline: 65` pour ajouter 10 € sur les berlines). Le simulateur et le formulaire de réservation se mettent à jour automatiquement, partout sur le site — pensez juste à aussi adapter la question correspondante dans la FAQ (`content/site-data.ts`) pour qu'elle reste cohérente avec ce que vous affichez.
 
 ### Les suppléments
 ```ts

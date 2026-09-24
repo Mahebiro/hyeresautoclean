@@ -100,15 +100,16 @@ export const vehicleSizes: VehicleSize[] = [
   { id: "suv", label: "SUV", examples: "Duster, Tiguan, monospaces…" },
 ];
 
-// --- Grille tarifaire ------------------------------------------------------
-// Prix (en euros) pour chaque combinaison formule × taille de véhicule.
-// Règle actuelle : +10 € entre Citadine et Berline/Break, +10 € entre
-// Berline/Break et SUV (cumulatif). Vous pouvez changer chaque valeur
-// individuellement si besoin.
+// --- Tarifs ------------------------------------------------------------
+// Prix fixe par formule, quelle que soit la taille du véhicule (citadine,
+// berline/break ou SUV) : 55 € pour l'Essentiel, 95 € pour le Premium, pour
+// toutes les voitures. Simple et sans surprise pour le client.
+// Pour remettre un prix différent selon la taille, changez les valeurs
+// individuellement ci-dessous (une valeur par taille de véhicule).
 
 export const pricingGrid: Record<FormulaId, Record<SizeId, number>> = {
-  essentiel: { citadine: 55, berline: 65, suv: 75 },
-  premium: { citadine: 95, berline: 105, suv: 115 },
+  essentiel: { citadine: 55, berline: 55, suv: 55 },
+  premium: { citadine: 95, berline: 95, suv: 95 },
 };
 
 // --- Suppléments à la carte ------------------------------------------------
@@ -231,7 +232,7 @@ export const steps = [
 export const galleryItems = [
   {
     id: "1",
-    image: "/images/galerie/citroen-c1-interieur.jpg",
+    image: "/images/galerie/citroen-c1-interieur.webp",
     label: "Citroën C1",
   },
   {
@@ -274,9 +275,9 @@ export const faq = [
       "La formule Essentiel convient pour un entretien courant de l'habitacle. La formule Premium est recommandée pour un nettoyage plus complet, avec shampouinage des sièges et nettoyage du coffre.",
   },
   {
-    question: "Comment est calculé le prix selon la taille du véhicule ?",
+    question: "Le prix change-t-il selon la taille du véhicule ?",
     answer:
-      "Le prix augmente selon la taille du véhicule : citadine, puis berline/break, puis SUV. Utilisez le simulateur pour obtenir un prix exact en quelques clics.",
+      "Non, le prix est fixe : 55 € pour la formule Essentiel et 95 € pour la formule Premium, quelle que soit la taille de votre véhicule (citadine, berline/break ou SUV).",
   },
   {
     question: "Comment fonctionne la réservation ?",
