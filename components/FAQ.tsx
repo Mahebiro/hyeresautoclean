@@ -4,6 +4,7 @@ import { useState } from "react";
 import { faq } from "@/content/site-data";
 import { Container } from "./ui/Container";
 import { FadeIn } from "./ui/FadeIn";
+import { ReservationCta } from "./ui/ReservationCta";
 import { SectionHeading } from "./ui/SectionHeading";
 
 export function FAQ() {
@@ -41,6 +42,8 @@ export function FAQ() {
             );
           })}
         </div>
+
+        <ReservationCta text="Une dernière question ? Réservez, je réponds au reste par téléphone." />
       </Container>
     </section>
   );

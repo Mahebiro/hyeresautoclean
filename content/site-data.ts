@@ -43,6 +43,10 @@ export const serviceCities = [
 export const reservationFormEndpoint = "https://formspree.io/f/xkjnawng";
 
 // --- Formules ----------------------------------------------------------
+// "priceFrom" est le prix fixe de la formule, le même pour toutes les
+// voitures (on ne demande pas la taille du véhicule). Changez simplement ce
+// nombre pour ajuster un tarif : le simulateur et le formulaire de
+// réservation se mettent à jour automatiquement, partout sur le site.
 
 export type FormulaId = "essentiel" | "premium";
 
@@ -83,34 +87,6 @@ export const formulas: Formula[] = [
     badge: "LA FORMULE LA PLUS COMPLÈTE",
   },
 ];
-
-// --- Tailles de véhicule -------------------------------------------------
-
-export type SizeId = "citadine" | "berline" | "suv";
-
-export interface VehicleSize {
-  id: SizeId;
-  label: string;
-  examples: string;
-}
-
-export const vehicleSizes: VehicleSize[] = [
-  { id: "citadine", label: "Citadine", examples: "Clio, 208, Polo…" },
-  { id: "berline", label: "Berline / Break", examples: "308, Mégane, A3 Break…" },
-  { id: "suv", label: "SUV", examples: "Duster, Tiguan, monospaces…" },
-];
-
-// --- Tarifs ------------------------------------------------------------
-// Prix fixe par formule, quelle que soit la taille du véhicule (citadine,
-// berline/break ou SUV) : 55 € pour l'Essentiel, 80 € pour le Premium, pour
-// toutes les voitures. Simple et sans surprise pour le client.
-// Pour remettre un prix différent selon la taille, changez les valeurs
-// individuellement ci-dessous (une valeur par taille de véhicule).
-
-export const pricingGrid: Record<FormulaId, Record<SizeId, number>> = {
-  essentiel: { citadine: 55, berline: 55, suv: 55 },
-  premium: { citadine: 80, berline: 80, suv: 80 },
-};
 
 // --- Suppléments à la carte ------------------------------------------------
 // Mettez "active: true" pour afficher un supplément sur le site (dans le
@@ -191,7 +167,7 @@ export const whyUs = [
   {
     title: "Simple à réserver",
     description:
-      "Choisissez votre formule, votre taille de véhicule et votre créneau directement en ligne.",
+      "Choisissez votre formule et votre créneau directement en ligne.",
   },
 ];
 
@@ -280,9 +256,9 @@ export const faq = [
       "La formule Essentiel convient pour un entretien courant de l'habitacle. La formule Premium est recommandée pour un nettoyage plus complet, avec shampouinage des sièges et nettoyage du coffre.",
   },
   {
-    question: "Le prix change-t-il selon la taille du véhicule ?",
+    question: "Le prix est-il le même pour toutes les voitures ?",
     answer:
-      "Non, le prix est fixe : 55 € pour la formule Essentiel et 80 € pour la formule Premium, quelle que soit la taille de votre véhicule (citadine, berline/break ou SUV).",
+      "Oui, le prix est fixe : 55 € pour la formule Essentiel et 80 € pour la formule Premium, quelle que soit votre voiture.",
   },
   {
     question: "Comment fonctionne la réservation ?",

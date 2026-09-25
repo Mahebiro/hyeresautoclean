@@ -1,11 +1,10 @@
 "use client";
 
 import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
-import type { FormulaId, SizeId } from "@/content/site-data";
+import type { FormulaId } from "@/content/site-data";
 
 export interface Selection {
   vehicleModel: string;
-  size: SizeId | null;
   formula: FormulaId | null;
   addonIds: string[];
 }
@@ -13,14 +12,12 @@ export interface Selection {
 interface SelectionContextValue {
   selection: Selection;
   setVehicleModel: (value: string) => void;
-  setSize: (size: SizeId) => void;
   setFormula: (formula: FormulaId) => void;
   toggleAddon: (id: string) => void;
 }
 
 const defaultSelection: Selection = {
   vehicleModel: "",
-  size: null,
   formula: null,
   addonIds: [],
 };
@@ -34,7 +31,6 @@ export function SelectionProvider({ children }: { children: ReactNode }) {
     () => ({
       selection,
       setVehicleModel: (vehicleModel) => setSelection((s) => ({ ...s, vehicleModel })),
-      setSize: (size) => setSelection((s) => ({ ...s, size })),
       setFormula: (formula) => setSelection((s) => ({ ...s, formula })),
       toggleAddon: (id) =>
         setSelection((s) => ({

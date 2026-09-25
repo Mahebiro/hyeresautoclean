@@ -4,7 +4,7 @@ import { CookieConsent } from "@/components/CookieConsent";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { SelectionProvider } from "@/context/SelectionContext";
-import { company, faq, formulas, pricingGrid, seo, serviceCities } from "@/content/site-data";
+import { company, faq, formulas, seo, serviceCities } from "@/content/site-data";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  const allPrices = Object.values(pricingGrid).flatMap((sizes) => Object.values(sizes));
+  const allPrices = formulas.map((formula) => formula.priceFrom);
   const minPrice = Math.min(...allPrices);
   const maxPrice = Math.max(...allPrices);
   const areaServed = serviceCities.map((cityName) => ({ "@type": "City", name: cityName }));

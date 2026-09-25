@@ -1,6 +1,6 @@
 "use client";
 
-import { formulas, vehicleSizes } from "@/content/site-data";
+import { formulas } from "@/content/site-data";
 import { useSelection } from "@/context/SelectionContext";
 import { formatPriceBreakdownText, getActiveAddons, getPriceBreakdown } from "@/lib/pricing";
 import { Container } from "./ui/Container";
@@ -8,9 +8,9 @@ import { FadeIn } from "./ui/FadeIn";
 import { SectionHeading } from "./ui/SectionHeading";
 
 export function Simulateur() {
-  const { selection, setVehicleModel, setSize, setFormula, toggleAddon } = useSelection();
+  const { selection, setVehicleModel, setFormula, toggleAddon } = useSelection();
   const activeAddons = getActiveAddons();
-  const breakdown = getPriceBreakdown(selection.formula, selection.size, selection.addonIds);
+  const breakdown = getPriceBreakdown(selection.formula, selection.addonIds);
 
   return (
     <section id="simulateur" className="bg-white py-20 sm:py-28">
@@ -18,7 +18,7 @@ export function Simulateur() {
         <SectionHeading
           eyebrow="Simulateur"
           title="Obtenez votre prix exact en quelques clics"
-          subtitle="Sélectionnez votre véhicule, votre formule et vos options : le prix se met à jour instantanément."
+          subtitle="Sélectionnez votre formule et vos options : le prix se met à jour instantanément."
         />
 
         <FadeIn delay={0.1}>
@@ -39,42 +39,9 @@ export function Simulateur() {
               />
             </div>
 
-            {/* 2. Taille du véhicule */}
+            {/* 2. Formule */}
             <div>
-              <p className="text-sm font-semibold text-navy-900">
-                2. Taille de votre véhicule{" "}
-                <span className="font-normal text-navy-700/70">
-                  (même prix pour tous les véhicules, utile pour préparer l&apos;intervention)
-                </span>
-              </p>
-              <div className="mt-3 grid gap-3 sm:grid-cols-3">
-                {vehicleSizes.map((size) => (
-                  <button
-                    key={size.id}
-                    type="button"
-                    onClick={() => setSize(size.id)}
-                    className={`rounded-xl border p-4 text-left transition-colors ${
-                      selection.size === size.id
-                        ? "border-navy-900 bg-navy-900 text-white"
-                        : "border-navy-900/15 bg-white text-navy-900 hover:border-navy-400"
-                    }`}
-                  >
-                    <span className="block font-semibold">{size.label}</span>
-                    <span
-                      className={`mt-1 block text-xs ${
-                        selection.size === size.id ? "text-white/70" : "text-navy-700/70"
-                      }`}
-                    >
-                      {size.examples}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* 3. Formule */}
-            <div>
-              <p className="text-sm font-semibold text-navy-900">3. Formule</p>
+              <p className="text-sm font-semibold text-navy-900">2. Formule</p>
               <div className="mt-3 grid gap-3 sm:grid-cols-2">
                 {formulas.map((formula) => (
                   <button
@@ -100,10 +67,10 @@ export function Simulateur() {
               </div>
             </div>
 
-            {/* 4. Suppléments */}
+            {/* 3. Suppléments */}
             {activeAddons.length > 0 ? (
               <div>
-                <p className="text-sm font-semibold text-navy-900">4. Suppléments (optionnels)</p>
+                <p className="text-sm font-semibold text-navy-900">3. Suppléments (optionnels)</p>
                 <div className="mt-3 space-y-2">
                   {activeAddons.map((addon) => (
                     <label
@@ -126,7 +93,7 @@ export function Simulateur() {
               </div>
             ) : null}
 
-            {/* 5 & 6. Prix + CTA */}
+            {/* Prix + CTA */}
             <div className="rounded-2xl bg-navy-900 p-6 text-white sm:p-8">
               {breakdown.isComplete ? (
                 <>
@@ -134,9 +101,7 @@ export function Simulateur() {
                   <p className="mt-2 font-display text-4xl font-bold">{breakdown.total} €</p>
                 </>
               ) : (
-                <p className="text-white/80">
-                  Sélectionnez une taille de véhicule et une formule pour afficher le prix.
-                </p>
+                <p className="text-white/80">Sélectionnez une formule pour afficher le prix.</p>
               )}
 
               <div className="mt-6">

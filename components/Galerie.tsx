@@ -3,6 +3,7 @@ import { galleryItems } from "@/content/site-data";
 import { withBasePath } from "@/lib/basePath";
 import { Container } from "./ui/Container";
 import { FadeIn } from "./ui/FadeIn";
+import { ReservationCta } from "./ui/ReservationCta";
 import { SectionHeading } from "./ui/SectionHeading";
 
 export function Galerie() {
@@ -30,6 +31,8 @@ export function Galerie() {
             </FadeIn>
           ))}
         </div>
+
+        <ReservationCta text="Votre voiture mérite le même résultat." />
       </Container>
     </section>
   );

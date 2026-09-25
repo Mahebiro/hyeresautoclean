@@ -31,7 +31,7 @@ content/site-data.ts
 C'est le fichier le plus important pour vous. Il contient :
 - vos coordonnées (téléphone, email, Instagram) ;
 - les deux formules (Essentiel / Premium) et leurs prestations ;
-- la grille de prix par taille de véhicule ;
+- les tarifs de chaque formule ;
 - les suppléments (poils d'animaux, etc.) ;
 - les textes (présentation, histoire, FAQ...) ;
 - les informations pour le référencement (SEO).
@@ -89,18 +89,7 @@ export const formulas = [
   ...
 ];
 ```
-Vous pouvez changer les textes, ajouter ou retirer une ligne de prestation (`features`), ou changer le prix affiché (`priceFrom`).
-
-### Les tarifs
-```ts
-export const pricingGrid = {
-  essentiel: { citadine: 55, berline: 55, suv: 55 },
-  premium: { citadine: 80, berline: 80, suv: 80 },
-};
-```
-Le prix est actuellement **fixe, quelle que soit la taille du véhicule** : 55 € pour l'Essentiel, 80 € pour le Premium, pour toutes les voitures (citadine, berline/break ou SUV). C'est pour ça que les trois valeurs de chaque ligne sont identiques.
-
-Si un jour vous voulez à nouveau différencier le prix selon la taille du véhicule, il suffit de changer chaque valeur individuellement (par exemple `berline: 65` pour ajouter 10 € sur les berlines). Le simulateur et le formulaire de réservation se mettent à jour automatiquement, partout sur le site — pensez juste à aussi adapter la question correspondante dans la FAQ (`content/site-data.ts`) pour qu'elle reste cohérente avec ce que vous affichez.
+Vous pouvez changer les textes, ajouter ou retirer une ligne de prestation (`features`), ou changer le prix affiché (`priceFrom`). Le prix est **fixe, le même pour toutes les voitures** (on ne demande que le modèle du véhicule, à titre indicatif, pas sa taille) : le simulateur et le formulaire de réservation se mettent à jour automatiquement dès que vous changez un `priceFrom` — pensez juste à aussi adapter la FAQ (`content/site-data.ts`) si vos prix changent, pour qu'elle reste cohérente avec ce que vous affichez.
 
 ### Les suppléments
 ```ts

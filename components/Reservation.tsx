@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent, type ReactNode } from "react";
-import { formulas, reservationFormEndpoint, vehicleSizes } from "@/content/site-data";
+import { formulas, reservationFormEndpoint } from "@/content/site-data";
 import { useSelection } from "@/context/SelectionContext";
 import { formatPriceBreakdownText, getActiveAddons, getPriceBreakdown } from "@/lib/pricing";
 import { Container } from "./ui/Container";
@@ -11,9 +11,9 @@ import { SectionHeading } from "./ui/SectionHeading";
 type Status = "idle" | "sending" | "success" | "error";
 
 export function Reservation() {
-  const { selection, setVehicleModel, setSize, setFormula, toggleAddon } = useSelection();
+  const { selection, setVehicleModel, setFormula, toggleAddon } = useSelection();
   const activeAddons = getActiveAddons();
-  const breakdown = getPriceBreakdown(selection.formula, selection.size, selection.addonIds);
+  const breakdown = getPriceBreakdown(selection.formula, selection.addonIds);
 
   const [status, setStatus] = useState<Status>("idle");
   const [contact, setContact] = useState({
@@ -36,7 +36,6 @@ export function Reservation() {
     setStatus("sending");
 
     const formule = formulas.find((f) => f.id === selection.formula);
-    const taille = vehicleSizes.find((s) => s.id === selection.size);
     const supplements = selection.addonIds
       .map((id) => activeAddons.find((a) => a.id === id)?.label)
       .filter(Boolean)
@@ -49,7 +48,6 @@ export function Reservation() {
       email: contact.email,
       adresse: contact.adresse,
       modele_vehicule: selection.vehicleModel,
-      taille_vehicule: taille?.label ?? "",
       formule: formule?.name ?? "",
       supplements: supplements || "Aucun",
       prix_total_estime: breakdown.isComplete ? `${breakdown.total} €` : "à confirmer",
@@ -150,33 +148,14 @@ export function Reservation() {
               />
             </Field>
 
-            <div className="grid gap-5 sm:grid-cols-2">
-              <Field label="Modèle du véhicule">
-                <input
-                  value={selection.vehicleModel}
-                  onChange={(e) => setVehicleModel(e.target.value)}
-                  placeholder="Ex : Peugeot 208"
-                  className={inputClass}
-                />
-              </Field>
-              <Field label="Taille du véhicule" required>
-                <select
-                  required
-                  value={selection.size ?? ""}
-                  onChange={(e) => setSize(e.target.value as (typeof vehicleSizes)[number]["id"])}
-                  className={inputClass}
-                >
-                  <option value="" disabled>
-                    Choisir…
-                  </option>
-                  {vehicleSizes.map((size) => (
-                    <option key={size.id} value={size.id}>
-                      {size.label}
-                    </option>
-                  ))}
-                </select>
-              </Field>
-            </div>
+            <Field label="Modèle du véhicule">
+              <input
+                value={selection.vehicleModel}
+                onChange={(e) => setVehicleModel(e.target.value)}
+                placeholder="Ex : Peugeot 208"
+                className={inputClass}
+              />
+            </Field>
 
             <div>
               <p className="mb-3 text-sm font-semibold text-navy-900">Formule choisie</p>
@@ -216,15 +195,6 @@ export function Reservation() {
                 </div>
               </div>
             ) : null}
-
-            <div className="rounded-xl bg-navy-50 p-4 text-sm text-navy-800">
-              <p className="font-semibold text-navy-900">Prix total estimé</p>
-              <p className="mt-1">
-                {breakdown.isComplete
-                  ? formatPriceBreakdownText(breakdown)
-                  : "Complétez la taille du véhicule et la formule ci-dessus pour voir le prix."}
-              </p>
-            </div>
 
             <div className="grid gap-5 sm:grid-cols-2">
               <Field label="Date souhaitée" required>

@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { company, serviceCities } from "@/content/site-data";
 import { Container } from "./ui/Container";
 import { FadeIn } from "./ui/FadeIn";
+import { ReservationCta } from "./ui/ReservationCta";
 import { SectionHeading } from "./ui/SectionHeading";
 
 export function Contact() {
@@ -44,6 +45,8 @@ export function Contact() {
             </FadeIn>
           ))}
         </div>
+
+        <ReservationCta text="Ou passez directement à l'action." />
       </Container>
     </section>
   );

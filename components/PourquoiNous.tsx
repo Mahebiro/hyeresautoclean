@@ -1,6 +1,7 @@
 import { whyUs } from "@/content/site-data";
 import { Container } from "./ui/Container";
 import { FadeIn } from "./ui/FadeIn";
+import { ReservationCta } from "./ui/ReservationCta";
 import { SectionHeading } from "./ui/SectionHeading";
 
 const icons = [HomeIcon, DetailIcon, SearchIcon, ClickIcon];
@@ -27,6 +28,8 @@ export function PourquoiNous() {
             );
           })}
         </div>
+
+        <ReservationCta text="Convaincu ? Réservez votre créneau en 2 minutes." />
       </Container>
     </section>
   );
