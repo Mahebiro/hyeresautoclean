@@ -89,7 +89,7 @@ export const formulas = [
   ...
 ];
 ```
-Vous pouvez changer les textes, ajouter ou retirer une ligne de prestation (`features`), ou changer le prix affiché (`priceFrom`). Le prix est **fixe, le même pour toutes les voitures** (on ne demande que le modèle du véhicule, à titre indicatif, pas sa taille) : le simulateur et le formulaire de réservation se mettent à jour automatiquement dès que vous changez un `priceFrom` — pensez juste à aussi adapter la FAQ (`content/site-data.ts`) si vos prix changent, pour qu'elle reste cohérente avec ce que vous affichez.
+Vous pouvez changer les textes, ajouter ou retirer une ligne de prestation (`features`), ou changer le prix affiché (`priceFrom`). Le prix est **fixe, le même pour toutes les voitures** (on ne demande que le modèle du véhicule, à titre indicatif, pas sa taille) : le formulaire de réservation se met à jour automatiquement dès que vous changez un `priceFrom` — pensez juste à aussi adapter la FAQ (`content/site-data.ts`) si vos prix changent, pour qu'elle reste cohérente avec ce que vous affichez.
 
 ### Les suppléments
 ```ts
@@ -207,8 +207,8 @@ Vous avez dit avoir déjà mis en ligne un site (Framer) et savoir gérer un nom
 ```
 content/site-data.ts     → TOUT le contenu modifiable (le plus important pour vous)
 lib/pricing.ts            → logique de calcul du prix (utilise les données ci-dessus)
-context/                  → mémorise la sélection du simulateur pour la réservation
-components/               → chaque section du site (Header, Hero, Formules, Simulateur...)
+context/                  → mémorise la formule/véhicule/suppléments choisis dans le formulaire
+components/               → chaque section du site (Header, Hero, Formules, Réservation...)
 app/                       → pages du site et réglages techniques (SEO, sitemap...)
 public/images/             → toutes les images et photos
 ```

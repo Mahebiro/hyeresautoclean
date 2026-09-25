@@ -9,7 +9,6 @@ import { Container } from "./ui/Container";
 
 const navLinks = [
   { href: "#formules", label: "Formules" },
-  { href: "#simulateur", label: "Simulateur" },
   { href: "#galerie", label: "Réalisations" },
   { href: "#histoire", label: "À propos" },
   { href: "#faq", label: "FAQ" },

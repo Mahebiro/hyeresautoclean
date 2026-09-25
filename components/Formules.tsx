@@ -102,7 +102,7 @@ function FormulaCard({
 
       <div className="mt-8">
         <Button
-          href="#simulateur"
+          href="#reservation"
           onClick={onChoose}
           variant={isPremium ? "secondary" : "primary"}
           className="w-full"

@@ -45,8 +45,8 @@ export const reservationFormEndpoint = "https://formspree.io/f/xkjnawng";
 // --- Formules ----------------------------------------------------------
 // "priceFrom" est le prix fixe de la formule, le même pour toutes les
 // voitures (on ne demande pas la taille du véhicule). Changez simplement ce
-// nombre pour ajuster un tarif : le simulateur et le formulaire de
-// réservation se mettent à jour automatiquement, partout sur le site.
+// nombre pour ajuster un tarif : le formulaire de réservation se met à jour
+// automatiquement, partout sur le site.
 
 export type FormulaId = "essentiel" | "premium";
 
@@ -90,9 +90,8 @@ export const formulas: Formula[] = [
 
 // --- Suppléments à la carte ------------------------------------------------
 // Mettez "active: true" pour afficher un supplément sur le site (dans le
-// simulateur et le formulaire de réservation), ou "active: false" pour le
-// masquer sans le supprimer. Vous pouvez ajouter de nouvelles lignes suivant
-// le même modèle.
+// formulaire de réservation), ou "active: false" pour le masquer sans le
+// supprimer. Vous pouvez ajouter de nouvelles lignes suivant le même modèle.
 
 export interface Addon {
   id: string;
@@ -186,7 +185,7 @@ export const steps = [
   {
     number: "01",
     title: "Choisissez votre formule et votre véhicule",
-    description: "Utilisez le simulateur pour connaître le prix exact.",
+    description: "Renseignez-les directement dans le formulaire de réservation.",
   },
   {
     number: "02",
@@ -263,7 +262,7 @@ export const faq = [
   {
     question: "Comment fonctionne la réservation ?",
     answer:
-      "Vous choisissez votre formule et votre véhicule dans le simulateur, puis vous complétez le formulaire de réservation. Je vous recontacte ensuite pour confirmer le créneau.",
+      "Vous complétez le formulaire de réservation avec votre formule, votre véhicule et vos coordonnées. Je vous recontacte ensuite pour confirmer le créneau.",
   },
   {
     question: "Faites-vous aussi le nettoyage extérieur ?",
@@ -281,7 +280,7 @@ export const seo = {
   title: "Nettoyage Auto Hyères & Toulon à Domicile | Hyères Auto Clean",
   titleTemplate: "%s | HYÈRES AUTO CLEAN",
   description:
-    "Nettoyage intérieur automobile à domicile à Hyères, Toulon et dans le Var. Prix instantané avec simulateur, lavage intérieur soigné, vitres incluses. Chaque détail compte.",
+    "Nettoyage intérieur automobile à domicile à Hyères, Toulon et dans le Var. Prix fixe et clair, lavage intérieur soigné, vitres incluses. Chaque détail compte.",
   keywords: [
     "nettoyage automobile",
     "nettoyage automobile à domicile",

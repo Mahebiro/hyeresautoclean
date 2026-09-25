@@ -7,7 +7,6 @@ import { CommentCaMarche } from "@/components/CommentCaMarche";
 import { PourquoiNous } from "@/components/PourquoiNous";
 import { PresentationCourte } from "@/components/PresentationCourte";
 import { Reservation } from "@/components/Reservation";
-import { Simulateur } from "@/components/Simulateur";
 import { Storytelling } from "@/components/Storytelling";
 
 export default function Home() {
@@ -16,7 +15,6 @@ export default function Home() {
       <Hero />
       <PresentationCourte />
       <Formules />
-      <Simulateur />
       <PourquoiNous />
       <Storytelling />
       <Galerie />

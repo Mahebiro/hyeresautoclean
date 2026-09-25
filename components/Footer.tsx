@@ -5,7 +5,6 @@ import { Container } from "./ui/Container";
 const footerLinks = [
   { href: "#top", label: "Accueil" },
   { href: "#formules", label: "Formules" },
-  { href: "#simulateur", label: "Simulateur" },
   { href: "#reservation", label: "Réservation" },
   { href: "#galerie", label: "Réalisations" },
   { href: "#histoire", label: "À propos" },
