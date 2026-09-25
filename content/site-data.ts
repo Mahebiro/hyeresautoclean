@@ -72,7 +72,7 @@ export const formulas: Formula[] = [
     id: "premium",
     name: "Premium",
     tagline: "Le nettoyage complet pour retrouver un intérieur impeccable",
-    priceFrom: 95,
+    priceFrom: 80,
     features: [
       "Aspiration et traitement approfondi de l'habitacle",
       "Shampouinage des sièges",
@@ -102,14 +102,14 @@ export const vehicleSizes: VehicleSize[] = [
 
 // --- Tarifs ------------------------------------------------------------
 // Prix fixe par formule, quelle que soit la taille du véhicule (citadine,
-// berline/break ou SUV) : 55 € pour l'Essentiel, 95 € pour le Premium, pour
+// berline/break ou SUV) : 55 € pour l'Essentiel, 80 € pour le Premium, pour
 // toutes les voitures. Simple et sans surprise pour le client.
 // Pour remettre un prix différent selon la taille, changez les valeurs
 // individuellement ci-dessous (une valeur par taille de véhicule).
 
 export const pricingGrid: Record<FormulaId, Record<SizeId, number>> = {
   essentiel: { citadine: 55, berline: 55, suv: 55 },
-  premium: { citadine: 95, berline: 95, suv: 95 },
+  premium: { citadine: 80, berline: 80, suv: 80 },
 };
 
 // --- Suppléments à la carte ------------------------------------------------
@@ -282,7 +282,7 @@ export const faq = [
   {
     question: "Le prix change-t-il selon la taille du véhicule ?",
     answer:
-      "Non, le prix est fixe : 55 € pour la formule Essentiel et 95 € pour la formule Premium, quelle que soit la taille de votre véhicule (citadine, berline/break ou SUV).",
+      "Non, le prix est fixe : 55 € pour la formule Essentiel et 80 € pour la formule Premium, quelle que soit la taille de votre véhicule (citadine, berline/break ou SUV).",
   },
   {
     question: "Comment fonctionne la réservation ?",
