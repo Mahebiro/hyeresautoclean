@@ -53,6 +53,15 @@ export default function MentionsLegalesPage() {
           </section>
 
           <section>
+            <h2 className="font-display text-lg font-bold text-navy-900">Modalités de paiement</h2>
+            <p className="mt-2 text-sm leading-relaxed">
+              Le règlement de la prestation s&apos;effectue par virement bancaire ou en espèces,
+              directement auprès de {company.name} au moment de l&apos;intervention ou selon les
+              modalités convenues lors de la réservation.
+            </p>
+          </section>
+
+          <section>
             <h2 className="font-display text-lg font-bold text-navy-900">Propriété intellectuelle</h2>
             <p className="mt-2 text-sm leading-relaxed">
               L&apos;ensemble des contenus présents sur ce site (textes, images, logo) est la
@@ -67,6 +76,17 @@ export default function MentionsLegalesPage() {
               uniquement pour traiter votre demande et vous recontacter. Elles ne sont ni
               revendues, ni transmises à des tiers. Pour toute question ou demande de suppression
               de vos données, contactez : {company.email}.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="font-display text-lg font-bold text-navy-900">Cookies</h2>
+            <p className="mt-2 text-sm leading-relaxed">
+              Ce site utilise uniquement un cookie technique destiné à mémoriser votre choix
+              (acceptation ou refus) concernant le bandeau de consentement affiché lors de votre
+              première visite. Aucun cookie de suivi publicitaire ou d&apos;analyse d&apos;audience
+              n&apos;est utilisé actuellement. Si cela venait à changer, cette page serait mise à
+              jour en conséquence.
             </p>
           </section>
         </div>

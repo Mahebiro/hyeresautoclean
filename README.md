@@ -163,7 +163,8 @@ Actuellement, ces dossiers contiennent des **images de remplacement** (fond bleu
    - Photo de fond du Hero → `components/Hero.tsx`
    - Votre photo personnelle → `components/Storytelling.tsx`
    - Logo → `components/Header.tsx` et `app/layout.tsx`
-   - Photos avant/après → `content/site-data.ts`, tableau `galleryItems`
+   - Photos "Réalisations" (simples) → `content/site-data.ts`, tableau `galleryItems`
+   - Photos avant/après → `content/site-data.ts`, tableau `beforeAfterItems`
 
 ### Une précision technique importante
 Les images actuelles sont au format SVG (vectoriel, ce sont juste des placeholders) et affichées avec l'option `unoptimized` (pas d'optimisation automatique, inutile pour un simple aperçu). **Quand vous ajoutez de vraies photos JPG/PNG**, vous pouvez retirer `unoptimized={true}` dans le composant correspondant pour profiter de l'optimisation automatique des images par Next.js (chargement plus rapide). Ce n'est pas obligatoire, mais recommandé une fois vos vraies photos en place.
@@ -230,8 +231,8 @@ public/images/             → toutes les images et photos
 
 Le site est fonctionnel et fidèle au brief, mais certains éléments dépendent de vous :
 
-1. ~~Logo~~ et ~~2 photos (Citroën C1, Mercedes Classe A)~~ — **fournis et déjà intégrés** (logo dans le header, photos en fond du Hero et dans la section Réalisations, en simples photos sans montage avant/après pour l'instant).
-2. **Photos avant/après pour la galerie** — dès que vous avez de vraies paires avant/après, dites-le-moi : je remets le format slider interactif à la place des simples photos actuelles.
+1. ~~Logo~~, ~~photos "Réalisations"~~ et ~~photos avant/après~~ — **fournis et déjà intégrés** (logo dans le header, photos en fond du Hero, section Réalisations avec 3 photos simples, et section "Avant / après" avec curseur interactif sur 3 cadres).
+2. **1 photo manquante** — le cadre "Seuil de porte" de la section avant/après n'a pas encore sa photo "après" (vous avez dit vouloir me l'envoyer plus tard) : un visuel "Photo à venir" s'affiche en attendant. Envoyez-la moi quand vous l'avez, je la mets en place dans `content/site-data.ts` (`beforeAfterItems`).
 3. ~~Votre photo personnelle~~ — ✅ fournie et intégrée dans la section "Mon histoire".
 4. **Adresse Formspree** — ✅ déjà branchée (`content/site-data.ts`, `reservationFormEndpoint`).
 5. **Prix des suppléments non confirmés** — sable/terre incrustée, désodorisation, désinfection, protection cuir sont présents dans le code mais **masqués** (`active: false`) car vous n'avez pas encore validé leurs prix. Dès que c'est fait, passez `active` à `true` dans `content/site-data.ts`. (Le supplément "Vitres extérieures" à 10 € est lui déjà actif.)
