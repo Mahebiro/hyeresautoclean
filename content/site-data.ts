@@ -245,32 +245,10 @@ export const galleryItems = [
     image: "/images/galerie/peugeot-308-interieur.jpg",
     label: "Peugeot 308",
   },
-];
-
-// --- Galerie / avant-après -------------------------------------------------
-// Chaque entrée est une paire avant/après avec un curseur à glisser.
-// Pour ajouter un 4e cadre, copiez le modèle d'une entrée ci-dessous avec vos
-// propres photos "avant" et "après" (voir README.md). Si vous n'avez pas
-// encore de photo "après" pour un cadre, laissez le fichier .svg de
-// remplacement en attendant (il affiche "Photo à venir").
-export const beforeAfterItems = [
   {
-    id: "1",
-    before: "/images/galerie/audi-tableau-de-bord-avant.jpg",
-    after: "/images/galerie/audi-tableau-de-bord-apres.jpg",
-    label: "Tableau de bord",
-  },
-  {
-    id: "2",
-    before: "/images/galerie/audi-coffre-avant.jpg",
-    after: "/images/galerie/audi-coffre-apres.jpg",
-    label: "Coffre",
-  },
-  {
-    id: "3",
-    before: "/images/galerie/audi-seuil-avant.jpg",
-    after: "/images/galerie/audi-seuil-apres.svg",
-    label: "Seuil de porte",
+    id: "4",
+    image: "/images/galerie/audi-interieur.jpg",
+    label: "Audi",
   },
 ];
 

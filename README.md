@@ -147,7 +147,7 @@ Les images sont dans le dossier `public/images/`, organisées par sous-dossier :
 ```
 public/images/
 ├── hero/     → photo d'arrière-plan de la première section
-├── galerie/  → photos "avant / après" de vos réalisations
+├── galerie/  → photos de vos réalisations
 ├── mahe/     → votre photo personnelle (section "Mon histoire")
 └── logo/     → votre logo
 ```
@@ -163,8 +163,7 @@ Actuellement, ces dossiers contiennent des **images de remplacement** (fond bleu
    - Photo de fond du Hero → `components/Hero.tsx`
    - Votre photo personnelle → `components/Storytelling.tsx`
    - Logo → `components/Header.tsx` et `app/layout.tsx`
-   - Photos "Réalisations" (simples) → `content/site-data.ts`, tableau `galleryItems`
-   - Photos avant/après → `content/site-data.ts`, tableau `beforeAfterItems`
+   - Photos "Réalisations" → `content/site-data.ts`, tableau `galleryItems`
 
 ### Une précision technique importante
 Les images actuelles sont au format SVG (vectoriel, ce sont juste des placeholders) et affichées avec l'option `unoptimized` (pas d'optimisation automatique, inutile pour un simple aperçu). **Quand vous ajoutez de vraies photos JPG/PNG**, vous pouvez retirer `unoptimized={true}` dans le composant correspondant pour profiter de l'optimisation automatique des images par Next.js (chargement plus rapide). Ce n'est pas obligatoire, mais recommandé une fois vos vraies photos en place.
@@ -231,14 +230,13 @@ public/images/             → toutes les images et photos
 
 Le site est fonctionnel et fidèle au brief, mais certains éléments dépendent de vous :
 
-1. ~~Logo~~, ~~photos "Réalisations"~~ et ~~photos avant/après~~ — **fournis et déjà intégrés** (logo dans le header, photos en fond du Hero, section Réalisations avec 3 photos simples, et section "Avant / après" avec curseur interactif sur 3 cadres).
-2. **1 photo manquante** — le cadre "Seuil de porte" de la section avant/après n'a pas encore sa photo "après" (vous avez dit vouloir me l'envoyer plus tard) : un visuel "Photo à venir" s'affiche en attendant. Envoyez-la moi quand vous l'avez, je la mets en place dans `content/site-data.ts` (`beforeAfterItems`).
-3. ~~Votre photo personnelle~~ — ✅ fournie et intégrée dans la section "Mon histoire".
-4. **Adresse Formspree** — ✅ déjà branchée (`content/site-data.ts`, `reservationFormEndpoint`).
-5. **Prix des suppléments non confirmés** — sable/terre incrustée, désodorisation, désinfection, protection cuir sont présents dans le code mais **masqués** (`active: false`) car vous n'avez pas encore validé leurs prix. Dès que c'est fait, passez `active` à `true` dans `content/site-data.ts`. (Le supplément "Vitres extérieures" à 10 € est lui déjà actif.)
-6. **Mentions légales** — une page modèle a été créée (`/mentions-legales`, accessible depuis le pied de page) mais elle contient des champs à compléter avec vos vraies informations : statut juridique exact, numéro de SIRET, adresse, hébergeur. C'est une obligation légale pour un site professionnel en France.
-7. **Durée d'une intervention** — la FAQ reste volontairement générale sur ce point (« la durée dépend de la taille du véhicule et de la formule »). Si vous souhaitez indiquer une fourchette précise, vous pouvez modifier la réponse correspondante dans `content/site-data.ts`.
-8. **Activer l'aperçu GitHub Pages** — ✅ fait, l'aperçu est en ligne (voir section 0).
+1. ~~Logo~~ et ~~photos "Réalisations"~~ — **fournis et déjà intégrés** (logo dans le header, photo en fond du Hero, et 4 photos dans la section Réalisations : Citroën C1, Mercedes Classe A, Peugeot 308, Audi).
+2. ~~Votre photo personnelle~~ — ✅ fournie et intégrée dans la section "Mon histoire".
+3. **Adresse Formspree** — ✅ déjà branchée (`content/site-data.ts`, `reservationFormEndpoint`).
+4. **Prix des suppléments non confirmés** — sable/terre incrustée, désodorisation, désinfection, protection cuir sont présents dans le code mais **masqués** (`active: false`) car vous n'avez pas encore validé leurs prix. Dès que c'est fait, passez `active` à `true` dans `content/site-data.ts`. (Le supplément "Vitres extérieures" à 10 € est lui déjà actif.)
+5. **Mentions légales** — une page modèle a été créée (`/mentions-legales`, accessible depuis le pied de page) mais elle contient des champs à compléter avec vos vraies informations : statut juridique exact, numéro de SIRET, adresse, hébergeur. C'est une obligation légale pour un site professionnel en France.
+6. **Durée d'une intervention** — la FAQ reste volontairement générale sur ce point (« la durée dépend de la taille du véhicule et de la formule »). Si vous souhaitez indiquer une fourchette précise, vous pouvez modifier la réponse correspondante dans `content/site-data.ts`.
+7. **Activer l'aperçu GitHub Pages** — ✅ fait, l'aperçu est en ligne (voir section 0).
 
 Aucune fausse information (avis clients, notes, chiffres, badges) n'a été inventée sur le site, conformément à votre demande.
 
