@@ -135,7 +135,7 @@ Les images sont dans le dossier `public/images/`, organisées par sous-dossier :
 
 ```
 public/images/
-├── hero/     → photo d'arrière-plan de la première section
+├── hero/     → (ancienne photo de fond, le haut de page est désormais en 3D : voir section 4 bis)
 ├── galerie/  → photos de vos réalisations
 ├── mahe/     → votre photo personnelle (section "Mon histoire")
 └── logo/     → votre logo
@@ -149,13 +149,31 @@ Actuellement, ces dossiers contiennent des **images de remplacement** (fond bleu
 2. Donnez-lui **exactement le même nom de fichier** que le placeholder à remplacer (par exemple `hero-placeholder.svg` devient `hero-placeholder.jpg`), **ou** changez le nom du fichier importé dans le composant concerné (un peu plus technique — demandez de l'aide si besoin).
 3. La méthode la plus simple : remplacez le fichier directement sur GitHub (glisser-déposer dans le bon dossier), avec le même nom mais votre extension (`.jpg`/`.png`).
 4. Si le nom de fichier change, il faut aussi mettre à jour le chemin dans le fichier concerné :
-   - Photo de fond du Hero → `components/Hero.tsx`
    - Votre photo personnelle → `components/Storytelling.tsx`
    - Logo → `components/Header.tsx` et `app/layout.tsx`
    - Photos "Réalisations" → `content/site-data.ts`, tableau `galleryItems`
 
 ### Une précision technique importante
 Les images actuelles sont au format SVG (vectoriel, ce sont juste des placeholders) et affichées avec l'option `unoptimized` (pas d'optimisation automatique, inutile pour un simple aperçu). **Quand vous ajoutez de vraies photos JPG/PNG**, vous pouvez retirer `unoptimized={true}` dans le composant correspondant pour profiter de l'optimisation automatique des images par Next.js (chargement plus rapide). Ce n'est pas obligatoire, mais recommandé une fois vos vraies photos en place.
+
+---
+
+## 4 bis. Le haut de page 3D (« Allumage du showroom »)
+
+Le haut de page affiche une Porsche 911 GT3 RS en 3D dans un studio noir : les bandes de lumière s'allument une par une, puis la caméra tourne autour de la voiture pendant le défilement.
+
+- **Tous les réglages** (couleur de peinture, jantes, lumières, sol, trajet de caméra, rythme de l'intro, performances) sont dans **un seul fichier commenté** : `components/showroom-hero/config.js`.
+- **Le modèle 3D** : déposez le fichier d'origine dans `public/assets/gt3rs.glb`, puis lancez :
+
+```bash
+npm run model:analyze    # liste les pièces reconnues (peinture, vitres, pneus, jantes, étriers, phares, feux, logos…)
+npm run model:compress   # supprime logos/badges/plaques, compresse (meshopt + textures WebP) → public/assets/gt3rs.opt.glb
+```
+
+  Si une pièce est mal reconnue (noms génériques du type `Object_12`), ajoutez-la dans `model.overrides` du fichier `config.js`. Si la voiture apparaît de travers, ajoutez `-- --rotate 180` (ou 90 / -90) à la commande de compression. Seul le fichier `gt3rs.opt.glb` est chargé par le site (objectif : moins de 5 Mo).
+- **Sans modèle**, le haut de page s'affiche quand même (titre, texte et boutons sur fond noir).
+- Les visiteurs qui ont activé « réduire les animations » voient directement la voiture éclairée, sans intro ni défilement épinglé. Les ordinateurs peu puissants basculent automatiquement en version allégée.
+- Pour tester un mode précis : ajoutez `?showroom=desktop`, `?showroom=mobile` ou `?showroom=lite` à l'adresse.
 
 ---
 
@@ -219,13 +237,14 @@ public/images/             → toutes les images et photos
 
 Le site est fonctionnel et fidèle au brief, mais certains éléments dépendent de vous :
 
-1. ~~Logo~~ et ~~photos "Réalisations"~~ — **fournis et déjà intégrés** (logo dans le header, photo en fond du Hero, et 4 photos dans la section Réalisations : Citroën C1, Mercedes Classe A, Peugeot 308, Audi).
+1. ~~Logo~~ et ~~photos "Réalisations"~~ — **fournis et déjà intégrés** (logo dans le header et 4 photos dans la section Réalisations : Citroën C1, Mercedes Classe A, Peugeot 308, Audi).
 2. ~~Votre photo personnelle~~ — ✅ fournie et intégrée dans la section "Mon histoire".
 3. **Adresse Formspree** — ✅ déjà branchée (`content/site-data.ts`, `reservationFormEndpoint`).
 4. **Prix des suppléments non confirmés** — sable/terre incrustée, désodorisation, désinfection, protection cuir sont présents dans le code mais **masqués** (`active: false`) car vous n'avez pas encore validé leurs prix. Dès que c'est fait, passez `active` à `true` dans `content/site-data.ts`. (Le supplément "Vitres extérieures" à 10 € est lui déjà actif.)
 5. **Mentions légales** — une page modèle a été créée (`/mentions-legales`, accessible depuis le pied de page) mais elle contient des champs à compléter avec vos vraies informations : statut juridique exact, numéro de SIRET, adresse, hébergeur. C'est une obligation légale pour un site professionnel en France.
 6. **Durée d'une intervention** — la FAQ reste volontairement générale sur ce point (« la durée dépend de la taille du véhicule et de la formule »). Si vous souhaitez indiquer une fourchette précise, vous pouvez modifier la réponse correspondante dans `content/site-data.ts`.
 7. **Activer l'aperçu GitHub Pages** — ✅ fait, l'aperçu est en ligne (voir section 0).
+8. **Modèle 3D de la GT3 RS** — à déposer dans `public/assets/gt3rs.glb` puis à préparer avec `npm run model:compress` (voir section 4 bis).
 
 Aucune fausse information (avis clients, notes, chiffres, badges) n'a été inventée sur le site, conformément à votre demande.
 
