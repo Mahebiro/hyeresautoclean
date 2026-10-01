@@ -5,6 +5,11 @@
 html {
   scroll-behavior: smooth;
 }
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
 
 body {
   color: #0a1730;
@@ -80,5 +85,60 @@ html.lenis body {
 @media (prefers-reduced-motion: reduce) {
   .showroom-grain {
     animation: none;
+  }
+}
+
+/* --- Micro-interactions (langage de mouvement commun) --------------------- */
+
+/* Remplissage des boutons : monte depuis le bas, easing expo.out. */
+.btn-fill {
+  transform: translateY(101%);
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.group:hover > .btn-fill,
+.group:focus-visible > .btn-fill {
+  transform: translateY(0);
+}
+.group:disabled > .btn-fill {
+  transform: translateY(101%);
+}
+
+/* Soulignement qui se dessine de gauche à droite (et repart vers la droite). */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.link-underline:hover::after,
+.link-underline:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* Titres révélés ligne par ligne (masque + montée). */
+.split-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+.split-line {
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-fill,
+  .link-underline::after {
+    transition-duration: 0.01ms;
   }
 }

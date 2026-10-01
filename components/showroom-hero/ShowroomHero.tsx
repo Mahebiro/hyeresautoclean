@@ -55,28 +55,16 @@ export function ShowroomHero() {
     const cleanups: (() => void)[] = [];
 
     (async () => {
-      const [{ Showroom }, { gsap }, { ScrollTrigger }, { default: Lenis }, intro] = await Promise.all([
+      const [{ Showroom }, { gsap }, { ScrollTrigger }, intro] = await Promise.all([
         import("./engine"),
         import("gsap"),
         import("gsap/ScrollTrigger"),
-        import("lenis"),
         import("./intro"),
       ]);
       if (disposed) return;
       gsap.registerPlugin(ScrollTrigger);
 
-      // Défilement doux (Lenis) synchronisé avec ScrollTrigger.
-      if (!reducedMotion) {
-        const lenis = new Lenis({ anchors: { offset: -80 }, lerp: 0.085 });
-        lenis.on("scroll", ScrollTrigger.update);
-        const raf = (time: number) => lenis.raf(time * 1000);
-        gsap.ticker.add(raf);
-        gsap.ticker.lagSmoothing(0);
-        cleanups.push(() => {
-          gsap.ticker.remove(raf);
-          lenis.destroy();
-        });
-      }
+      // Le défilement doux (Lenis) est géré pour tout le site par MotionProvider.
 
       const { quality, adaptive } = pickQuality();
       const engine = new Showroom(canvas, { quality, adaptive: adaptive && !reducedMotion });

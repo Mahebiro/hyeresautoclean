@@ -2,6 +2,7 @@ import Image from "next/image";
 import { storytelling } from "@/content/site-data";
 import { withBasePath } from "@/lib/basePath";
 import { Container } from "./ui/Container";
+import { SplitHeading } from "./motion/SplitHeading";
 import { FadeIn } from "./ui/FadeIn";
 
 export function Storytelling() {
@@ -20,16 +21,20 @@ export function Storytelling() {
             </div>
           </FadeIn>
 
-          <FadeIn delay={0.1}>
-            <p className="text-sm font-semibold uppercase tracking-widest text-sky-600">
-              Mon histoire
-            </p>
-            <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-navy-900 sm:text-4xl">
+          <div>
+            <FadeIn delay={0.1}>
+              <p className="text-sm font-semibold uppercase tracking-widest text-sky-600">
+                Mon histoire
+              </p>
+            </FadeIn>
+            <SplitHeading className="mt-3 font-display text-3xl font-bold tracking-tight text-navy-900 sm:text-4xl">
               {storytelling.title}
-            </h2>
-            <p className="mt-6 text-lg leading-relaxed text-navy-700/85">{storytelling.paragraph}</p>
-            <p className="mt-6 font-display font-semibold text-navy-900">— {storytelling.author}</p>
-          </FadeIn>
+            </SplitHeading>
+            <FadeIn delay={0.2}>
+              <p className="mt-6 text-lg leading-relaxed text-navy-700/85">{storytelling.paragraph}</p>
+              <p className="mt-6 font-display font-semibold text-navy-900">— {storytelling.author}</p>
+            </FadeIn>
+          </div>
         </div>
       </Container>
     </section>

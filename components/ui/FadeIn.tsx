@@ -1,8 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
-import type { ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
+import { EASE_SOFT, gsap, prefersReducedMotion, REVEAL_START, useIsomorphicLayoutEffect } from "../motion/gsap";
 
+/**
+ * Apparition au scroll : fondu + légère montée, une seule fois.
+ * `delay` décale les éléments d'une même liste (index × 0,1 s).
+ * Mouvement réduit : simple fondu.
+ */
 export function FadeIn({
   children,
   delay = 0,
@@ -12,15 +17,34 @@ export function FadeIn({
   delay?: number;
   className?: string;
 }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useIsomorphicLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const reduced = prefersReducedMotion();
+    const tween = gsap.fromTo(
+      el,
+      { autoAlpha: 0, y: reduced ? 0 : 28 },
+      {
+        autoAlpha: 1,
+        y: 0,
+        duration: reduced ? 0.6 : 0.9,
+        delay,
+        ease: EASE_SOFT,
+        clearProps: "transform",
+        scrollTrigger: { trigger: el, start: REVEAL_START, once: true },
+      },
+    );
+    return () => {
+      tween.scrollTrigger?.kill();
+      tween.kill();
+    };
+  }, [delay]);
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6, delay, ease: "easeOut" }}
-      className={className}
-    >
+    <div ref={ref} className={className}>
       {children}
-    </motion.div>
+    </div>
   );
 }

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { CookieConsent } from "@/components/CookieConsent";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SelectionProvider } from "@/context/SelectionContext";
 import { company, faq, formulas, seo, serviceCities } from "@/content/site-data";
 import "./globals.css";
@@ -103,6 +104,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
+        <MotionProvider />
         <SelectionProvider>
           <Header />
           {children}

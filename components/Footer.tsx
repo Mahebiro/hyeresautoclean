@@ -31,7 +31,7 @@ export function Footer() {
           <ul className="grid grid-cols-2 gap-2 text-sm">
             {footerLinks.map((link) => (
               <li key={link.href}>
-                <a href={link.href} className="transition-colors hover:text-white">
+                <a href={link.href} className="link-underline transition-colors hover:text-white">
                   {link.label}
                 </a>
               </li>

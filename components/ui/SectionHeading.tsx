@@ -1,3 +1,4 @@
+import { SplitHeading } from "../motion/SplitHeading";
 import { FadeIn } from "./FadeIn";
 
 export function SectionHeading({
@@ -16,9 +17,9 @@ export function SectionHeading({
   const alignClasses = align === "center" ? "text-center mx-auto" : "text-left";
 
   return (
-    <FadeIn>
-      <div className={`max-w-2xl ${alignClasses}`}>
-        {eyebrow ? (
+    <div className={`max-w-2xl ${alignClasses}`}>
+      {eyebrow ? (
+        <FadeIn>
           <p
             className={`mb-3 text-sm font-semibold uppercase tracking-widest ${
               light ? "text-sky-300" : "text-sky-600"
@@ -26,18 +27,20 @@ export function SectionHeading({
           >
             {eyebrow}
           </p>
-        ) : null}
-        <h2
-          className={`font-display text-3xl font-bold tracking-tight sm:text-4xl ${
-            light ? "text-white" : "text-navy-900"
-          }`}
-        >
-          {title}
-        </h2>
-        {subtitle ? (
+        </FadeIn>
+      ) : null}
+      <SplitHeading
+        className={`font-display text-3xl font-bold tracking-tight sm:text-4xl ${
+          light ? "text-white" : "text-navy-900"
+        }`}
+      >
+        {title}
+      </SplitHeading>
+      {subtitle ? (
+        <FadeIn delay={0.15}>
           <p className={`mt-4 text-lg ${light ? "text-white/80" : "text-navy-700/80"}`}>{subtitle}</p>
-        ) : null}
-      </div>
-    </FadeIn>
+        </FadeIn>
+      ) : null}
+    </div>
   );
 }

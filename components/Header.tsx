@@ -80,7 +80,7 @@ export function Header() {
             <a
               key={link.href}
               href={link.href}
-              className={`text-sm font-medium transition-colors duration-500 ${
+              className={`link-underline text-sm font-medium transition-colors duration-500 ${
                 transparent ? "text-white/80 hover:text-white" : "text-navy-700 hover:text-navy-900"
               }`}
             >
