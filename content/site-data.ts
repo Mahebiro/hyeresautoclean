@@ -98,6 +98,8 @@ export interface Addon {
   label: string;
   price: number;
   active: boolean;
+  // Options d'un même groupe exclusif : en choisir une retire les autres.
+  exclusiveGroup?: string;
 }
 
 export const addons: Addon[] = [
@@ -106,12 +108,14 @@ export const addons: Addon[] = [
     label: "Poils d'animaux — habitacle + coffre",
     price: 25,
     active: true,
+    exclusiveGroup: "poils",
   },
   {
     id: "poils-habitacle",
     label: "Poils d'animaux — habitacle uniquement",
     price: 15,
     active: true,
+    exclusiveGroup: "poils",
   },
   {
     id: "vitres-exterieures",

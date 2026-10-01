@@ -8,7 +8,7 @@ import { FadeIn } from "./ui/FadeIn";
 import { SectionHeading } from "./ui/SectionHeading";
 
 export function Formules() {
-  const { setFormula } = useSelection();
+  const { pickFormula } = useSelection();
   const activeAddons = addons.filter((addon) => addon.active);
 
   return (
@@ -23,7 +23,7 @@ export function Formules() {
         <div className="mt-14 grid gap-8 lg:grid-cols-2 lg:items-center">
           {formulas.map((formula, index) => (
             <FadeIn key={formula.id} delay={index * 0.1}>
-              <FormulaCard formula={formula} onChoose={() => setFormula(formula.id)} />
+              <FormulaCard formula={formula} onChoose={() => pickFormula(formula.id)} />
             </FadeIn>
           ))}
         </div>
