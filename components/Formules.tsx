@@ -1,7 +1,10 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { addons, formulas, type FormulaId } from "@/content/site-data";
 import { useSelection } from "@/context/SelectionContext";
+import { AnimatedNumber } from "./motion/AnimatedNumber";
+import { EASE_SOFT, gsap, hasFinePointer, prefersReducedMotion, REVEAL_START } from "./motion/gsap";
 import { Button } from "./ui/Button";
 import { Container } from "./ui/Container";
 import { FadeIn } from "./ui/FadeIn";
@@ -67,48 +70,128 @@ function FormulaCard({
   onChoose: () => void;
 }) {
   const isPremium = formula.id === ("premium" as FormulaId);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const glareRef = useRef<HTMLSpanElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
+
+  // Tilt 3D amorti au survol (desktop), avec un reflet qui suit la souris.
+  useEffect(() => {
+    const card = cardRef.current;
+    const glare = glareRef.current;
+    if (!card || !glare || !hasFinePointer() || prefersReducedMotion()) return;
+    gsap.set(card, { transformPerspective: 1000 });
+    const rotX = gsap.quickTo(card, "rotationX", { duration: 0.8, ease: EASE_SOFT });
+    const rotY = gsap.quickTo(card, "rotationY", { duration: 0.8, ease: EASE_SOFT });
+    const glareX = gsap.quickTo(glare, "x", { duration: 0.8, ease: EASE_SOFT });
+    const glareY = gsap.quickTo(glare, "y", { duration: 0.8, ease: EASE_SOFT });
+    const onMove = (event: PointerEvent) => {
+      const rect = card.getBoundingClientRect();
+      const px = (event.clientX - rect.left) / rect.width - 0.5;
+      const py = (event.clientY - rect.top) / rect.height - 0.5;
+      rotY(px * 7);
+      rotX(-py * 5);
+      glareX(px * rect.width);
+      glareY(py * rect.height);
+      gsap.to(glare, { autoAlpha: 1, duration: 0.6, overwrite: "auto" });
+    };
+    const onLeave = () => {
+      rotX(0);
+      rotY(0);
+      gsap.to(glare, { autoAlpha: 0, duration: 0.8, overwrite: "auto" });
+    };
+    card.addEventListener("pointermove", onMove);
+    card.addEventListener("pointerleave", onLeave);
+    return () => {
+      card.removeEventListener("pointermove", onMove);
+      card.removeEventListener("pointerleave", onLeave);
+      gsap.killTweensOf([card, glare]);
+    };
+  }, []);
+
+  // Les prestations arrivent une par une, chaque coche se dessine.
+  useEffect(() => {
+    const list = listRef.current;
+    if (!list) return;
+    const items = list.querySelectorAll("li");
+    const checks = list.querySelectorAll("path");
+    const reduced = prefersReducedMotion();
+    const tl = gsap.timeline({ scrollTrigger: { trigger: list, start: REVEAL_START, once: true } });
+    tl.fromTo(
+      items,
+      { autoAlpha: 0, x: reduced ? 0 : -10 },
+      { autoAlpha: 1, x: 0, duration: reduced ? 0.6 : 0.8, ease: EASE_SOFT, stagger: 0.09 },
+    );
+    if (!reduced) {
+      tl.fromTo(
+        checks,
+        { strokeDashoffset: 1 },
+        { strokeDashoffset: 0, duration: 0.6, ease: "power2.out", stagger: 0.09 },
+        0.15,
+      );
+    }
+    return () => {
+      tl.scrollTrigger?.kill();
+      tl.kill();
+    };
+  }, []);
 
   return (
-    <div
-      className={`relative flex h-full flex-col rounded-3xl border p-8 ${
-        isPremium
-          ? "border-navy-900 bg-navy-900 text-white shadow-premium lg:scale-105"
-          : "border-navy-900/10 bg-white text-navy-900"
-      }`}
-    >
-      {formula.badge ? (
-        <span className="absolute -top-3 left-8 rounded-full bg-sky-400 px-3 py-1 text-xs font-bold uppercase tracking-wide text-navy-950">
-          {formula.badge}
+    <div className={isPremium ? "lg:scale-105" : undefined}>
+      <div
+        ref={cardRef}
+        className={`relative flex h-full flex-col rounded-3xl border p-8 [transform-style:preserve-3d] ${
+          isPremium
+            ? "premium-halo border-navy-900 bg-navy-900 text-white shadow-premium"
+            : "border-navy-900/10 bg-white text-navy-900"
+        }`}
+      >
+        {/* Reflets : balayage lent (Premium) et reflet qui suit la souris. */}
+        <span aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]">
+          {isPremium ? <span className="card-sheen absolute inset-y-0 -left-1/2 w-1/2" /> : null}
+          <span
+            ref={glareRef}
+            className={`invisible absolute left-1/2 top-1/2 -ml-40 -mt-40 h-80 w-80 rounded-full opacity-0 blur-2xl ${
+              isPremium ? "bg-white/[0.12]" : "bg-sky-200/50"
+            }`}
+          />
         </span>
-      ) : null}
 
-      <h3 className="font-display text-2xl font-bold">{formula.name}</h3>
-      <p className={`mt-2 text-sm ${isPremium ? "text-white/75" : "text-navy-700/80"}`}>
-        {formula.tagline}
-      </p>
+        {formula.badge ? (
+          <span className="absolute -top-3 left-8 rounded-full bg-sky-400 px-3 py-1 text-xs font-bold uppercase tracking-wide text-navy-950">
+            {formula.badge}
+          </span>
+        ) : null}
 
-      <p className="mt-6">
-        <span className="font-display text-4xl font-bold">{formula.priceFrom} €</span>
-      </p>
+        <h3 className="font-display text-2xl font-bold">{formula.name}</h3>
+        <p className={`mt-2 text-sm ${isPremium ? "text-white/75" : "text-navy-700/80"}`}>
+          {formula.tagline}
+        </p>
 
-      <ul className="mt-6 flex-1 space-y-3">
-        {formula.features.map((feature) => (
-          <li key={feature} className="flex items-start gap-2.5 text-sm">
-            <CheckIcon className={isPremium ? "text-sky-300" : "text-sky-600"} />
-            <span className={isPremium ? "text-white/90" : "text-navy-800"}>{feature}</span>
-          </li>
-        ))}
-      </ul>
+        <p className="mt-6">
+          <span className="font-display text-4xl font-bold">
+            <AnimatedNumber value={formula.priceFrom} duration={1.1} /> €
+          </span>
+        </p>
 
-      <div className="mt-8">
-        <Button
-          href="#reservation"
-          onClick={onChoose}
-          variant={isPremium ? "secondary" : "primary"}
-          className="w-full"
-        >
-          Choisir cette formule
-        </Button>
+        <ul ref={listRef} className="mt-6 flex-1 space-y-3">
+          {formula.features.map((feature) => (
+            <li key={feature} className="flex items-start gap-2.5 text-sm">
+              <CheckIcon className={isPremium ? "text-sky-300" : "text-sky-600"} />
+              <span className={isPremium ? "text-white/90" : "text-navy-800"}>{feature}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div className="relative mt-8">
+          <Button
+            href="#reservation"
+            onClick={onChoose}
+            variant={isPremium ? "secondary" : "primary"}
+            className="w-full"
+          >
+            Choisir cette formule
+          </Button>
+        </div>
       </div>
     </div>
   );
@@ -125,7 +208,7 @@ function CheckIcon({ className = "" }: { className?: string }) {
       strokeWidth="2.5"
       className={`mt-0.5 shrink-0 ${className}`}
     >
-      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+      <path pathLength={1} strokeDasharray="1" strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
     </svg>
   );
 }

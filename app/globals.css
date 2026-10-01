@@ -197,3 +197,29 @@ html.lenis body {
     transition: none;
   }
 }
+
+/* --- Formules -------------------------------------------------------------- */
+/* Halo léger autour de la carte Premium. */
+.premium-halo {
+  box-shadow:
+    0 20px 60px -15px rgba(10, 23, 48, 0.35),
+    0 0 0 1px rgba(140, 200, 255, 0.08),
+    0 0 80px -20px rgba(90, 171, 255, 0.45);
+}
+/* Reflet lumineux qui traverse lentement la carte, comme sur une carrosserie. */
+.card-sheen {
+  background: linear-gradient(105deg, transparent 20%, rgba(255, 255, 255, 0.1) 45%, rgba(255, 255, 255, 0.18) 50%, rgba(255, 255, 255, 0.1) 55%, transparent 80%);
+  transform: translateX(0) skewX(-12deg);
+  animation: card-sheen 7s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+  animation-delay: 1.5s;
+}
+@keyframes card-sheen {
+  0% { transform: translateX(0) skewX(-12deg); }
+  32% { transform: translateX(400%) skewX(-12deg); }
+  100% { transform: translateX(400%) skewX(-12deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-sheen {
+    display: none;
+  }
+}
