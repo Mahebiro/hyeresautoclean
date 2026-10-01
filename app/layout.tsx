@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { CookieConsent } from "@/components/CookieConsent";
 import { Footer } from "@/components/Footer";
@@ -7,6 +7,14 @@ import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SelectionProvider } from "@/context/SelectionContext";
 import { company, faq, formulas, seo, serviceCities } from "@/content/site-data";
 import "./globals.css";
+
+// viewport-fit=cover : nécessaire pour respecter la zone sûre de l'iPhone
+// (barre d'action mobile en bas d'écran).
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(company.website),

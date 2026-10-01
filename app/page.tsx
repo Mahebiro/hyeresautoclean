@@ -3,6 +3,7 @@ import { Contact } from "@/components/Contact";
 import { FAQ } from "@/components/FAQ";
 import { Formules } from "@/components/Formules";
 import { Galerie } from "@/components/Galerie";
+import { MobileActionBar } from "@/components/MobileActionBar";
 import { CommentCaMarche } from "@/components/CommentCaMarche";
 import { PourquoiNous } from "@/components/PourquoiNous";
 import { PresentationCourte } from "@/components/PresentationCourte";
@@ -24,6 +25,7 @@ export default function Home() {
       <Reservation />
       <FAQ />
       <Contact />
+      <MobileActionBar />
     </main>
   );
 }
