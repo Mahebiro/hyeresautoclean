@@ -39,9 +39,10 @@ export function createIntroTimeline(
   const I = C.intro;
   const tl = gsap.timeline({ paused: true });
 
-  // Écran entièrement noir au départ : le voile se lève au premier scintillement.
+  // Pénombre au départ (silhouette à peine visible) : le voile se lève au
+  // premier scintillement.
   if (elements.blackout) {
-    tl.fromTo(elements.blackout, { opacity: 1 }, { opacity: 0, duration: 0.5, ease: "power1.out" }, C.strips[0].at);
+    tl.fromTo(elements.blackout, { opacity: I.veilOpacity }, { opacity: 0, duration: 0.5, ease: "power1.out" }, C.strips[0].at);
   }
 
   C.strips.forEach((strip, i) => {

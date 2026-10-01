@@ -73,8 +73,10 @@ export const SHOWROOM_CONFIG = {
 
   // --- Couleurs --------------------------------------------------------------
   colors: {
-    // Fond de la page et du canvas (quasi noir).
-    background: "#0A0A0B",
+    // Fond du studio : bords quasi noirs et halo gris derrière la voiture
+    // (évite l'impression d'écran éteint à l'arrivée).
+    background: "#0D0E10",
+    backgroundGlow: "#2B2D33",
     // Peinture de carrosserie : gris « craie » clair. Exemples :
     // blanc "#E9E9E6", noir "#0E0F11", bleu Requin "#1E5B9C", vert "#2E6B4F".
     paint: "#C8C7C1",
@@ -114,7 +116,7 @@ export const SHOWROOM_CONFIG = {
     // HDRI de studio Poly Haven (CC0), dans /public/assets/hdri/.
     hdri: "/assets/hdri/studio_small_03_512.hdr",
     // Intensité faible : l'HDRI ne fait que déboucher les noirs.
-    intensity: 0.12,
+    intensity: 0.2,
     rotationY: 0,
   },
 
@@ -175,6 +177,9 @@ export const SHOWROOM_CONFIG = {
 
   // --- Intro (au chargement, sans action de l'utilisateur) -------------------
   intro: {
+    // Opacité du voile sombre au tout début (1 = noir complet, la voiture est
+    // invisible ; 0.6 = silhouette devinée dans la pénombre).
+    veilOpacity: 0.6,
     // Durée du scintillement néon à l'allumage d'une bande (secondes).
     flickerDuration: 0.45,
     // Montée progressive de l'HDRI de fond [début, fin] (secondes).
@@ -223,9 +228,9 @@ export const SHOWROOM_CONFIG = {
   postfx: {
     bloom: { strength: 0.2, radius: 0.35, threshold: 1.8 },
     // Vignette et grain sont des calques CSS légers (identiques partout).
-    vignette: 0.62, // opacité des bords
+    vignette: 0.45, // opacité des bords
     grain: 0.07, // opacité du grain
-    exposure: 1.0,
+    exposure: 1.12,
   },
 
   // --- Performance -----------------------------------------------------------

@@ -130,7 +130,6 @@ export function ShowroomHero() {
       gsap.delayedCall(0.45, () => timeline.play());
 
       // Caméra pilotée par le scroll (section épinglée, scrub lissé).
-      const headerOffset = () => document.querySelector("header")?.getBoundingClientRect().height ?? 0;
       const proxy = { progress: 0 };
       const scrollTween = gsap.to(proxy, {
         progress: 1,
@@ -138,7 +137,7 @@ export function ShowroomHero() {
         onUpdate: () => (engine.progress = proxy.progress),
         scrollTrigger: {
           trigger: section,
-          start: () => `top top+=${headerOffset()}`,
+          start: "top top",
           end: "bottom bottom",
           scrub: C.camera.scrub,
           invalidateOnRefresh: true,
@@ -151,7 +150,7 @@ export function ShowroomHero() {
         ease: "none",
         scrollTrigger: {
           trigger: section,
-          start: () => `top top+=${headerOffset()}`,
+          start: "top top",
           end: () => `+=${window.innerHeight * 0.35}`,
           scrub: true,
           invalidateOnRefresh: true,
@@ -180,6 +179,8 @@ export function ShowroomHero() {
   }, [reducedMotion]);
 
   const showStatic = reducedMotion || status === "error";
+  // Fond de studio : léger halo gris derrière la voiture, noir sur les bords.
+  const backdrop = `radial-gradient(ellipse 85% 65% at 50% 58%, ${C.colors.backgroundGlow} 0%, ${C.colors.background} 75%)`;
   const scrollLength = reducedMotion ? 0 : C.camera.scrollLength;
 
   return (
@@ -188,19 +189,22 @@ export function ShowroomHero() {
       id="top"
       aria-label={`${company.name} — ${company.activity}`}
       className="showroom-hero relative"
+      data-header-overlay
       data-status={status}
       data-static={showStatic ? "true" : "false"}
       style={{
-        height: `calc(${(1 + scrollLength) * 100}svh - var(--header-h))`,
-        backgroundColor: C.colors.background,
+        height: `${(1 + scrollLength) * 100}svh`,
+        // Le hero passe sous la barre du haut (transparente à cet endroit).
+        marginTop: "calc(-1 * var(--header-h))",
+        background: backdrop,
       }}
     >
-      <div className="sticky top-[var(--header-h)] h-[calc(100svh-var(--header-h))] overflow-hidden">
+      <div className="sticky top-0 h-[100svh] overflow-hidden">
         {/* Titre géant, derrière la voiture (le canvas est transparent). */}
         <h1
           ref={titleRef}
           aria-label={company.name}
-          className="showroom-title pointer-events-none absolute inset-x-0 top-[24%] select-none text-center font-display font-black uppercase leading-[0.86] tracking-[-0.02em] text-white md:top-[9%]"
+          className="showroom-title pointer-events-none absolute inset-x-0 top-[26%] select-none text-center font-display font-black uppercase leading-[0.86] tracking-[-0.02em] text-white md:top-[15%]"
           style={{ opacity: C.title.opacity }}
         >
           {TITLE_LINES.map((line) => (
@@ -221,7 +225,7 @@ export function ShowroomHero() {
           <div
             ref={blackoutRef}
             className="pointer-events-none absolute inset-0"
-            style={{ backgroundColor: C.colors.background }}
+            style={{ background: backdrop, opacity: C.intro.veilOpacity }}
           />
         )}
 
@@ -255,19 +259,19 @@ export function ShowroomHero() {
 
         {/* Loader : compteur qui suit le vrai chargement du modèle. */}
         <div
-          className="showroom-loader pointer-events-none absolute inset-0 z-20 flex items-end justify-end p-6 sm:p-10"
-          style={{ backgroundColor: C.colors.background }}
+          className="showroom-loader pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center gap-5"
+          style={{ background: backdrop }}
           aria-hidden={status !== "loading"}
         >
-          <div className="flex items-baseline gap-3 font-display text-white/70">
-            <span className="text-[10px] uppercase tracking-[0.4em] text-white/40">Chargement</span>
-            <span className="w-[4ch] text-right text-2xl font-light tabular-nums" role="status" aria-live="polite">
-              {percent}%
-            </span>
+          <span className="font-display text-xs font-semibold uppercase tracking-[0.45em] text-white/70 sm:text-sm">
+            {company.name}
+          </span>
+          <div className="h-px w-40 overflow-hidden bg-white/15 sm:w-56">
+            <div className="h-full bg-white/80 transition-[width] duration-200" style={{ width: `${percent}%` }} />
           </div>
-          <div className="absolute inset-x-0 bottom-0 h-px bg-white/10">
-            <div className="h-full bg-white/60 transition-[width] duration-200" style={{ width: `${percent}%` }} />
-          </div>
+          <span className="font-display text-sm font-light tabular-nums text-white/60" role="status" aria-live="polite">
+            {percent}%
+          </span>
         </div>
       </div>
     </section>
