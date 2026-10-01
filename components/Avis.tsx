@@ -81,12 +81,25 @@ const MIN_PAR_DEMI = 6;
 
 function Rangee({ items, direction }: { items: AvisType[]; direction: "gauche" | "droite" }) {
   const trackRef = useRef<HTMLDivElement>(null);
-  const repetitions = Math.max(1, Math.ceil(MIN_PAR_DEMI / items.length));
-  const demi = Array.from({ length: repetitions }, () => items).flat();
 
   useEffect(() => {
     const track = trackRef.current;
     if (!track || prefersReducedMotion()) return;
+
+    // Le HTML ne contient chaque avis qu'une fois (page plus légère) : les
+    // copies nécessaires à la boucle sont créées ici, masquées aux lecteurs
+    // d'écran. Demi-piste = au moins MIN_PAR_DEMI cartes, puis doublée.
+    const originals = Array.from(track.children);
+    const clones: Element[] = [];
+    const addClone = (node: Element) => {
+      const clone = node.cloneNode(true) as Element;
+      clone.setAttribute("aria-hidden", "true");
+      track.appendChild(clone);
+      clones.push(clone);
+    };
+    const repetitions = Math.max(1, Math.ceil(MIN_PAR_DEMI / originals.length));
+    for (let r = 1; r < repetitions; r++) originals.forEach(addClone);
+    Array.from(track.children).forEach(addClone);
 
     // La piste contient deux moitiés identiques : on la décale d'une moitié,
     // puis on recommence (boucle sans raccord).
@@ -95,15 +108,16 @@ function Rangee({ items, direction }: { items: AvisType[]; direction: "gauche" |
     const loop = gsap.fromTo(
       track,
       { xPercent: from },
-      { xPercent: to, duration: largeur / 38, ease: "none", repeat: -1 },
+      { xPercent: to, duration: largeur / 38, ease: "none", repeat: -1, paused: true },
     );
-    // Pause hors écran (aucun calcul inutile).
+    // Ne tourne que lorsque la rangée est à l'écran (aucun calcul inutile).
     const visibility = ScrollTrigger.create({
       trigger: track,
       start: "top bottom",
       end: "bottom top",
       onToggle: (self) => (self.isActive ? loop.play() : loop.pause()),
     });
+    if (visibility.isActive) loop.play();
     const slow = () => gsap.to(loop, { timeScale: 0.15, duration: 0.8, ease: "power3.out", overwrite: true });
     const resume = () => gsap.to(loop, { timeScale: 1, duration: 1.2, ease: "power3.out", overwrite: true });
     track.addEventListener("pointerenter", slow);
@@ -113,28 +127,27 @@ function Rangee({ items, direction }: { items: AvisType[]; direction: "gauche" |
       track.removeEventListener("pointerleave", resume);
       visibility.kill();
       loop.kill();
+      clones.forEach((clone) => clone.remove());
+      gsap.set(track, { clearProps: "transform" });
     };
   }, [direction]);
 
   return (
     <div className="avis-rangee">
       <div ref={trackRef} className="avis-piste flex w-max">
-        {[0, 1].map((moitie) =>
-          demi.map((item, index) => (
-            <CarteAvis key={`${moitie}-${index}-${item.id}`} avis={item} doublon={moitie === 1 || index >= items.length} />
-          )),
-        )}
+        {items.map((item) => (
+          <CarteAvis key={item.id} avis={item} />
+        ))}
       </div>
     </div>
   );
 }
 
-function CarteAvis({ avis: item, doublon }: { avis: AvisType; doublon: boolean }) {
+function CarteAvis({ avis: item }: { avis: AvisType }) {
   const details = [item.ville, item.formule ? `Formule ${item.formule}` : null].filter(Boolean).join(" · ");
 
   return (
     <figure
-      aria-hidden={doublon || undefined}
       className="avis-carte mr-6 flex w-[300px] shrink-0 flex-col rounded-3xl border border-white/10 bg-white/[0.04] p-7 sm:w-[440px] sm:p-9"
     >
       <div className="flex items-center justify-between gap-3">

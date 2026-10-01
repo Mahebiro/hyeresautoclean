@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { EASE, gsap, prefersReducedMotion, REVEAL_START, ScrollTrigger } from "./gsap";
+import { EASE, gsap, prefersReducedMotion } from "./gsap";
+import { onceInView } from "./inView";
 
 const format = (value: number, decimals: number) =>
   value.toLocaleString("fr-FR", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
@@ -48,13 +49,13 @@ export function AnimatedNumber({
       paused: mode === "inView",
     });
 
-    let trigger: ScrollTrigger | undefined;
+    let stop: (() => void) | undefined;
     if (mode === "inView") {
       render();
-      trigger = ScrollTrigger.create({ trigger: el, start: REVEAL_START, once: true, onEnter: () => tween.play() });
+      stop = onceInView(el, () => tween.play());
     }
     return () => {
-      trigger?.kill();
+      stop?.();
       tween.kill();
     };
   }, [value, decimals, mode, duration]);

@@ -1,11 +1,12 @@
 "use client";
 
-import { useId, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { formulas, reservationFormEndpoint, type FormulaId } from "@/content/site-data";
 import { useSelection } from "@/context/SelectionContext";
 import { formatPriceBreakdownText, getActiveAddons, getPriceBreakdown } from "@/lib/pricing";
 import { AnimatedNumber } from "./motion/AnimatedNumber";
 import { EASE_SOFT, gsap, prefersReducedMotion, useIsomorphicLayoutEffect } from "./motion/gsap";
+import { scrollToSection } from "./motion/MotionProvider";
 import { Container } from "./ui/Container";
 import { FadeIn } from "./ui/FadeIn";
 import { SectionHeading } from "./ui/SectionHeading";
@@ -194,6 +195,12 @@ export function Reservation() {
       setStatus("error");
     }
   }
+
+  // Après l'envoi, le message de confirmation (plus court que le formulaire)
+  // est ramené à l'écran.
+  useEffect(() => {
+    if (status === "success") scrollToSection("reservation");
+  }, [status]);
 
   if (status === "success") {
     return (

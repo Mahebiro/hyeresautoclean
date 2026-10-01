@@ -16,6 +16,7 @@ export function Storytelling() {
                 src={withBasePath("/images/mahe/mahe-biro.png")}
                 alt="Mahé Biro, fondateur de Hyères Auto Clean"
                 fill
+                sizes="(min-width: 640px) 384px, 100vw"
                 className="object-cover"
               />
             </div>

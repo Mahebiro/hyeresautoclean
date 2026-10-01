@@ -61,10 +61,25 @@ html.lenis body {
   opacity: 0;
   transition: opacity 0.6s ease;
 }
+/* Image fixe : assombrie sous le loader, effacée quand la 3D prend le relais. */
+.showroom-poster {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.8s ease;
+}
+.showroom-hero[data-status="loading"] .showroom-poster {
+  filter: brightness(0.4);
+}
+.showroom-hero[data-status="ready"] .showroom-poster {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.8s ease, visibility 0s 0.8s;
+}
 .showroom-hero[data-status="loading"] .showroom-loader {
   opacity: 1;
 }
-.showroom-hero[data-status="error"] .showroom-canvas {
+.showroom-hero[data-status="error"] .showroom-canvas,
+.showroom-hero[data-status="poster"] .showroom-canvas {
   display: none;
 }
 
@@ -72,6 +87,7 @@ html.lenis body {
 .showroom-grain {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.4 -0.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   mix-blend-mode: overlay;
+  will-change: transform;
   animation: showroom-grain 0.9s steps(6) infinite;
 }
 @keyframes showroom-grain {
@@ -221,5 +237,30 @@ html.lenis body {
 @media (prefers-reduced-motion: reduce) {
   .card-sheen {
     display: none;
+  }
+}
+
+/* --- États de départ des apparitions (seulement si JavaScript est actif) -- */
+.js [data-reveal] {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 28px, 0);
+}
+.js [data-split-heading] {
+  opacity: 0;
+  visibility: hidden;
+}
+.js [data-checklist] li {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(-10px, 0, 0);
+}
+.js [data-checklist] path {
+  stroke-dashoffset: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal],
+  .js [data-checklist] li {
+    transform: none;
   }
 }

@@ -21,6 +21,7 @@ export function Galerie() {
                     src={withBasePath(item.image)}
                     alt={`Nettoyage intérieur automobile à domicile à Hyères et Toulon — ${item.label}`}
                     fill
+                    sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                     className="object-cover"
                   />
                 </div>

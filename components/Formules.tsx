@@ -4,7 +4,9 @@ import { useEffect, useRef } from "react";
 import { addons, formulas, type FormulaId } from "@/content/site-data";
 import { useSelection } from "@/context/SelectionContext";
 import { AnimatedNumber } from "./motion/AnimatedNumber";
-import { EASE_SOFT, gsap, hasFinePointer, prefersReducedMotion, REVEAL_START } from "./motion/gsap";
+import { EASE_SOFT, gsap, hasFinePointer, prefersReducedMotion } from "./motion/gsap";
+import { onceInView } from "./motion/inView";
+import { scrollToSection } from "./motion/MotionProvider";
 import { Button } from "./ui/Button";
 import { Container } from "./ui/Container";
 import { FadeIn } from "./ui/FadeIn";
@@ -26,7 +28,16 @@ export function Formules() {
         <div className="mt-14 grid gap-8 lg:grid-cols-2 lg:items-center">
           {formulas.map((formula, index) => (
             <FadeIn key={formula.id} delay={index * 0.1}>
-              <FormulaCard formula={formula} onChoose={() => pickFormula(formula.id)} />
+              <FormulaCard
+                formula={formula}
+                onChoose={() => {
+                  pickFormula(formula.id);
+                  // Défilement explicite : fonctionne même si le clic a eu lieu
+                  // avant la fin du chargement (React rejoue alors le clic, mais
+                  // pas la navigation vers l'ancre).
+                  scrollToSection("reservation");
+                }}
+              />
             </FadeIn>
           ))}
         </div>
@@ -108,30 +119,31 @@ function FormulaCard({
     };
   }, []);
 
-  // Les prestations arrivent une par une, chaque coche se dessine.
+  // Les prestations arrivent une par une, chaque coche se dessine
+  // (état de départ en CSS : [data-checklist]).
   useEffect(() => {
     const list = listRef.current;
     if (!list) return;
-    const items = list.querySelectorAll("li");
-    const checks = list.querySelectorAll("path");
     const reduced = prefersReducedMotion();
-    const tl = gsap.timeline({ scrollTrigger: { trigger: list, start: REVEAL_START, once: true } });
-    tl.fromTo(
-      items,
-      { autoAlpha: 0, x: reduced ? 0 : -10 },
-      { autoAlpha: 1, x: 0, duration: reduced ? 0.6 : 0.8, ease: EASE_SOFT, stagger: 0.09 },
-    );
-    if (!reduced) {
-      tl.fromTo(
-        checks,
-        { strokeDashoffset: 1 },
-        { strokeDashoffset: 0, duration: 0.6, ease: "power2.out", stagger: 0.09 },
+    let tl: gsap.core.Timeline | undefined;
+    const stop = onceInView(list, () => {
+      tl = gsap.timeline();
+      tl.to(list.querySelectorAll("li"), {
+        autoAlpha: 1,
+        x: 0,
+        duration: reduced ? 0.6 : 0.8,
+        ease: EASE_SOFT,
+        stagger: 0.09,
+      });
+      tl.to(
+        list.querySelectorAll("path"),
+        { strokeDashoffset: 0, duration: reduced ? 0.01 : 0.6, ease: "power2.out", stagger: 0.09 },
         0.15,
       );
-    }
+    });
     return () => {
-      tl.scrollTrigger?.kill();
-      tl.kill();
+      stop();
+      tl?.kill();
     };
   }, []);
 
@@ -173,7 +185,7 @@ function FormulaCard({
           </span>
         </p>
 
-        <ul ref={listRef} className="mt-6 flex-1 space-y-3">
+        <ul ref={listRef} data-checklist="" className="mt-6 flex-1 space-y-3">
           {formula.features.map((feature) => (
             <li key={feature} className="flex items-start gap-2.5 text-sm">
               <CheckIcon className={isPremium ? "text-sky-300" : "text-sky-600"} />

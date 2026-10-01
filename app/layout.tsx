@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import { CookieConsent } from "@/components/CookieConsent";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
@@ -102,7 +102,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   };
 
   return (
-    <html lang="fr">
+    <html lang="fr" suppressHydrationWarning>
+      <head>
+        {/* Active les états de départ des animations (CSS) uniquement quand
+            JavaScript est disponible : sans lui, tout le contenu reste visible. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body className="font-sans antialiased">
         <script
           type="application/ld+json"
@@ -114,11 +119,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
         <MotionProvider />
         <SelectionProvider>
-          <Header />
+          <Suspense>
+            <Header />
+          </Suspense>
           {children}
-          <Footer />
+          <Suspense>
+            <Footer />
+          </Suspense>
         </SelectionProvider>
-        <CookieConsent />
+        <Suspense>
+          <CookieConsent />
+        </Suspense>
       </body>
     </html>
   );

@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef, type ReactNode } from "react";
-import { EASE_SOFT, gsap, prefersReducedMotion, REVEAL_START, useIsomorphicLayoutEffect } from "../motion/gsap";
+import { EASE_SOFT, gsap, prefersReducedMotion, useIsomorphicLayoutEffect } from "../motion/gsap";
+import { onceInView } from "../motion/inView";
 
 /**
  * Apparition au scroll : fondu + légère montée, une seule fois.
@@ -22,28 +23,29 @@ export function FadeIn({
   useIsomorphicLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // État de départ posé en CSS ([data-reveal]) : aucune mesure au chargement.
     const reduced = prefersReducedMotion();
-    const tween = gsap.fromTo(
-      el,
-      { autoAlpha: 0, y: reduced ? 0 : 28 },
-      {
+    let tween: gsap.core.Tween | undefined;
+    const stop = onceInView(el, () => {
+      tween = gsap.to(el, {
         autoAlpha: 1,
         y: 0,
         duration: reduced ? 0.6 : 0.9,
         delay,
         ease: EASE_SOFT,
-        clearProps: "transform",
-        scrollTrigger: { trigger: el, start: REVEAL_START, once: true },
-      },
-    );
+        onComplete: () => {
+          el.style.transform = "none";
+        },
+      });
+    });
     return () => {
-      tween.scrollTrigger?.kill();
-      tween.kill();
+      stop();
+      tween?.kill();
     };
   }, [delay]);
 
   return (
-    <div ref={ref} className={className}>
+    <div ref={ref} data-reveal="" className={className}>
       {children}
     </div>
   );

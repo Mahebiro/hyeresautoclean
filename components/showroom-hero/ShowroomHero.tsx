@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { preload } from "react-dom";
 import { company } from "@/content/site-data";
 import { withBasePath } from "@/lib/basePath";
 import { Button } from "../ui/Button";
@@ -18,6 +19,28 @@ function subscribeReducedMotion(callback: () => void) {
 const getReducedMotion = () => window.matchMedia(REDUCED_MOTION_QUERY).matches;
 const getReducedMotionServer = () => false;
 
+/**
+ * Accélération graphique disponible ? Sans GPU (rendu logiciel SwiftShader,
+ * llvmpipe…), la scène 3D saturerait le processeur : on affiche alors une
+ * image fixe de la voiture, et la 3D n'est même pas téléchargée.
+ */
+function hasHardwareGpu() {
+  try {
+    // failIfMajorPerformanceCaveat : sans vraie accélération, le navigateur
+    // refuse le contexte au lieu de démarrer un rendu logiciel coûteux.
+    const gl = document
+      .createElement("canvas")
+      .getContext("webgl", { failIfMajorPerformanceCaveat: true, powerPreference: "low-power" });
+    if (!gl) return false;
+    const info = gl.getExtension("WEBGL_debug_renderer_info");
+    const renderer = info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : "";
+    gl.getExtension("WEBGL_lose_context")?.loseContext();
+    return !/swiftshader|llvmpipe|softpipe|software|basic render/i.test(renderer);
+  } catch {
+    return false;
+  }
+}
+
 /** Qualité de départ ; `?showroom=desktop|mobile|lite` force un mode (tests). */
 function pickQuality(): { quality: Quality; adaptive: boolean } {
   const forced = new URLSearchParams(window.location.search).get("showroom");
@@ -25,7 +48,7 @@ function pickQuality(): { quality: Quality; adaptive: boolean } {
   return { quality: window.matchMedia(MOBILE_QUERY).matches ? "mobile" : "desktop", adaptive: true };
 }
 
-type Status = "loading" | "ready" | "error";
+type Status = "loading" | "ready" | "error" | "poster";
 
 // Le titre est découpé en lettres pour l'apparition lettre par lettre.
 const TITLE_LINES = ["HYÈRES", "AUTO CLEAN"];
@@ -36,6 +59,9 @@ const TITLE_LINES = ["HYÈRES", "AUTO CLEAN"];
  * Tous les réglages sont dans ./config.js.
  */
 export function ShowroomHero() {
+  // Image fixe préchargée dès le <head> : premier affichage rapide (LCP).
+  preload(withBasePath("/assets/hero-poster-mobile.webp"), { as: "image", fetchPriority: "high", media: "(max-width: 767px)" });
+  preload(withBasePath("/assets/hero-poster-desktop.webp"), { as: "image", fetchPriority: "high", media: "(min-width: 768px)" });
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -55,6 +81,12 @@ export function ShowroomHero() {
     const cleanups: (() => void)[] = [];
 
     (async () => {
+      const forced = new URLSearchParams(window.location.search).has("showroom");
+      if (!forced && !hasHardwareGpu()) {
+        setStatus("poster");
+        return;
+      }
+
       const [{ Showroom }, { gsap }, { ScrollTrigger }, intro] = await Promise.all([
         import("./engine"),
         import("gsap"),
@@ -166,10 +198,10 @@ export function ShowroomHero() {
     };
   }, [reducedMotion]);
 
-  const showStatic = reducedMotion || status === "error";
+  const showStatic = reducedMotion || status === "error" || status === "poster";
   // Fond de studio : léger halo gris derrière la voiture, noir sur les bords.
   const backdrop = `radial-gradient(ellipse 85% 65% at 50% 58%, ${C.colors.backgroundGlow} 0%, ${C.colors.background} 75%)`;
-  const scrollLength = reducedMotion ? 0 : C.camera.scrollLength;
+  const scrollLength = showStatic ? 0 : C.camera.scrollLength;
 
   return (
     <section
@@ -188,6 +220,19 @@ export function ShowroomHero() {
       }}
     >
       <div className="sticky top-0 h-[100svh] overflow-hidden">
+        {/* Image fixe de la scène : visible (assombrie) pendant le chargement,
+            puis remplacée par la 3D — ou conservée sur les appareils sans
+            accélération graphique et si le modèle ne peut pas être chargé. */}
+        <picture className="showroom-poster">
+            <source media="(max-width: 767px)" srcSet={withBasePath("/assets/hero-poster-mobile.webp")} />
+            <img
+              src={withBasePath("/assets/hero-poster-desktop.webp")}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover"
+              fetchPriority="high"
+            />
+        </picture>
+
         {/* Titre géant, derrière la voiture (le canvas est transparent). */}
         <h1
           ref={titleRef}
@@ -248,7 +293,7 @@ export function ShowroomHero() {
         {/* Loader : compteur qui suit le vrai chargement du modèle. */}
         <div
           className="showroom-loader pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center gap-5"
-          style={{ background: backdrop }}
+          style={{ background: "radial-gradient(circle at 50% 50%, rgba(13, 14, 16, 0.6), transparent 65%)" }}
           aria-hidden={status !== "loading"}
         >
           <span className="font-display text-xs font-semibold uppercase tracking-[0.45em] text-white/70 sm:text-sm">
