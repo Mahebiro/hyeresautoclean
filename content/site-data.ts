@@ -199,6 +199,31 @@ export const steps = [
   },
 ];
 
+// --- Scène animée "De la route au brillant" -------------------------------
+// Petite animation pilotée par le scroll, entre la présentation et les
+// formules. Textes modifiables ici ; les images sont dans
+// public/images/car-wash-journey/ (voir le README de ce dossier).
+
+export const carWashJourney = {
+  eyebrow: "De la route au brillant",
+  roadCaptions: ["Sable de l'Almanarre…", "Sel marin…", "Poussière des chemins…"],
+  washSteps: [
+    { title: "Prélavage", description: "On fait tomber le plus gros de la saleté." },
+    { title: "Mousse active", description: "La mousse enveloppe toute la carrosserie." },
+    { title: "Rinçage", description: "Toute la saleté s'en va." },
+    { title: "Lustrage", description: "Un dernier coup d'éclat." },
+  ],
+  resultTitle: "Votre voiture mérite ça.",
+  resultCta: "Réserver mon lavage",
+  reducedMotion: {
+    title: "De la route au brillant",
+    description:
+      "Entre le sable, le sel marin et la poussière des routes du littoral, votre intérieur mérite un vrai nettoyage. Je viens à domicile pour lui redonner tout son éclat.",
+    beforeLabel: "Avant",
+    afterLabel: "Après",
+  },
+};
+
 // --- Galerie / réalisations ----------------------------------------------
 // Simples photos en attendant d'avoir assez de contenu pour un format
 // "avant / après". Ajoutez une ligne par photo (chemin + légende) ; vous
