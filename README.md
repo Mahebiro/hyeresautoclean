@@ -104,6 +104,9 @@ export const addons = [
 
 Pour activer un supplément proposé (sable/terre, désodorisation, désinfection, cuir), passez simplement `active` à `true` une fois que vous avez validé son prix. Vous pouvez aussi ajouter une nouvelle ligne en suivant le même modèle, avec un `id` unique (sans espace ni accent).
 
+### Les avis clients
+Les avis affichés dans la section « Avis clients » sont dans `data/avis.ts` : copiez un bloc pour en ajouter un, supprimez-le pour le retirer. La note moyenne se calcule toute seule. Pensez à remplacer `lienAvisGoogle` par le lien de votre fiche Google (Google Maps → votre fiche → « Partager »).
+
 ### La FAQ
 ```ts
 export const faq = [
