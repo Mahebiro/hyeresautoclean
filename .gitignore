@@ -32,3 +32,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# modèle 3D source (lourd) : seul public/assets/gt3rs.opt.glb est publié
+/public/assets/gt3rs.glb

@@ -37,10 +37,10 @@ export const SHOWROOM_CONFIG = {
     // maillage + nom du matériau ». L'ordre compte : la première famille
     // reconnue l'emporte (ex. « headlight_glass » → phares, pas vitres).
     parts: {
-      logos: "logo|badge|emblem|emblème|crest|wappen|decal|sticker|lettering|script|porsche|gt3|gt_?rs|signature|brand|marque",
+      logos: "logo|badge|emblem|emblème|crest|wappen|decal|sticker|lettering|script|signature|brand|marque",
       plates: "plate|plaque|kennzeichen|licen[cs]e|immat",
-      headlights: "head_?light|head_?lamp|front_?light|front_?lamp|phare|scheinwerfer|drl",
-      taillights: "tail_?light|tail_?lamp|rear_?light|rear_?lamp|brake_?light|stop_?light|feu|rueckleuchte|rückleuchte",
+      headlights: "head_?light|head_?lamp|front_?light|front_?lamp|phare|scheinwerfer|drl|outer_?clear",
+      taillights: "outer_?red|tail_?light|tail_?lamp|rear_?light|rear_?lamp|brake_?light|stop_?light|feu|rueckleuchte|rückleuchte",
       calipers: "caliper|calliper|etrier|étrier|bremssattel",
       tires: "tire|tyre|pneu|reifen|rubber",
       rims: "(?<!t)rim|(?<!steering_?)wheel|jante|felge|spoke",
@@ -55,7 +55,17 @@ export const SHOWROOM_CONFIG = {
     // "headlights", "taillights", "logos", "plates", "trim" (plastiques noirs)
     // ou "keep" (garder le matériau d'origine).
     overrides: {
-      // "Object_42": "logos",
+      // Réglages propres au modèle 991.2 GT3 RS fourni (noms Sketchfab).
+      Porsche_911GT3RSReward_2018_Wheel1A_3D_3DWheel1A_Material1: "tires",
+      Porsche_911GT3RSReward_2018CalliperGloss_Material1: "calipers",
+      Porsche_911GT3RSReward_2018CalliperBadgeA_Material1: "logos",
+      "_991_2:M_Glass_WindowSurroundFront_Max__991_2:phong19SG1_0": "trim",
+      "_991_2:M_GlassOpaque_Mirror_Max__991_2:phong14SG1_0": "keep",
+      "_991_2:M_CarPaint_Max__991_2:phong3SG1_0": "trim",
+      // Habitacle : la texture d'origine contient l'écusson du volant, on la
+      // remplace par une matière sombre unie (vue à travers les vitres teintées).
+      "_991_2:M_Interior_SetRS_Max__991_2:phong9SG1_0": "trim",
+      "_991_2:M_InteriorTiled_Common_Max__991_2:phong11SG1_0": "trim",
     },
     // Les plaques d'immatriculation sont masquées (elles portent du texte).
     hidePlates: true,
@@ -87,7 +97,7 @@ export const SHOWROOM_CONFIG = {
     },
     glass: {
       color: "#0B0D10", // teinte légère
-      opacity: 0.42,
+      opacity: 0.62,
       roughness: 0.02,
       envMapIntensity: 1.6, // vitres bien réfléchissantes
     },
@@ -95,7 +105,7 @@ export const SHOWROOM_CONFIG = {
     rims: { metalness: 0.75, roughness: 0.32 }, // satiné
     calipers: { metalness: 0.2, roughness: 0.35, clearcoat: 0.6 },
     trim: { metalness: 0.1, roughness: 0.55 },
-    headlights: { color: "#F4F7FF", intensity: 6 }, // émissif une fois allumés
+    headlights: { color: "#F4F7FF", intensity: 0.7 }, // émissif une fois allumés
     taillights: { color: "#FF1A12", intensity: 7 },
   },
 
@@ -211,7 +221,7 @@ export const SHOWROOM_CONFIG = {
 
   // --- Post-traitement -------------------------------------------------------
   postfx: {
-    bloom: { strength: 0.3, radius: 0.4, threshold: 1.8 },
+    bloom: { strength: 0.2, radius: 0.35, threshold: 1.8 },
     // Vignette et grain sont des calques CSS légers (identiques partout).
     vignette: 0.62, // opacité des bords
     grain: 0.07, // opacité du grain
