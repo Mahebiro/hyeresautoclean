@@ -142,3 +142,29 @@ html.lenis body {
     transition-duration: 0.01ms;
   }
 }
+
+/* --- Avis clients : rangées en défilement infini --------------------------- */
+.avis-rangee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.avis-piste {
+  will-change: transform;
+}
+/* Mouvement réduit : pas de défilement automatique, rangée défilable au doigt. */
+@media (prefers-reduced-motion: reduce) {
+  .avis-rangee {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-inline: 1rem;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .avis-carte {
+    scroll-snap-align: start;
+  }
+  .avis-carte[aria-hidden="true"] {
+    display: none;
+  }
+}

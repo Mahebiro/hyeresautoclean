@@ -1,3 +1,4 @@
+import { Avis } from "@/components/Avis";
 import { Contact } from "@/components/Contact";
 import { FAQ } from "@/components/FAQ";
 import { Formules } from "@/components/Formules";
@@ -18,6 +19,7 @@ export default function Home() {
       <PourquoiNous />
       <Storytelling />
       <Galerie />
+      <Avis />
       <CommentCaMarche />
       <Reservation />
       <FAQ />
