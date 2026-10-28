@@ -240,7 +240,7 @@ public/images/             → toutes les images et photos
 
 Le site est fonctionnel et fidèle au brief, mais certains éléments dépendent de vous :
 
-1. ~~Logo~~ et ~~photos "Réalisations"~~ — **fournis et déjà intégrés** (logo dans le header et 4 photos dans la section Réalisations : Citroën C1, Mercedes Classe A, Peugeot 308, Audi).
+1. ~~Logo~~ et ~~photos "Réalisations"~~ — **fournis et déjà intégrés** (logo dans le header et 3 paires avant/après dans la section Réalisations : Ford F-150, BMW).
 2. ~~Votre photo personnelle~~ — ✅ fournie et intégrée dans la section "Mon histoire".
 3. **Adresse Formspree** — ✅ déjà branchée (`content/site-data.ts`, `reservationFormEndpoint`).
 4. **Prix des suppléments non confirmés** — sable/terre incrustée, désodorisation, désinfection, protection cuir sont présents dans le code mais **masqués** (`active: false`) car vous n'avez pas encore validé leurs prix. Dès que c'est fait, passez `active` à `true` dans `content/site-data.ts`. (Le supplément "Vitres extérieures" à 10 € est lui déjà actif.)

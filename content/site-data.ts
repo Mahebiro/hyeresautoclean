@@ -209,30 +209,28 @@ export const steps = [
 ];
 
 // --- Galerie / réalisations ----------------------------------------------
-// Simples photos en attendant d'avoir assez de contenu pour un format
-// "avant / après". Ajoutez une ligne par photo (chemin + légende) ; vous
-// pourrez remettre un format avant/après plus tard si vous le souhaitez.
+// Chaque ligne est une paire avant/après (même voiture, même zone).
+// Ajoutez une ligne pour chaque nouvelle paire de photos ; retirez-en une si
+// vous ne voulez plus l'afficher.
 
-export const galleryItems = [
+export const beforeAfterItems = [
   {
-    id: "1",
-    image: "/images/galerie/citroen-c1-interieur.webp",
-    label: "Citroën C1",
+    id: "ford-tableau",
+    label: "Ford F-150",
+    before: "/images/galerie/avant-apres/ford-tableau-avant.webp",
+    after: "/images/galerie/avant-apres/ford-tableau-apres.webp",
   },
   {
-    id: "2",
-    image: "/images/galerie/mercedes-classe-a-interieur.jpg",
-    label: "Mercedes Classe A",
+    id: "bmw-pied",
+    label: "BMW",
+    before: "/images/galerie/avant-apres/bmw-pied-avant.webp",
+    after: "/images/galerie/avant-apres/bmw-pied-apres.webp",
   },
   {
-    id: "3",
-    image: "/images/galerie/peugeot-308-interieur.jpg",
-    label: "Peugeot 308",
-  },
-  {
-    id: "4",
-    image: "/images/galerie/audi-interieur.jpg",
-    label: "Audi",
+    id: "bmw-boite-gants",
+    label: "BMW",
+    before: "/images/galerie/avant-apres/bmw-boite-gants-avant.webp",
+    after: "/images/galerie/avant-apres/bmw-boite-gants-apres.webp",
   },
 ];
 
