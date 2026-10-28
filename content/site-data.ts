@@ -81,7 +81,6 @@ export const formulas: Formula[] = [
       "Aspiration et traitement approfondi de l'habitacle",
       "Shampouinage des sièges",
       "Nettoyage des plastiques",
-      "Nettoyage du coffre",
       "Nettoyage des vitres intérieures",
     ],
     badge: "LA FORMULE LA PLUS COMPLÈTE",
@@ -103,6 +102,12 @@ export interface Addon {
 }
 
 export const addons: Addon[] = [
+  {
+    id: "nettoyage-coffre",
+    label: "Nettoyage du coffre",
+    price: 15,
+    active: true,
+  },
   {
     id: "poils-habitacle-coffre",
     label: "Poils d'animaux — habitacle + coffre",
@@ -256,7 +261,7 @@ export const faq = [
   {
     question: "Quelle formule choisir ?",
     answer:
-      "La formule Essentiel convient pour un entretien courant de l'habitacle. La formule Premium est recommandée pour un nettoyage plus complet, avec shampouinage des sièges et nettoyage du coffre.",
+      "La formule Essentiel convient pour un entretien courant de l'habitacle. La formule Premium est recommandée pour un nettoyage plus complet, avec shampouinage des sièges. Le nettoyage du coffre est disponible en supplément (+15 €).",
   },
   {
     question: "Le prix est-il le même pour toutes les voitures ?",
