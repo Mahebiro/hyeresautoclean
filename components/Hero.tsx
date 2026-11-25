@@ -1,24 +1,21 @@
-import { company } from "@/content/site-data";
-import { withBasePath } from "@/lib/basePath";
+import { company, formulas } from "@/content/site-data";
+import { avis, noteMoyenne } from "@/data/avis";
 import { Button } from "./ui/Button";
 import { Container } from "./ui/Container";
 
-// Photo du hero, déclinée en trois largeurs (WebP) : le navigateur choisit
-// la plus adaptée à l'écran. Pour la remplacer, déposez vos fichiers dans
-// public/images/hero/ avec les mêmes noms (ou changez les chemins ici).
-const HERO_IMAGES = [
-  { src: "/images/hero/hero-interieur-480.webp", width: 480 },
-  { src: "/images/hero/hero-interieur-720.webp", width: 720 },
-  { src: "/images/hero/hero-interieur-960.webp", width: 960 },
-];
-
 /**
- * Haut de page : photo à gauche et nom de l'entreprise à droite sur
- * ordinateur, empilés et centrés sur mobile. Sans animation ni vidéo, pour
- * un affichage immédiat.
+ * Haut de page : le nom en grand, la phrase d'accroche et les deux boutons,
+ * centrés. Une ligne de repères (prix, déplacement, note Google) complète
+ * l'espace sans surcharger. Sans image ni animation : affichage immédiat.
  */
 export function Hero() {
-  const srcSet = HERO_IMAGES.map((image) => `${withBasePath(image.src)} ${image.width}w`).join(", ");
+  const moyenne = noteMoyenne();
+  const prix = formulas.map((formula) => `${formula.name} ${formula.priceFrom} €`).join(" · ");
+  const reperes = [
+    prix,
+    "Je me déplace chez vous",
+    moyenne !== null ? `${moyenne.toLocaleString("fr-FR")} ★ sur ${avis.length} avis Google` : null,
+  ].filter((item): item is string => Boolean(item));
 
   return (
     <section
@@ -27,43 +24,46 @@ export function Hero() {
       className="relative overflow-hidden bg-gradient-to-b from-[#0f0f0f] to-[#2a2a2a]"
       style={{ marginTop: "calc(-1 * var(--header-h))" }}
     >
-      <Container className="flex min-h-[100svh] flex-col items-center justify-center gap-8 pb-14 pt-[calc(var(--header-h)+1.5rem)] md:flex-row md:gap-14 lg:gap-20">
-        <div className="relative w-[52vw] max-w-[230px] shrink-0 md:w-[340px] md:max-w-none lg:w-[380px]">
-          <div aria-hidden="true" className="absolute -inset-6 rounded-[2.5rem] bg-sky-300/10 blur-3xl" />
-          {/* eslint-disable-next-line @next/next/no-img-element -- srcSet WebP préparé à la main (export statique) */}
-          <img
-            src={withBasePath(HERO_IMAGES[1].src)}
-            srcSet={srcSet}
-            sizes="(min-width: 1024px) 380px, (min-width: 768px) 340px, 52vw"
-            width={720}
-            height={1278}
-            alt="Intérieur d'un véhicule : nettoyage intérieur automobile à domicile par Hyères Auto Clean"
-            fetchPriority="high"
-            decoding="async"
-            className="relative aspect-[4/5] w-full rounded-3xl border border-white/10 object-cover shadow-2xl"
-          />
+      {/* Halo discret derrière le titre. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[420px] w-[min(900px,90vw)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-300/[0.07] blur-3xl"
+      />
+
+      <Container className="relative flex min-h-[88svh] flex-col items-center justify-center pb-16 pt-[calc(var(--header-h)+2rem)] text-center">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-sky-300 sm:text-sm">
+          {company.zone}
+        </p>
+
+        <h1 className="mt-5 font-display text-[2.6rem] font-black leading-[0.95] tracking-tight text-white sm:text-7xl lg:text-8xl">
+          {company.name}
+        </h1>
+
+        <p className="mt-4 text-xs font-medium uppercase tracking-widest text-neutral-300 sm:text-sm">
+          {company.activity}
+        </p>
+
+        <p className="mt-6 max-w-xl text-lg text-neutral-100 sm:text-2xl">{company.slogan}</p>
+
+        <div className="mt-9 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:gap-4">
+          <Button href="#reservation" size="lg">
+            Réserver
+          </Button>
+          <Button href="#formules" variant="secondary" size="lg">
+            Voir les formules
+          </Button>
         </div>
 
-        <div className="flex flex-col items-center text-center md:items-start md:text-left">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-sky-300 sm:text-sm">
-            {company.zone}
-          </p>
-          <h1 className="mt-4 font-display text-5xl font-black leading-[0.95] tracking-tight text-white sm:text-6xl lg:text-7xl">
-            {company.name}
-          </h1>
-          <p className="mt-4 text-sm font-medium uppercase tracking-widest text-neutral-300">
-            {company.activity}
-          </p>
-          <p className="mt-6 max-w-md text-xl text-neutral-100 sm:text-2xl">{company.slogan}</p>
-          <div className="mt-9 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:gap-4">
-            <Button href="#reservation" size="lg">
-              Réserver
-            </Button>
-            <Button href="#formules" variant="secondary" size="lg">
-              Voir les formules
-            </Button>
-          </div>
-        </div>
+        <ul className="mt-12 flex flex-col items-center gap-2 text-sm text-neutral-300 sm:flex-row sm:gap-0">
+          {reperes.map((item, index) => (
+            <li key={item} className="flex items-center">
+              {index > 0 ? (
+                <span aria-hidden="true" className="mx-4 hidden h-1 w-1 rounded-full bg-white/30 sm:inline-block" />
+              ) : null}
+              {item}
+            </li>
+          ))}
+        </ul>
       </Container>
     </section>
   );

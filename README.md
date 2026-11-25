@@ -140,7 +140,6 @@ Les images sont dans le dossier `public/images/`, organisées par sous-dossier :
 
 ```
 public/images/
-├── hero/     → (ancienne photo de fond, le haut de page est désormais en 3D : voir section 4 bis)
 ├── galerie/  → photos de vos réalisations
 ├── mahe/     → votre photo personnelle (section "Mon histoire")
 └── logo/     → votre logo
@@ -163,9 +162,9 @@ Les images actuelles sont au format SVG (vectoriel, ce sont juste des placeholde
 
 ---
 
-## 4 bis. La photo du haut de page
+## 4 bis. Le haut de page
 
-La photo du haut de page est dans `public/images/hero/`, en trois tailles WebP (`hero-interieur-480.webp`, `-720`, `-960`). Pour la changer, remplacez ces trois fichiers en gardant les mêmes noms, ou modifiez les chemins dans `components/Hero.tsx`.
+Le haut de page affiche le nom de l'entreprise en grand, la phrase d'accroche (`company.slogan`), les deux boutons et une ligne de repères (prix des formules, déplacement à domicile, note Google). Tout est repris automatiquement de `content/site-data.ts` et `data/avis.ts` ; la mise en page est dans `components/Hero.tsx`.
 
 ---
 
