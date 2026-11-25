@@ -13,9 +13,9 @@ export default function MentionsLegalesPage() {
       <Container className="max-w-3xl">
         <h1 className="font-display text-3xl font-bold text-navy-900">Mentions légales</h1>
         <p className="mt-4 rounded-xl bg-navy-50 p-4 text-sm text-navy-700">
-          Cette page est un modèle à compléter avec vos informations réelles (statut juridique,
-          SIRET, adresse, hébergeur) avant la mise en ligne définitive du site. Remplacez les
-          champs entre crochets ci-dessous.
+          Page à compléter : remplacez chaque champ entre crochets [ ] par vos informations
+          réelles (nom, SIRET, adresse, hébergeur, conditions d&apos;annulation, modes de
+          paiement).
         </p>
 
         <div className="mt-8 space-y-8 text-navy-800">
@@ -24,41 +24,46 @@ export default function MentionsLegalesPage() {
             <p className="mt-2 text-sm leading-relaxed">
               {company.name}
               <br />
-              Entreprise individuelle — [statut juridique à préciser, ex : micro-entreprise]
+              Nom : [NOM ET PRÉNOM]
               <br />
-              [Nom et prénom de l&apos;exploitant]
+              Statut : micro-entrepreneur (entreprise individuelle)
               <br />
-              [Adresse du siège / adresse professionnelle]
+              SIRET : [SIRET]
               <br />
-              SIRET : [à compléter]
+              Adresse : [ADRESSE]
               <br />
               Téléphone : {company.phone}
               <br />
               Email : {company.email}
+              <br />
+              TVA : [MENTION TVA — ex : TVA non applicable, art. 293 B du CGI]
             </p>
           </section>
 
           <section>
             <h2 className="font-display text-lg font-bold text-navy-900">Directeur de la publication</h2>
-            <p className="mt-2 text-sm leading-relaxed">[Nom et prénom]</p>
+            <p className="mt-2 text-sm leading-relaxed">[NOM ET PRÉNOM]</p>
           </section>
 
           <section>
             <h2 className="font-display text-lg font-bold text-navy-900">Hébergement</h2>
             <p className="mt-2 text-sm leading-relaxed">
-              Ce site est hébergé par : [nom de l&apos;hébergeur, ex : Vercel Inc.]
+              Ce site est hébergé par : [HÉBERGEUR — nom]
               <br />
-              [Adresse de l&apos;hébergeur]
+              Adresse : [HÉBERGEUR — adresse]
+              <br />
+              Contact : [HÉBERGEUR — téléphone ou site web]
             </p>
           </section>
 
           <section>
-            <h2 className="font-display text-lg font-bold text-navy-900">Modalités de paiement</h2>
-            <p className="mt-2 text-sm leading-relaxed">
-              Le règlement de la prestation s&apos;effectue par virement bancaire ou en espèces,
-              directement auprès de {company.name} au moment de l&apos;intervention ou selon les
-              modalités convenues lors de la réservation.
-            </p>
+            <h2 className="font-display text-lg font-bold text-navy-900">Modes de paiement acceptés</h2>
+            <p className="mt-2 text-sm leading-relaxed">[MODES DE PAIEMENT ACCEPTÉS]</p>
+          </section>
+
+          <section>
+            <h2 className="font-display text-lg font-bold text-navy-900">Conditions d&apos;annulation</h2>
+            <p className="mt-2 text-sm leading-relaxed">[CONDITIONS D&apos;ANNULATION]</p>
           </section>
 
           <section>

@@ -41,9 +41,14 @@ export function MobileActionBar() {
 
   const shown = pastHero && !targetsVisible;
 
+  // Signale l'état de la barre à la page (le bouton WhatsApp remonte au-dessus).
+  useEffect(() => {
+    document.documentElement.dataset.actionBar = shown ? "shown" : "hidden";
+  }, [shown]);
+
   return (
     <div
-      className="mobile-action-bar fixed inset-x-0 bottom-0 z-40 border-t border-navy-900/10 bg-white/80 px-4 pt-3 backdrop-blur-md md:hidden"
+      className="mobile-action-bar fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-[#141414]/85 px-4 pt-3 backdrop-blur-md md:hidden"
       style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))" }}
       data-shown={shown ? "true" : "false"}
       aria-hidden={!shown}
@@ -52,7 +57,7 @@ export function MobileActionBar() {
       <div className="flex gap-3">
         <a
           href={company.phoneHref}
-          className="flex flex-1 items-center justify-center gap-2 rounded-full border border-navy-900/20 bg-white py-3 text-sm font-semibold text-navy-900"
+          className="flex flex-1 items-center justify-center gap-2 rounded-full border border-white/40 py-3 text-sm font-semibold text-white"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <path
@@ -65,7 +70,7 @@ export function MobileActionBar() {
         </a>
         <a
           href="#reservation"
-          className="flex flex-[1.4] items-center justify-center rounded-full bg-navy-900 py-3 text-sm font-semibold text-white shadow-premium"
+          className="flex flex-[1.4] items-center justify-center rounded-full bg-white py-3 text-sm font-semibold text-neutral-900 shadow-premium"
         >
           Réserver
         </a>

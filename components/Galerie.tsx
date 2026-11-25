@@ -7,7 +7,7 @@ import { SectionHeading } from "./ui/SectionHeading";
 
 export function Galerie() {
   return (
-    <section id="galerie" className="bg-navy-50/60 py-20 sm:py-28">
+    <section id="galerie" className="bg-[#171717] py-20 sm:py-28">
       <Container>
         <SectionHeading
           eyebrow="Réalisations"
@@ -18,7 +18,7 @@ export function Galerie() {
         <div className="mx-auto mt-14 grid max-w-6xl gap-8 sm:grid-cols-3">
           {beforeAfterItems.map((item, index) => (
             <FadeIn key={item.id} delay={index * 0.1}>
-              <div className="overflow-hidden rounded-2xl border border-navy-900/10 bg-white shadow-sm">
+              <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04]">
                 <BeforeAfterSlider
                   before={item.before}
                   after={item.after}
@@ -30,7 +30,7 @@ export function Galerie() {
           ))}
         </div>
 
-        <ReservationCta text="Votre voiture mérite le même résultat." />
+        <ReservationCta text="Envie d'un intérieur propre, sans vous déplacer ?" />
       </Container>
     </section>
   );

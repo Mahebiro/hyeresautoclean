@@ -8,7 +8,7 @@ const icons = [HomeIcon, DetailIcon, SearchIcon, ClickIcon];
 
 export function PourquoiNous() {
   return (
-    <section className="bg-navy-50/60 py-20 sm:py-28">
+    <section className="bg-[#171717] py-20 sm:py-28">
       <Container>
         <SectionHeading eyebrow="Pourquoi nous" title="Pourquoi choisir Hyères Auto Clean ?" />
 
@@ -17,12 +17,12 @@ export function PourquoiNous() {
             const Icon = icons[index] ?? HomeIcon;
             return (
               <FadeIn key={item.title} delay={index * 0.08}>
-                <div className="flex h-full flex-col items-start rounded-2xl border border-navy-900/10 bg-white p-6">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-navy-900 text-white">
+                <div className="flex h-full flex-col items-start rounded-2xl border border-white/10 bg-white/[0.04] p-6">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-sky-300">
                     <Icon />
                   </div>
-                  <h3 className="mt-5 font-display font-bold text-navy-900">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-navy-700/80">{item.description}</p>
+                  <h3 className="mt-5 font-display font-bold text-white">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-neutral-300">{item.description}</p>
                 </div>
               </FadeIn>
             );

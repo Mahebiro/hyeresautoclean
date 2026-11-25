@@ -7,7 +7,7 @@ import { FadeIn } from "./ui/FadeIn";
 
 export function Storytelling() {
   return (
-    <section id="histoire" className="bg-white py-20 sm:py-28">
+    <section id="histoire" className="bg-[#0f0f0f] py-20 sm:py-28">
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <FadeIn>
@@ -24,16 +24,16 @@ export function Storytelling() {
 
           <div>
             <FadeIn delay={0.1}>
-              <p className="text-sm font-semibold uppercase tracking-widest text-sky-600">
+              <p className="text-sm font-semibold uppercase tracking-widest text-sky-300">
                 Mon histoire
               </p>
             </FadeIn>
-            <SplitHeading className="mt-3 font-display text-3xl font-bold tracking-tight text-navy-900 sm:text-4xl">
+            <SplitHeading className="mt-3 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">
               {storytelling.title}
             </SplitHeading>
             <FadeIn delay={0.2}>
-              <p className="mt-6 text-lg leading-relaxed text-navy-700/85">{storytelling.paragraph}</p>
-              <p className="mt-6 font-display font-semibold text-navy-900">— {storytelling.author}</p>
+              <p className="mt-6 text-lg leading-relaxed text-neutral-300">{storytelling.paragraph}</p>
+              <p className="mt-6 font-display font-semibold text-white">— {storytelling.author}</p>
             </FadeIn>
           </div>
         </div>

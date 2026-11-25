@@ -13,7 +13,7 @@
 export const company = {
   name: "HYÈRES AUTO CLEAN",
   activity: "Nettoyage intérieur automobile à domicile",
-  slogan: "Chaque détail compte",
+  slogan: "Votre voiture propre, sans bouger de chez vous.",
   zone: "Hyères, Toulon & alentours",
   phone: "06 98 24 92 82",
   phoneHref: "tel:+33698249282",
@@ -21,6 +21,15 @@ export const company = {
   instagramHandle: "@hyeres_auto_clean",
   instagramUrl: "https://www.instagram.com/hyeres_auto_clean",
   website: "https://hyeresautoclean.com",
+  // À COMPLÉTER : horaires d'intervention et frais de déplacement, affichés
+  // dans la section Contact et dans l'étape « Date et créneau » de la
+  // réservation.
+  hours: "[HORAIRES]",
+  travelFees: "[FRAIS DE DÉPLACEMENT]",
+  // Bouton WhatsApp flottant : numéro au format international, sans « + »,
+  // et message prérempli.
+  whatsappNumber: "33698249282",
+  whatsappMessage: "Bonjour, je souhaite réserver un nettoyage. Voici une photo de mon véhicule :",
 };
 
 // --- Communes desservies -------------------------------------------------
@@ -48,14 +57,17 @@ export const reservationFormEndpoint = "https://formspree.io/f/xkjnawng";
 // nombre pour ajuster un tarif : le formulaire de réservation se met à jour
 // automatiquement, partout sur le site.
 
-export type FormulaId = "essentiel" | "premium";
+export type FormulaId = "essentiel" | "confort";
 
 export interface Formula {
   id: FormulaId;
   name: string;
   tagline: string;
   priceFrom: number;
+  duration: string;
   features: string[];
+  // Prestations NON incluses, affichées en évidence (✗) sur la carte.
+  excluded?: { label: string; hint?: string }[];
   badge?: string;
 }
 
@@ -63,39 +75,45 @@ export const formulas: Formula[] = [
   {
     id: "essentiel",
     name: "Essentiel",
-    tagline: "L'entretien courant de votre intérieur",
-    priceFrom: 55,
+    tagline: "L'entretien courant de votre intérieur, sans les sièges",
+    priceFrom: 59,
+    duration: "1h15 à 1h30",
     features: [
       "Aspiration complète de l'habitacle",
-      "Traitement des tapis",
-      "Nettoyage et traitement des plastiques",
-      "Nettoyage des vitres intérieures",
+      "Nettoyage des plastiques",
+      "Tapis et moquettes",
+      "Vitres intérieures",
+      "Coffre",
+    ],
+    excluded: [
+      {
+        label: "Nettoyage des sièges non inclus",
+        hint: "Pour les sièges, choisissez la formule Confort.",
+      },
     ],
   },
   {
-    id: "premium",
-    name: "Premium",
-    tagline: "Le nettoyage complet pour retrouver un intérieur impeccable",
-    priceFrom: 80,
-    features: [
-      "Aspiration et traitement approfondi de l'habitacle",
-      "Shampouinage des sièges",
-      "Nettoyage des plastiques",
-      "Nettoyage des vitres intérieures",
-    ],
-    badge: "LA FORMULE LA PLUS COMPLÈTE",
+    id: "confort",
+    name: "Confort",
+    tagline: "Le nettoyage complet de l'habitacle, sièges compris",
+    priceFrom: 89,
+    duration: "2h à 2h30",
+    features: ["Tout le contenu de la formule Essentiel", "+ Nettoyage des sièges"],
+    badge: "La plus choisie",
   },
 ];
 
 // --- Suppléments à la carte ------------------------------------------------
-// Mettez "active: true" pour afficher un supplément sur le site (dans le
-// formulaire de réservation), ou "active: false" pour le masquer sans le
-// supprimer. Vous pouvez ajouter de nouvelles lignes suivant le même modèle.
+// "price" : prix fixe. Pour un prix variable selon l'état du véhicule,
+// renseignez aussi "priceMax" (ex : 10 à 20 €) : le site affiche alors une
+// fourchette, ajustée sur place.
 
 export interface Addon {
   id: string;
   label: string;
   price: number;
+  priceMax?: number;
+  description?: string;
   active: boolean;
   // Options d'un même groupe exclusif : en choisir une retire les autres.
   exclusiveGroup?: string;
@@ -103,58 +121,37 @@ export interface Addon {
 
 export const addons: Addon[] = [
   {
-    id: "nettoyage-coffre",
-    label: "Nettoyage du coffre",
-    price: 15,
-    active: true,
-  },
-  {
-    id: "poils-habitacle-coffre",
-    label: "Poils d'animaux — habitacle + coffre",
-    price: 25,
-    active: true,
-    exclusiveGroup: "poils",
-  },
-  {
-    id: "poils-habitacle",
-    label: "Poils d'animaux — habitacle uniquement",
-    price: 15,
-    active: true,
-    exclusiveGroup: "poils",
-  },
-  {
-    id: "vitres-exterieures",
-    label: "Vitres extérieures",
+    id: "vehicule-tres-sale",
+    label: "Véhicule très sale",
     price: 10,
+    priceMax: 20,
+    description: "Selon l'état du véhicule, ajusté sur place",
     active: true,
   },
-  // Suppléments proposés mais pas encore confirmés : passez "active" à
-  // true dès que vous avez validé le prix pour les activer sur le site.
   {
-    id: "sable-terre",
-    label: "Sable / terre incrustée",
-    price: 20,
-    active: false,
-  },
-  {
-    id: "desodorisation",
-    label: "Désodorisation / traitement anti-odeurs",
-    price: 10,
-    active: false,
-  },
-  {
-    id: "desinfection",
-    label: "Désinfection habitacle (ozone ou vapeur)",
-    price: 20,
-    active: false,
-  },
-  {
-    id: "cuir",
-    label: "Protection / entretien cuir",
+    id: "poils-animaux",
+    label: "Poils d'animaux",
     price: 15,
-    active: false,
+    active: true,
+  },
+  {
+    id: "protection-plastiques",
+    label: "Traitement protection plastiques",
+    price: 5,
+    active: true,
+  },
+  {
+    id: "ceramique-cuir",
+    label: "Traitement céramique cuir",
+    price: 5,
+    active: true,
   },
 ];
+
+/** Prix d'un supplément pour l'affichage : « 15 € » ou « 10 à 20 € ». */
+export function formatAddonPrice(addon: Pick<Addon, "price" | "priceMax">) {
+  return addon.priceMax ? `${addon.price} à ${addon.priceMax} €` : `${addon.price} €`;
+}
 
 // --- Pourquoi nous ----------------------------------------------------------
 
@@ -164,13 +161,13 @@ export const whyUs = [
     description: "Pas besoin de vous déplacer, je viens directement jusqu'à vous.",
   },
   {
-    title: "Un travail minutieux",
-    description: "Chaque intervention est réalisée avec attention, du sol au coffre.",
+    title: "Rapide",
+    description: "Comptez 1h15 à 1h30 pour la formule Essentiel, 2h à 2h30 pour la formule Confort.",
   },
   {
-    title: "Une attention portée aux détails",
+    title: "Un prix clair",
     description:
-      "L'objectif n'est pas simplement de nettoyer, mais de retrouver un intérieur propre et agréable.",
+      "59 € ou 89 €, quelle que soit la taille de votre voiture. Un éventuel supplément vous est annoncé avant de commencer.",
   },
   {
     title: "Simple à réserver",
@@ -184,7 +181,7 @@ export const whyUs = [
 export const storytelling = {
   title: "Une jeune entreprise, une vraie envie d'entreprendre.",
   paragraph:
-    "Je m'appelle Mahé Biro, j'ai 19 ans et j'ai toujours eu envie d'entreprendre. En mars 2026, j'ai décidé de passer de l'idée à l'action en lançant HYÈRES AUTO CLEAN. J'ai choisi le nettoyage automobile parce que j'aime le travail concret, le contact avec les clients et surtout la satisfaction de voir un véhicule retrouver un intérieur propre et soigné. Aujourd'hui, je développe cette activité localement à Hyères et ses alentours avec une idée simple : proposer un service sérieux, pratique et réalisé avec attention, directement à domicile. Chaque détail compte.",
+    "Je m'appelle Mahé Biro, j'ai 19 ans et j'ai toujours eu envie d'entreprendre. En mars 2026, j'ai décidé de passer de l'idée à l'action en lançant HYÈRES AUTO CLEAN. J'ai choisi le nettoyage automobile parce que j'aime le travail concret, le contact avec les clients et surtout la satisfaction de voir un véhicule retrouver un intérieur propre et soigné. Aujourd'hui, je développe cette activité localement à Hyères et ses alentours avec une idée simple : proposer un service sérieux, pratique et au prix clair, directement à domicile.",
   author: "Mahé Biro",
 };
 
@@ -249,7 +246,7 @@ export const faq = [
   {
     question: "Combien de temps dure une intervention ?",
     answer:
-      "La durée dépend de la taille du véhicule et de la formule choisie. Je vous communique une estimation précise au moment de la réservation.",
+      "Comptez environ 1h15 à 1h30 pour la formule Essentiel et 2h à 2h30 pour la formule Confort. La durée peut varier selon la taille et l'état du véhicule.",
   },
   {
     question: "Puis-je réserver pour quelqu'un d'autre ?",
@@ -259,12 +256,26 @@ export const faq = [
   {
     question: "Quelle formule choisir ?",
     answer:
-      "La formule Essentiel convient pour un entretien courant de l'habitacle. La formule Premium est recommandée pour un nettoyage plus complet, avec shampouinage des sièges. Le nettoyage du coffre est disponible en supplément (+15 €).",
+      "La formule Essentiel (59 €) convient pour un entretien courant : aspiration complète, plastiques, tapis et moquettes, vitres intérieures et coffre, sans les sièges. La formule Confort (89 €) reprend tout le contenu de l'Essentiel et ajoute le nettoyage des sièges.",
+  },
+  {
+    question: "Les sièges sont-ils nettoyés dans la formule Essentiel ?",
+    answer: "Non, le nettoyage des sièges est inclus dans la formule Confort.",
   },
   {
     question: "Le prix est-il le même pour toutes les voitures ?",
     answer:
-      "Oui, le prix est fixe : 55 € pour la formule Essentiel et 80 € pour la formule Premium, quelle que soit votre voiture.",
+      "Oui, le prix est fixe : 59 € pour la formule Essentiel et 89 € pour la formule Confort, quelle que soit la taille de votre voiture. Des suppléments peuvent s'ajouter (véhicule très sale, poils d'animaux, traitements des plastiques ou du cuir).",
+  },
+  {
+    question: "Que se passe-t-il si mon véhicule est très sale ?",
+    answer:
+      "Un supplément de 10 à 20 € peut s'appliquer selon l'état du véhicule ; je vous préviens avant de commencer. Vous pouvez m'envoyer une photo sur WhatsApp pour avoir une estimation.",
+  },
+  {
+    question: "Le résultat sera-t-il comme neuf ?",
+    answer:
+      "Je propose un nettoyage complet pour un intérieur propre et agréable. Les taches incrustées ou la rénovation (detailing) ne sont pas incluses.",
   },
   {
     question: "Comment fonctionne la réservation ?",
@@ -286,34 +297,8 @@ export const faq = [
 export const seo = {
   title: "Nettoyage Auto Hyères & Toulon à Domicile | Hyères Auto Clean",
   titleTemplate: "%s | HYÈRES AUTO CLEAN",
+  // Titre des aperçus de partage (Facebook, WhatsApp, X…).
+  ogTitle: "Hyères Auto Clean — Nettoyage intérieur auto à domicile, formules à 59 € et 89 €",
   description:
-    "Nettoyage intérieur automobile à domicile à Hyères, Toulon et dans le Var. Prix fixe et clair, lavage intérieur soigné, vitres incluses. Chaque détail compte.",
-  keywords: [
-    "nettoyage automobile",
-    "nettoyage automobile à domicile",
-    "nettoyage voiture Hyères",
-    "nettoyage intérieur voiture Hyères",
-    "nettoyage automobile à domicile Hyères",
-    "nettoyage voiture à domicile Hyères",
-    "nettoyage voiture Toulon",
-    "nettoyage automobile Toulon",
-    "nettoyage auto à domicile Toulon",
-    "nettoyage automobile Var",
-    "nettoyage voiture Var",
-    "lavage voiture Hyères",
-    "lavage intérieur voiture",
-    "lavage auto à domicile",
-    "car wash Hyères",
-    "car wash Toulon",
-    "car wash à domicile",
-    "detailing intérieur voiture Hyères",
-    "nettoyage voiture La Garde",
-    "nettoyage automobile La Garde",
-    "nettoyage voiture La Crau",
-    "nettoyage automobile La Crau",
-    "nettoyage voiture La Londe-les-Maures",
-    "nettoyage voiture Pierrefeu-du-Var",
-    "nettoyage voiture Cuers",
-    "nettoyage automobile à domicile Var",
-  ],
+    "Nettoyage intérieur automobile à domicile à Hyères, Toulon et dans le Var. Formule Essentiel 59 €, formule Confort 89 € (sièges inclus). Je me déplace chez vous, prix clair, réservation en ligne.",
 };

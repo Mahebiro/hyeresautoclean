@@ -54,7 +54,7 @@ export function Header() {
   return (
     <header
       className={`sticky top-0 z-50 border-b transition-colors duration-500 ${
-        transparent ? "border-transparent bg-transparent" : "border-navy-900/10 bg-white/90 backdrop-blur"
+        transparent ? "border-transparent bg-transparent" : "border-white/10 bg-[#0f0f0f]/90 backdrop-blur"
       }`}
     >
       <Container className="flex h-16 items-center justify-between sm:h-20">
@@ -67,9 +67,7 @@ export function Header() {
             className="rounded-lg"
           />
           <span
-            className={`font-display text-sm font-bold tracking-wide transition-colors duration-500 sm:text-base ${
-              transparent ? "text-white" : "text-navy-900"
-            }`}
+            className="font-display text-sm font-bold tracking-wide text-white sm:text-base"
           >
             {company.name}
           </span>
@@ -80,9 +78,7 @@ export function Header() {
             <a
               key={link.href}
               href={link.href}
-              className={`link-underline text-sm font-medium transition-colors duration-500 ${
-                transparent ? "text-white/80 hover:text-white" : "text-navy-700 hover:text-navy-900"
-              }`}
+              className="link-underline text-sm font-medium text-neutral-200 transition-colors hover:text-white"
             >
               {link.label}
             </a>
@@ -102,9 +98,7 @@ export function Header() {
             aria-label="Ouvrir le menu"
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className={`flex h-10 w-10 items-center justify-center rounded-full border transition-colors duration-500 lg:hidden ${
-              transparent ? "border-white/30 text-white" : "border-navy-900/15 text-navy-900"
-            }`}
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-white lg:hidden"
           >
             {open ? (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -120,14 +114,14 @@ export function Header() {
       </Container>
 
       {open ? (
-        <div className="border-t border-navy-900/10 bg-white lg:hidden">
+        <div className="border-t border-white/10 bg-[#0f0f0f] lg:hidden">
           <Container className="flex flex-col gap-1 py-4">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-2.5 text-sm font-medium text-navy-800 hover:bg-navy-50"
+                className="rounded-lg px-3 py-2.5 text-sm font-medium text-neutral-100 hover:bg-white/10"
               >
                 {link.label}
               </a>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { addons, formulas, type FormulaId } from "@/content/site-data";
+import { addons, formatAddonPrice, formulas } from "@/content/site-data";
 import { useSelection } from "@/context/SelectionContext";
 import { AnimatedNumber } from "./motion/AnimatedNumber";
 import { EASE_SOFT, gsap, hasFinePointer, prefersReducedMotion } from "./motion/gsap";
@@ -17,17 +17,17 @@ export function Formules() {
   const activeAddons = addons.filter((addon) => addon.active);
 
   return (
-    <section id="formules" className="bg-navy-50/60 py-20 sm:py-28">
+    <section id="formules" className="bg-[#171717] py-20 sm:py-28">
       <Container>
         <SectionHeading
           eyebrow="Nos formules"
-          title="Deux formules, un seul objectif : un intérieur impeccable"
+          title="Deux formules pour un intérieur propre et agréable"
           subtitle="Vitres intérieures incluses dans les deux formules."
         />
 
-        <div className="mt-14 grid gap-8 lg:grid-cols-2 lg:items-center">
+        <div className="mt-14 grid gap-8 lg:grid-cols-2">
           {formulas.map((formula, index) => (
-            <FadeIn key={formula.id} delay={index * 0.1}>
+            <FadeIn key={formula.id} delay={index * 0.1} className="h-full">
               <FormulaCard
                 formula={formula}
                 onChoose={() => {
@@ -43,7 +43,7 @@ export function Formules() {
         </div>
 
         <FadeIn delay={0.2}>
-          <p className="mt-10 text-center text-sm font-medium text-navy-700/80">
+          <p className="mt-10 text-center text-sm font-medium text-neutral-300">
             Même prix pour toutes les voitures, quelle que soit leur taille — citadine, berline ou
             SUV.
           </p>
@@ -52,15 +52,21 @@ export function Formules() {
         {activeAddons.length > 0 ? (
           <FadeIn delay={0.25}>
             <div className="mt-16">
-              <h3 className="text-center font-display text-xl font-bold text-navy-900">
-                Suppléments à la carte
-              </h3>
-              <div className="mx-auto mt-8 max-w-xl overflow-hidden rounded-2xl border border-navy-900/10 bg-white shadow-sm">
-                <ul className="divide-y divide-navy-900/10">
+              <h3 className="text-center font-display text-xl font-bold text-white">Suppléments</h3>
+              <p className="mt-2 text-center text-sm text-neutral-400">
+                À ajouter à la formule choisie, selon vos besoins.
+              </p>
+              <div className="mx-auto mt-8 max-w-xl overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04]">
+                <ul className="divide-y divide-white/10">
                   {activeAddons.map((addon) => (
-                    <li key={addon.id} className="flex items-center justify-between px-6 py-4">
-                      <span className="text-navy-800">{addon.label}</span>
-                      <span className="font-semibold text-navy-900">+{addon.price} €</span>
+                    <li key={addon.id} className="flex items-center justify-between gap-4 px-6 py-4">
+                      <span>
+                        <span className="block text-neutral-100">{addon.label}</span>
+                        {addon.description ? (
+                          <span className="block text-sm text-neutral-400">{addon.description}</span>
+                        ) : null}
+                      </span>
+                      <span className="shrink-0 font-semibold text-white">+{formatAddonPrice(addon)}</span>
                     </li>
                   ))}
                 </ul>
@@ -80,7 +86,8 @@ function FormulaCard({
   formula: (typeof formulas)[number];
   onChoose: () => void;
 }) {
-  const isPremium = formula.id === ("premium" as FormulaId);
+  // Formule mise en avant (badge « La plus choisie »).
+  const isFeatured = Boolean(formula.badge);
   const cardRef = useRef<HTMLDivElement>(null);
   const glareRef = useRef<HTMLSpanElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
@@ -148,57 +155,76 @@ function FormulaCard({
   }, []);
 
   return (
-    <div className={isPremium ? "lg:scale-105" : undefined}>
+    <div className={`h-full ${isFeatured ? "lg:scale-[1.03]" : ""}`}>
       <div
         ref={cardRef}
-        className={`relative flex h-full flex-col rounded-3xl border p-8 [transform-style:preserve-3d] ${
-          isPremium
-            ? "premium-halo border-navy-900 bg-navy-900 text-white shadow-premium"
-            : "border-navy-900/10 bg-white text-navy-900"
+        id={`formule-${formula.id}`}
+        className={`relative flex h-full scroll-mt-28 flex-col rounded-3xl border p-8 text-white [transform-style:preserve-3d] ${
+          isFeatured
+            ? "premium-halo border-sky-300/40 bg-[#222224]"
+            : "border-white/10 bg-white/[0.04]"
         }`}
       >
-        {/* Reflets : balayage lent (Premium) et reflet qui suit la souris. */}
+        {/* Reflets : balayage lent (formule mise en avant) et reflet qui suit la souris. */}
         <span aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]">
-          {isPremium ? <span className="card-sheen absolute inset-y-0 -left-1/2 w-1/2" /> : null}
+          {isFeatured ? <span className="card-sheen absolute inset-y-0 -left-1/2 w-1/2" /> : null}
           <span
             ref={glareRef}
             className={`invisible absolute left-1/2 top-1/2 -ml-40 -mt-40 h-80 w-80 rounded-full opacity-0 blur-2xl ${
-              isPremium ? "bg-white/[0.12]" : "bg-sky-200/50"
+              isFeatured ? "bg-white/[0.12]" : "bg-white/[0.08]"
             }`}
           />
         </span>
 
         {formula.badge ? (
-          <span className="absolute -top-3 left-8 rounded-full bg-sky-400 px-3 py-1 text-xs font-bold uppercase tracking-wide text-navy-950">
+          <span className="absolute -top-3 left-8 rounded-full bg-sky-300 px-3 py-1 text-xs font-bold uppercase tracking-wide text-neutral-950">
             {formula.badge}
           </span>
         ) : null}
 
         <h3 className="font-display text-2xl font-bold">{formula.name}</h3>
-        <p className={`mt-2 text-sm ${isPremium ? "text-white/75" : "text-navy-700/80"}`}>
-          {formula.tagline}
-        </p>
+        <p className="mt-2 text-sm text-neutral-300">{formula.tagline}</p>
 
-        <p className="mt-6">
+        <p className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1">
           <span className="font-display text-4xl font-bold">
             <AnimatedNumber value={formula.priceFrom} duration={1.1} /> €
           </span>
+          <span className="text-sm text-neutral-300">Durée : {formula.duration}</span>
         </p>
 
         <ul ref={listRef} data-checklist="" className="mt-6 flex-1 space-y-3">
           {formula.features.map((feature) => (
             <li key={feature} className="flex items-start gap-2.5 text-sm">
-              <CheckIcon className={isPremium ? "text-sky-300" : "text-sky-600"} />
-              <span className={isPremium ? "text-white/90" : "text-navy-800"}>{feature}</span>
+              <CheckIcon className="text-sky-300" />
+              <span className="text-neutral-100">{feature}</span>
             </li>
           ))}
         </ul>
+
+        {/* Prestations non incluses : affichées clairement, pas en petit. */}
+        {formula.excluded?.map((item) => (
+          <div key={item.label} className="mt-5 rounded-2xl border border-red-400/40 bg-red-500/10 px-4 py-3">
+            <p className="flex items-start gap-2.5 font-semibold text-red-200">
+              <span aria-hidden="true" className="text-lg leading-5">
+                ✗
+              </span>
+              {item.label}
+            </p>
+            {item.hint ? (
+              <p className="mt-1 pl-6 text-sm text-neutral-200">
+                <a href="#formule-confort" className="underline underline-offset-2 hover:text-white">
+                  {item.hint}
+                </a>
+              </p>
+            ) : null}
+          </div>
+        ))}
 
         <div className="relative mt-8">
           <Button
             href="#reservation"
             onClick={onChoose}
-            variant={isPremium ? "secondary" : "primary"}
+            variant={isFeatured ? "primary" : "secondary"}
             className="w-full"
           >
             Choisir cette formule

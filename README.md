@@ -30,9 +30,10 @@ content/site-data.ts
 
 C'est le fichier le plus important pour vous. Il contient :
 - vos coordonnées (téléphone, email, Instagram) ;
-- les deux formules (Essentiel / Premium) et leurs prestations ;
+- les deux formules (Essentiel / Confort), leurs prestations et leurs durées ;
 - les tarifs de chaque formule ;
-- les suppléments (poils d'animaux, etc.) ;
+- les suppléments (véhicule très sale, poils d'animaux, traitements) ;
+- les horaires d'intervention, les frais de déplacement et le numéro WhatsApp ;
 - les textes (présentation, histoire, FAQ...) ;
 - les informations pour le référencement (SEO).
 
@@ -77,32 +78,33 @@ export const company = {
 };
 ```
 
-### Les formules (Essentiel / Premium)
+### Les formules (Essentiel / Confort)
 ```ts
 export const formulas = [
   {
     id: "essentiel",
     name: "Essentiel",
-    priceFrom: 55,
+    priceFrom: 59,
+    duration: "1h15 à 1h30",
     features: [ "Aspiration complète de l'habitacle", ... ],
+    excluded: [ { label: "Nettoyage des sièges non inclus", hint: "..." } ],
   },
   ...
 ];
 ```
-Vous pouvez changer les textes, ajouter ou retirer une ligne de prestation (`features`), ou changer le prix affiché (`priceFrom`). Le prix est **fixe, le même pour toutes les voitures** (on ne demande que le modèle du véhicule, à titre indicatif, pas sa taille) : le formulaire de réservation se met à jour automatiquement dès que vous changez un `priceFrom` — pensez juste à aussi adapter la FAQ (`content/site-data.ts`) si vos prix changent, pour qu'elle reste cohérente avec ce que vous affichez.
+Vous pouvez changer les textes, ajouter ou retirer une prestation (`features`), une exclusion affichée en rouge (`excluded`), la durée (`duration`) ou le prix (`priceFrom`). Le prix est **fixe, le même pour toutes les voitures** : le formulaire de réservation, le récapitulatif et les données pour Google se mettent à jour automatiquement. Pensez juste à adapter aussi la FAQ si vos prix ou durées changent. Le badge « La plus choisie » se règle avec `badge`.
 
 ### Les suppléments
 ```ts
 export const addons = [
-  { id: "poils-habitacle-coffre", label: "Poils d'animaux — habitacle + coffre", price: 25, active: true },
-  { id: "sable-terre", label: "Sable / terre incrustée", price: 20, active: false },
+  { id: "vehicule-tres-sale", label: "Véhicule très sale", price: 10, priceMax: 20, ... },
+  { id: "poils-animaux", label: "Poils d'animaux", price: 15, active: true },
   ...
 ];
 ```
-- `active: true` → le supplément est visible sur le site.
+- `price` seul → prix fixe (ex : +15 €).
+- `price` + `priceMax` → fourchette (ex : +10 à 20 €), affichée « ajusté sur place selon l'état » dans le récapitulatif.
 - `active: false` → le supplément existe dans le fichier mais n'est pas affiché.
-
-Pour activer un supplément proposé (sable/terre, désodorisation, désinfection, cuir), passez simplement `active` à `true` une fois que vous avez validé son prix. Vous pouvez aussi ajouter une nouvelle ligne en suivant le même modèle, avec un `id` unique (sans espace ni accent).
 
 ### Les avis clients
 Les avis affichés dans la section « Avis clients » sont dans `data/avis.ts` : copiez un bloc pour en ajouter un, supprimez-le pour le retirer. La note moyenne se calcule toute seule. Pensez à remplacer `lienAvisGoogle` par le lien de votre fiche Google (Google Maps → votre fiche → « Partager »).
@@ -121,7 +123,7 @@ Ajoutez, modifiez ou supprimez des questions/réponses librement.
 export const seo = {
   title: "...",
   description: "...",
-  keywords: [...],
+  ogTitle: "...", // titre des aperçus de partage (WhatsApp, Facebook…)
 };
 ```
 Le site est optimisé pour le référencement naturel autour de : nettoyage automobile, lavage intérieur, à domicile, Hyères, Toulon, Var. Le titre et la description sont repris automatiquement dans Google, sur les réseaux sociaux (partage) et dans les données structurées (`app/layout.tsx`) qui aident Google à comprendre votre activité, votre zone et vos prix. Si votre zone d'intervention change (par exemple si vous couvrez davantage de villes), pensez à mettre à jour `company.zone` dans ce même fichier, la FAQ "Où intervenez-vous ?", et le JSON-LD dans `app/layout.tsx` (`areaServed`).
@@ -161,22 +163,9 @@ Les images actuelles sont au format SVG (vectoriel, ce sont juste des placeholde
 
 ---
 
-## 4 bis. Le haut de page 3D (« Allumage du showroom »)
+## 4 bis. La photo du haut de page
 
-Le haut de page affiche une Porsche 911 GT3 RS en 3D dans un studio noir : les bandes de lumière s'allument une par une, puis la caméra tourne autour de la voiture pendant le défilement.
-
-- **Tous les réglages** (couleur de peinture, jantes, lumières, sol, trajet de caméra, rythme de l'intro, performances) sont dans **un seul fichier commenté** : `components/showroom-hero/config.js`.
-- **Le modèle 3D** : déposez le fichier d'origine dans `public/assets/gt3rs.glb`, puis lancez :
-
-```bash
-npm run model:analyze    # liste les pièces reconnues (peinture, vitres, pneus, jantes, étriers, phares, feux, logos…)
-npm run model:compress   # supprime logos/badges/plaques, compresse (meshopt + textures WebP) → public/assets/gt3rs.opt.glb
-```
-
-  Si une pièce est mal reconnue (noms génériques du type `Object_12`), ajoutez-la dans `model.overrides` du fichier `config.js`. Si la voiture apparaît de travers, ajoutez `-- --rotate 180` (ou 90 / -90) à la commande de compression. Seul le fichier `gt3rs.opt.glb` est chargé par le site (objectif : moins de 5 Mo).
-- **Sans modèle**, le haut de page s'affiche quand même (titre, texte et boutons sur fond noir).
-- Les visiteurs qui ont activé « réduire les animations » voient directement la voiture éclairée, sans intro ni défilement épinglé. Les ordinateurs peu puissants basculent automatiquement en version allégée.
-- Pour tester un mode précis : ajoutez `?showroom=desktop`, `?showroom=mobile` ou `?showroom=lite` à l'adresse.
+La photo du haut de page est dans `public/images/hero/`, en trois tailles WebP (`hero-interieur-480.webp`, `-720`, `-960`). Pour la changer, remplacez ces trois fichiers en gardant les mêmes noms, ou modifiez les chemins dans `components/Hero.tsx`.
 
 ---
 
@@ -243,11 +232,10 @@ Le site est fonctionnel et fidèle au brief, mais certains éléments dépendent
 1. ~~Logo~~ et ~~photos "Réalisations"~~ — **fournis et déjà intégrés** (logo dans le header et 3 paires avant/après dans la section Réalisations : Ford F-150, BMW).
 2. ~~Votre photo personnelle~~ — ✅ fournie et intégrée dans la section "Mon histoire".
 3. **Adresse Formspree** — ✅ déjà branchée (`content/site-data.ts`, `reservationFormEndpoint`).
-4. **Prix des suppléments non confirmés** — sable/terre incrustée, désodorisation, désinfection, protection cuir sont présents dans le code mais **masqués** (`active: false`) car vous n'avez pas encore validé leurs prix. Dès que c'est fait, passez `active` à `true` dans `content/site-data.ts`. (Le supplément "Vitres extérieures" à 10 € est lui déjà actif.)
-5. **Mentions légales** — une page modèle a été créée (`/mentions-legales`, accessible depuis le pied de page) mais elle contient des champs à compléter avec vos vraies informations : statut juridique exact, numéro de SIRET, adresse, hébergeur. C'est une obligation légale pour un site professionnel en France.
-6. **Durée d'une intervention** — la FAQ reste volontairement générale sur ce point (« la durée dépend de la taille du véhicule et de la formule »). Si vous souhaitez indiquer une fourchette précise, vous pouvez modifier la réponse correspondante dans `content/site-data.ts`.
+4. **Horaires et frais de déplacement** — à compléter dans `content/site-data.ts` (`hours` et `travelFees`, actuellement `[HORAIRES]` et `[FRAIS DE DÉPLACEMENT]`).
+5. **Mentions légales** — à compléter dans `app/mentions-legales/page.tsx` : tous les champs entre crochets (nom, SIRET, adresse, mention TVA, hébergeur, modes de paiement, conditions d'annulation). C'est une obligation légale pour un site professionnel en France.
+6. **Lien des avis Google** — à compléter dans `data/avis.ts` (`lienAvisGoogle`, actuellement `[URL AVIS GOOGLE]`).
 7. **Activer l'aperçu GitHub Pages** — ✅ fait, l'aperçu est en ligne (voir section 0).
-8. **Modèle 3D de la GT3 RS** — à déposer dans `public/assets/gt3rs.glb` puis à préparer avec `npm run model:compress` (voir section 4 bis).
 
 Aucune fausse information (avis clients, notes, chiffres, badges) n'a été inventée sur le site, conformément à votre demande.
 

@@ -22,7 +22,7 @@ export function BeforeAfterSlider({
   const [percent, setPercent] = useState(50);
 
   return (
-    <div className="relative aspect-[4/5] w-full select-none overflow-hidden rounded-2xl bg-white">
+    <div className="relative aspect-[4/5] w-full select-none overflow-hidden rounded-2xl bg-neutral-800">
       <Image
         src={withBasePath(after)}
         alt={`${alt} — après le nettoyage intérieur par Hyères Auto Clean`}
@@ -40,10 +40,10 @@ export function BeforeAfterSlider({
         />
       </div>
 
-      <span className="pointer-events-none absolute left-2 top-2 rounded-full bg-navy-900/80 px-2.5 py-1 text-xs font-semibold text-white">
+      <span className="pointer-events-none absolute left-2 top-2 rounded-full bg-neutral-900/80 px-2.5 py-1 text-xs font-semibold text-white">
         Avant
       </span>
-      <span className="pointer-events-none absolute right-2 top-2 rounded-full bg-sky-500 px-2.5 py-1 text-xs font-semibold text-white">
+      <span className="pointer-events-none absolute right-2 top-2 rounded-full bg-sky-300 px-2.5 py-1 text-xs font-semibold text-neutral-950">
         Après
       </span>
 
@@ -52,7 +52,7 @@ export function BeforeAfterSlider({
         style={{ left: `${percent}%` }}
       />
       <div
-        className="pointer-events-none absolute top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-navy-900 shadow-premium"
+        className="pointer-events-none absolute top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-neutral-900 shadow-premium"
         style={{ left: `${percent}%` }}
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">

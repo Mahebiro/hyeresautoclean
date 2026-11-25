@@ -7,17 +7,18 @@
 //   texte    : le texte de l'avis, tel que publié par le client
 //   prenom   : prénom affiché (et initiale du nom, si vous le souhaitez)
 //   ville    : facultatif — mettez null si vous ne la connaissez pas
-//   formule  : facultatif — "Essentiel", "Premium" ou null
+//   formule  : facultatif — "Essentiel", "Confort" ou null
 //   note     : de 1 à 5
 //   date     : mois de l'intervention ou de l'avis (texte libre)
 //   verifie  : true pour un vrai avis publié par un client. Tant que
 //              verifie vaut false, l'avis s'affiche avec un badge « Exemple »
 //              (à n'utiliser que pour des tests, jamais en ligne).
 //
-// La note moyenne affichée en grand est calculée automatiquement.
+// La note moyenne et le nombre d'avis affichés sont calculés automatiquement.
+// Les textes sont ceux publiés par les clients : ils ne sont pas modifiés.
 // ============================================================================
 
-export type FormuleAvis = "Essentiel" | "Premium";
+export type FormuleAvis = "Essentiel" | "Confort";
 
 export interface Avis {
   id: string;
@@ -33,9 +34,10 @@ export interface Avis {
 
 // Lien du bouton « Voir tous les avis sur Google ».
 // À REMPLACER par le lien de votre fiche Google (dans Google Maps : votre
-// fiche → « Partager » → « Copier le lien »). En attendant, ce lien lance une
-// recherche Google Maps sur le nom de l'entreprise.
-export const lienAvisGoogle = "https://www.google.com/maps/search/?api=1&query=Hy%C3%A8res%20Auto%20Clean";
+// fiche → « Partager » → « Copier le lien »), en gardant les guillemets.
+// Tant que ce n'est pas fait, le bouton lance une recherche Google Maps sur
+// le nom de l'entreprise.
+export const lienAvisGoogle = "[URL AVIS GOOGLE]";
 
 export const avis: Avis[] = [
   {
@@ -151,7 +153,7 @@ export const avis: Avis[] = [
   //   texte: "Le texte de l'avis…",
   //   prenom: "Prénom N.",
   //   ville: "Hyères",
-  //   formule: "Premium",
+  //   formule: "Confort",
   //   note: 5,
   //   source: "Google",
   //   date: "Octobre 2026",

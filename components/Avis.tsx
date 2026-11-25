@@ -18,11 +18,13 @@ export function Avis() {
   const moyenne = noteMoyenne();
   if (moyenne === null) return null;
 
-  const rangeeA = avis;
-  const rangeeB = [...avis].reverse();
+  // Chaque avis n'apparaît que dans UNE rangée (un sur deux dans chacune) :
+  // aucun avis n'est affiché deux fois à l'écran.
+  const rangeeA = avis.filter((_, index) => index % 2 === 0);
+  const rangeeB = avis.filter((_, index) => index % 2 === 1);
 
   return (
-    <section id="avis" className="overflow-hidden bg-navy-950 py-20 sm:py-28">
+    <section id="avis" className="overflow-hidden bg-[#1f1f1f] py-20 sm:py-28">
       <Container>
         <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-xl">
@@ -41,7 +43,7 @@ export function Avis() {
               </p>
               <div>
                 <Stars rating={moyenne} size={22} className="text-white" />
-                <p className="mt-2 text-sm text-white/60">
+                <p className="mt-2 text-sm text-neutral-300">
                   Note moyenne sur {avis.length} avis Google
                 </p>
               </div>
@@ -52,17 +54,17 @@ export function Avis() {
 
       <div className="mt-14 space-y-6 sm:mt-16">
         <Rangee items={rangeeA} direction="gauche" />
-        <Rangee items={rangeeB} direction="droite" />
+        {rangeeB.length > 0 ? <Rangee items={rangeeB} direction="droite" /> : null}
       </div>
 
       <Container>
         <FadeIn>
           <div className="mt-12 flex justify-center">
             <a
-              href={lienAvisGoogle}
+              href={/^https?:\/\//.test(lienAvisGoogle) ? lienAvisGoogle : RECHERCHE_GOOGLE}
               target="_blank"
               rel="noopener noreferrer"
-              className="link-underline inline-flex items-center gap-2 text-sm font-semibold text-white/85 transition-colors hover:text-white"
+              className="link-underline inline-flex items-center gap-2 text-sm font-semibold text-neutral-100 transition-colors hover:text-white"
             >
               Voir tous les avis sur Google
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -76,8 +78,9 @@ export function Avis() {
   );
 }
 
-/** Nombre minimum de cartes par demi-rangée, pour remplir les grands écrans. */
-const MIN_PAR_DEMI = 6;
+// Tant que le lien de la fiche Google n'est pas renseigné dans data/avis.ts,
+// le bouton lance une recherche Google Maps sur le nom de l'entreprise.
+const RECHERCHE_GOOGLE = "https://www.google.com/maps/search/?api=1&query=Hy%C3%A8res%20Auto%20Clean";
 
 function Rangee({ items, direction }: { items: AvisType[]; direction: "gauche" | "droite" }) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -88,7 +91,8 @@ function Rangee({ items, direction }: { items: AvisType[]; direction: "gauche" |
 
     // Le HTML ne contient chaque avis qu'une fois (page plus légère) : les
     // copies nécessaires à la boucle sont créées ici, masquées aux lecteurs
-    // d'écran. Demi-piste = au moins MIN_PAR_DEMI cartes, puis doublée.
+    // d'écran. La demi-piste est répétée juste assez pour couvrir la largeur
+    // de l'écran (pas de doublon visible en même temps), puis doublée.
     const originals = Array.from(track.children);
     const clones: Element[] = [];
     const addClone = (node: Element) => {
@@ -97,7 +101,7 @@ function Rangee({ items, direction }: { items: AvisType[]; direction: "gauche" |
       track.appendChild(clone);
       clones.push(clone);
     };
-    const repetitions = Math.max(1, Math.ceil(MIN_PAR_DEMI / originals.length));
+    const repetitions = Math.max(1, Math.ceil(window.innerWidth / Math.max(1, track.scrollWidth)));
     for (let r = 1; r < repetitions; r++) originals.forEach(addClone);
     Array.from(track.children).forEach(addClone);
 
@@ -170,9 +174,9 @@ function CarteAvis({ avis: item }: { avis: AvisType }) {
       <figcaption className="mt-6 flex items-end justify-between gap-4 border-t border-white/10 pt-5">
         <div>
           <p className="font-semibold text-white">{item.prenom}</p>
-          {details ? <p className="mt-0.5 text-sm text-white/55">{details}</p> : null}
+          {details ? <p className="mt-0.5 text-sm text-neutral-300">{details}</p> : null}
         </div>
-        <p className="shrink-0 text-xs text-white/45">
+        <p className="shrink-0 text-xs text-neutral-400">
           Avis {item.source} · {item.date}
         </p>
       </figcaption>

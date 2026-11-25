@@ -44,7 +44,7 @@ export function CookieConsent() {
   if (!visible) return null;
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-navy-950 px-4 py-4 sm:px-6">
+    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-[#141414] px-4 py-4 sm:px-6">
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 sm:flex-row sm:justify-between">
         <p className="text-center text-sm text-white/85 sm:text-left">
           Ce site utilise un cookie technique pour mémoriser votre choix. Aucun cookie de suivi
@@ -65,7 +65,7 @@ export function CookieConsent() {
           <button
             type="button"
             onClick={() => choose("accepted")}
-            className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-navy-900 transition-colors hover:bg-sky-50"
+            className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-neutral-900 transition-colors hover:bg-sky-100"
           >
             Accepter
           </button>

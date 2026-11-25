@@ -4,8 +4,9 @@ import { CookieConsent } from "@/components/CookieConsent";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { MotionProvider } from "@/components/motion/MotionProvider";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { SelectionProvider } from "@/context/SelectionContext";
-import { company, faq, formulas, seo, serviceCities } from "@/content/site-data";
+import { addons, company, faq, formulas, seo, serviceCities } from "@/content/site-data";
 import "./globals.css";
 
 // viewport-fit=cover : nécessaire pour respecter la zone sûre de l'iPhone
@@ -23,7 +24,6 @@ export const metadata: Metadata = {
     template: seo.titleTemplate,
   },
   description: seo.description,
-  keywords: seo.keywords,
   alternates: {
     canonical: company.website,
   },
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
       ? { index: false, follow: false }
       : { index: true, follow: true },
   openGraph: {
-    title: seo.title,
+    title: seo.ogTitle,
     description: seo.description,
     url: company.website,
     siteName: company.name,
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: seo.title,
+    title: seo.ogTitle,
     description: seo.description,
   },
 };
@@ -77,15 +77,34 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       longitude: 6.1286,
     },
     sameAs: [company.instagramUrl],
-    makesOffer: formulas.map((formula) => ({
-      "@type": "Offer",
-      name: `Formule ${formula.name} — Nettoyage intérieur automobile`,
-      description: formula.tagline,
-      priceCurrency: "EUR",
-      price: formula.priceFrom,
-      url: `${company.website}/#formules`,
-      areaServed,
-    })),
+    makesOffer: [
+      ...formulas.map((formula) => ({
+        "@type": "Offer",
+        name: `Formule ${formula.name} — Nettoyage intérieur automobile à domicile`,
+        description: `${formula.tagline}. Durée : ${formula.duration}. ${formula.features.join(", ")}.${
+          formula.excluded?.length ? ` Non inclus : ${formula.excluded.map((e) => e.label).join(", ")}.` : ""
+        }`,
+        priceCurrency: "EUR",
+        price: formula.priceFrom,
+        url: `${company.website}/#formules`,
+        areaServed,
+      })),
+      ...addons
+        .filter((addon) => addon.active)
+        .map((addon) => ({
+          "@type": "Offer",
+          name: `Supplément — ${addon.label}`,
+          ...(addon.description ? { description: addon.description } : {}),
+          priceSpecification: {
+            "@type": "PriceSpecification",
+            priceCurrency: "EUR",
+            ...(addon.priceMax
+              ? { minPrice: addon.price, maxPrice: addon.priceMax }
+              : { price: addon.price }),
+          },
+          url: `${company.website}/#formules`,
+        })),
+    ],
   };
 
   const faqJsonLd = {
@@ -127,6 +146,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <Footer />
           </Suspense>
         </SelectionProvider>
+        <WhatsAppButton />
         <Suspense>
           <CookieConsent />
         </Suspense>

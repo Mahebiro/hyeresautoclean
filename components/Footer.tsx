@@ -15,13 +15,14 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-navy-950 pb-[calc(76px+env(safe-area-inset-bottom))] text-white/70 md:pb-0">
+    <footer className="border-t border-white/10 bg-[#0a0a0a] pb-[calc(76px+env(safe-area-inset-bottom))] text-neutral-300 md:pb-0">
       <Container className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-3">
         <div>
           <p className="font-display text-lg font-bold text-white">{company.name}</p>
           <p className="mt-2 text-sm">{company.activity}</p>
-          <p className="mt-1 text-sm italic text-sky-300">« {company.slogan} »</p>
+          <p className="mt-1 text-sm text-sky-300">{company.slogan}</p>
           <p className="mt-1 text-sm">{company.zone}</p>
+          <p className="mt-3 text-sm">Horaires d&apos;intervention : {company.hours}</p>
         </div>
 
         <div>

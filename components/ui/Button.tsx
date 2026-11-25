@@ -7,21 +7,24 @@ type Variant = "primary" | "secondary" | "ghost" | "outlineLight";
 type Size = "md" | "lg";
 
 // Couleur de fond, et couleur de « remplissage » qui monte au survol.
+// Le site est sur fond sombre : contrastes vérifiés (WCAG AA).
 const variantClasses: Record<Variant, { base: string; fill: string }> = {
+  // Bouton principal : blanc sur fond sombre.
   primary: {
-    base: "bg-navy-900 text-white shadow-premium disabled:bg-navy-300",
-    fill: "bg-navy-600",
+    base: "bg-white text-neutral-900 shadow-premium disabled:bg-neutral-500",
+    fill: "bg-sky-200",
   },
+  // Bouton secondaire : contour clair, se remplit de blanc au survol.
   secondary: {
-    base: "bg-white text-navy-900 hover:text-white border border-navy-200 disabled:text-navy-300",
-    fill: "bg-navy-900",
+    base: "bg-transparent text-white hover:text-neutral-900 border border-white/50 disabled:text-white/40",
+    fill: "bg-white",
   },
   ghost: {
-    base: "bg-transparent text-navy-900 hover:text-white border border-navy-900/20 disabled:text-navy-300",
-    fill: "bg-navy-900",
+    base: "bg-transparent text-white hover:text-neutral-900 border border-white/25 disabled:text-white/40",
+    fill: "bg-white",
   },
   outlineLight: {
-    base: "bg-transparent text-white hover:text-navy-900 border border-white/60 disabled:text-white/40",
+    base: "bg-transparent text-white hover:text-neutral-900 border border-white/50 disabled:text-white/40",
     fill: "bg-white",
   },
 };

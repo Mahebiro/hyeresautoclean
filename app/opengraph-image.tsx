@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { company } from "@/content/site-data";
+import { company, formulas } from "@/content/site-data";
 
 export const dynamic = "force-static";
 export const size = { width: 1200, height: 630 };
@@ -16,7 +16,7 @@ export default function OgImage() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "#0a1730",
+          background: "linear-gradient(180deg, #0f0f0f 0%, #2a2a2a 100%)",
           color: "white",
           fontFamily: "Arial, sans-serif",
         }}
@@ -35,7 +35,10 @@ export default function OgImage() {
             color: "rgba(255,255,255,0.8)",
           }}
         >
-          {`« ${company.slogan} »`}
+          {company.slogan}
+        </div>
+        <div style={{ display: "flex", fontSize: 28, marginTop: 28, fontWeight: 700 }}>
+          {formulas.map((f) => `${f.name} ${f.priceFrom} €`).join("  ·  ")}
         </div>
       </div>
     ),

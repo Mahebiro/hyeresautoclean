@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
-import { formulas, reservationFormEndpoint, type FormulaId } from "@/content/site-data";
+import { company, formatAddonPrice, formulas, reservationFormEndpoint, type FormulaId } from "@/content/site-data";
 import { useSelection } from "@/context/SelectionContext";
-import { formatPriceBreakdownText, getActiveAddons, getPriceBreakdown } from "@/lib/pricing";
+import { formatPriceBreakdownText, formatTotal, getActiveAddons, getPriceBreakdown } from "@/lib/pricing";
 import { AnimatedNumber } from "./motion/AnimatedNumber";
 import { EASE_SOFT, gsap, prefersReducedMotion, useIsomorphicLayoutEffect } from "./motion/gsap";
 import { scrollToSection } from "./motion/MotionProvider";
@@ -171,7 +171,7 @@ export function Reservation() {
       modele_vehicule: selection.vehicleModel,
       formule: formule?.name ?? "",
       supplements: supplements || "Aucun",
-      prix_total_estime: breakdown.isComplete ? `${breakdown.total} €` : "à confirmer",
+      prix_total_estime: breakdown.isComplete ? formatTotal(breakdown) : "à confirmer",
       date_souhaitee: contact.date,
       creneau_souhaite: contact.creneau,
       commentaire: contact.commentaire,
@@ -204,7 +204,7 @@ export function Reservation() {
 
   if (status === "success") {
     return (
-      <section id="reservation" className="bg-navy-900 py-20 sm:py-28">
+      <section id="reservation" className="bg-[#171717] py-20 sm:py-28">
         <Container className="max-w-2xl text-center">
           <FadeIn>
             <h2 className="font-display text-3xl font-bold text-white">Demande bien reçue !</h2>
@@ -221,7 +221,7 @@ export function Reservation() {
   const isLast = step === STEPS.length - 1;
 
   return (
-    <section id="reservation" className="bg-navy-900 py-20 sm:py-28">
+    <section id="reservation" className="bg-[#171717] py-20 sm:py-28">
       <Container className="max-w-6xl">
         <SectionHeading
           eyebrow="Réservation"
@@ -246,7 +246,7 @@ export function Reservation() {
                   ref={headingRef}
                   id="reservation-step-title"
                   tabIndex={-1}
-                  className="font-display text-2xl font-bold text-navy-900 outline-none"
+                  className="font-display text-2xl font-bold text-neutral-900 outline-none"
                 >
                   {STEPS[step]}
                 </h3>
@@ -264,10 +264,11 @@ export function Reservation() {
 
                 {step === 1 ? (
                   <fieldset className="mt-6">
-                    <legend className="text-sm text-navy-700/80">
-                      Facultatif. Les deux options « poils d&apos;animaux » ne se cumulent pas.
+                    <legend className="text-sm text-neutral-700/80">
+                      Facultatif. Le supplément « véhicule très sale » est ajusté sur place selon
+                      l&apos;état du véhicule, et annoncé avant de commencer.
                     </legend>
-                    <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
                       {activeAddons.map((addon) => (
                         <ChoiceCard
                           key={addon.id}
@@ -277,7 +278,10 @@ export function Reservation() {
                           onChange={() => toggleAddon(addon.id)}
                         >
                           <span className="block text-sm font-semibold leading-snug">{addon.label}</span>
-                          <span className="mt-3 block font-display text-xl font-bold">+{addon.price} €</span>
+                          {addon.description ? (
+                            <span className="mt-1 block text-xs opacity-75">{addon.description}</span>
+                          ) : null}
+                          <span className="mt-3 block font-display text-xl font-bold">+{formatAddonPrice(addon)}</span>
                         </ChoiceCard>
                       ))}
                     </div>
@@ -286,6 +290,11 @@ export function Reservation() {
 
                 {step === 2 ? (
                   <div className="mt-6 space-y-6">
+                    <p className="rounded-xl bg-neutral-100 px-4 py-3 text-sm text-neutral-700">
+                      Horaires d&apos;intervention : {company.hours}
+                      <br />
+                      Frais de déplacement : {company.travelFees}
+                    </p>
                     <Field label="Date souhaitée" required error={errors.date}>
                       {(props) => (
                         <input
@@ -299,7 +308,7 @@ export function Reservation() {
                       )}
                     </Field>
                     <fieldset aria-describedby={errors.creneau ? "erreur-creneau" : undefined}>
-                      <legend className="text-sm font-semibold text-navy-900">
+                      <legend className="text-sm font-semibold text-neutral-900">
                         Créneau souhaité <span className="text-sky-600">*</span>
                       </legend>
                       <div className="mt-3 grid grid-cols-3 gap-3">
@@ -418,12 +427,12 @@ export function Reservation() {
                 ) : null}
               </div>
 
-              <div className="mt-10 flex items-center justify-between gap-4 border-t border-navy-900/10 pt-6">
+              <div className="mt-10 flex items-center justify-between gap-4 border-t border-neutral-900/10 pt-6">
                 {step > 0 ? (
                   <button
                     type="button"
                     onClick={goBack}
-                    className="link-underline inline-flex items-center gap-2 text-sm font-semibold text-navy-700 hover:text-navy-900"
+                    className="link-underline inline-flex items-center gap-2 text-sm font-semibold text-neutral-700 hover:text-neutral-900"
                   >
                     <span aria-hidden="true">←</span> Retour
                   </button>
@@ -433,9 +442,9 @@ export function Reservation() {
                 <button
                   type="submit"
                   disabled={status === "sending"}
-                  className="group relative isolate inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-navy-900 px-7 py-3.5 text-base font-semibold text-white disabled:cursor-not-allowed disabled:bg-navy-300"
+                  className="group relative isolate inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-neutral-900 px-7 py-3.5 text-base font-semibold text-white disabled:cursor-not-allowed disabled:bg-neutral-300"
                 >
-                  <span aria-hidden="true" className="btn-fill pointer-events-none absolute inset-0 -z-10 rounded-[inherit] bg-navy-600" />
+                  <span aria-hidden="true" className="btn-fill pointer-events-none absolute inset-0 -z-10 rounded-[inherit] bg-neutral-700" />
                   {isLast ? (status === "sending" ? "Envoi en cours…" : "Demander ma réservation") : "Continuer"}
                   {!isLast ? <span aria-hidden="true">→</span> : null}
                 </button>
@@ -485,19 +494,22 @@ function StepFormule({
               <span className="font-display text-2xl font-bold">{formula.priceFrom} €</span>
             </span>
             <span className="mt-1 block text-sm opacity-75">{formula.tagline}</span>
+            <span className="mt-1 block text-xs font-semibold uppercase tracking-wider opacity-70">
+              Durée : {formula.duration}
+            </span>
             <span className="mt-4 block space-y-1.5 text-sm">
-              {formula.features.slice(0, 3).map((feature) => (
+              {formula.features.map((feature) => (
                 <span key={feature} className="flex items-start gap-2">
                   <span aria-hidden="true" className="mt-0.5 text-sky-500">✓</span>
                   {feature}
                 </span>
               ))}
-              {formula.features.length > 3 ? (
-                <span className="block pl-5 opacity-60">
-                  + {formula.features.length - 3}{" "}
-                  {formula.features.length - 3 > 1 ? "autres prestations" : "autre prestation"}
+              {formula.excluded?.map((item) => (
+                <span key={item.label} className="flex items-start gap-2 font-semibold">
+                  <span aria-hidden="true" className="mt-0.5 text-red-500">✗</span>
+                  {item.label}
                 </span>
-              ) : null}
+              ))}
             </span>
           </ChoiceCard>
         ))}
@@ -512,14 +524,14 @@ function StepFormule({
 function Progress({ step }: { step: number }) {
   return (
     <div>
-      <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-widest text-navy-700/70">
+      <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-widest text-neutral-700/70">
         <span>
           Étape {step + 1} sur {STEPS.length}
         </span>
         <span className="hidden sm:inline">{STEPS[step]}</span>
       </div>
       <div
-        className="mt-3 h-1 overflow-hidden rounded-full bg-navy-900/10"
+        className="mt-3 h-1 overflow-hidden rounded-full bg-neutral-900/10"
         role="progressbar"
         aria-label="Avancement de la réservation"
         aria-valuemin={1}
@@ -527,13 +539,13 @@ function Progress({ step }: { step: number }) {
         aria-valuenow={step + 1}
       >
         <div
-          className="reservation-progress h-full origin-left rounded-full bg-navy-900"
+          className="reservation-progress h-full origin-left rounded-full bg-neutral-900"
           style={{ transform: `scaleX(${(step + 1) / STEPS.length})` }}
         />
       </div>
-      <ol className="mt-3 hidden grid-cols-4 gap-2 text-xs text-navy-700/60 sm:grid">
+      <ol className="mt-3 hidden grid-cols-4 gap-2 text-xs text-neutral-700/60 sm:grid">
         {STEPS.map((label, i) => (
-          <li key={label} className={i <= step ? "font-semibold text-navy-900" : undefined}>
+          <li key={label} className={i <= step ? "font-semibold text-neutral-900" : undefined}>
             {label}
           </li>
         ))}
@@ -565,10 +577,10 @@ function ChoiceCard({
         large ? "p-6" : "p-4"
       } ${
         checked
-          ? "border-navy-900 bg-navy-900 text-white"
+          ? "border-neutral-900 bg-neutral-900 text-white"
           : invalid
-            ? "border-red-400 bg-white text-navy-900"
-            : "border-navy-900/10 bg-white text-navy-900 hover:border-navy-900/40"
+            ? "border-red-400 bg-white text-neutral-900"
+            : "border-neutral-900/10 bg-white text-neutral-900 hover:border-neutral-900/40"
       }`}
     >
       <input
@@ -582,7 +594,7 @@ function ChoiceCard({
       <span
         aria-hidden="true"
         className={`absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full border text-[11px] transition-colors ${
-          checked ? "border-white bg-white text-navy-900" : "border-navy-900/20"
+          checked ? "border-white bg-white text-neutral-900" : "border-neutral-900/20"
         }`}
       >
         {checked ? "✓" : ""}
@@ -609,7 +621,7 @@ function Field({
   const errorId = `${id}-erreur`;
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-semibold text-navy-900">
+      <label htmlFor={id} className="block text-sm font-semibold text-neutral-900">
         {label} {required ? <span className="text-sky-600">*</span> : null}
       </label>
       {children({
@@ -653,20 +665,29 @@ function Summary({
   const details = (
     <dl className="space-y-3 text-sm">
       <div className="flex justify-between gap-4">
-        <dt className="text-white/60">Formule</dt>
+        <dt className="text-neutral-300">Formule</dt>
         <dd className="text-right font-semibold">{chosen ? `${chosen.name} · ${chosen.priceFrom} €` : "—"}</dd>
       </div>
       {selection.addonIds.map((id) => {
         const addon = activeAddons.find((a) => a.id === id);
         return addon ? (
           <div key={id} className="flex justify-between gap-4">
-            <dt className="text-white/60">{addon.label}</dt>
-            <dd className="shrink-0 font-semibold">+{addon.price} €</dd>
+            <dt className="text-white/70">{addon.label}</dt>
+            <dd className="text-right font-semibold">
+              {addon.priceMax ? (
+                <>
+                  +{formatAddonPrice(addon)}
+                  <span className="block text-xs font-normal text-white/70">ajusté sur place selon l&apos;état</span>
+                </>
+              ) : (
+                `+${formatAddonPrice(addon)}`
+              )}
+            </dd>
           </div>
         ) : null;
       })}
       <div className="flex justify-between gap-4">
-        <dt className="text-white/60">Date</dt>
+        <dt className="text-neutral-300">Date</dt>
         <dd className="text-right font-semibold first-letter:uppercase">
           {date ? formatDate(date) : "—"}
           {creneau ? ` · ${creneau}` : ""}
@@ -675,9 +696,17 @@ function Summary({
     </dl>
   );
 
+  const hasRange = lines.totalMax > lines.total;
   const total = (
-    <span className="font-display text-4xl font-bold">
-      <AnimatedNumber value={lines.total} mode="change" /> €
+    <span className={`font-display font-bold ${hasRange ? "text-3xl" : "text-4xl"}`}>
+      <AnimatedNumber value={lines.total} mode="change" />
+      {hasRange ? (
+        <>
+          {" à "}
+          <AnimatedNumber value={lines.totalMax} mode="change" />
+        </>
+      ) : null}{" "}
+      €
     </span>
   );
 
@@ -691,14 +720,14 @@ function Summary({
         <p className="text-xs font-semibold uppercase tracking-widest text-sky-300">Récapitulatif</p>
         <div className="mt-6">{details}</div>
         <div className="mt-8 flex items-end justify-between border-t border-white/10 pt-6">
-          <span className="text-sm text-white/60">Total estimé</span>
+          <span className="text-sm text-neutral-300">Total estimé</span>
           {total}
         </div>
       </aside>
 
       {/* Mobile : replié en bas d'écran pendant la réservation. */}
       <div className="sticky bottom-3 z-10 lg:hidden" style={{ marginBottom: "env(safe-area-inset-bottom)" }}>
-        <div className="rounded-2xl border border-white/10 bg-navy-950/90 text-white shadow-premium backdrop-blur-md">
+        <div className="rounded-2xl border border-white/10 bg-[#141414]/95 text-white shadow-premium backdrop-blur-md">
           <button
             type="button"
             onClick={() => setOpen((o) => !o)}
@@ -712,7 +741,14 @@ function Summary({
             </span>
             <span className="flex items-center gap-3">
               <span className="font-display text-2xl font-bold">
-                <AnimatedNumber value={lines.total} mode="change" /> €
+                <AnimatedNumber value={lines.total} mode="change" />
+                {hasRange ? (
+                  <>
+                    {" à "}
+                    <AnimatedNumber value={lines.totalMax} mode="change" />
+                  </>
+                ) : null}{" "}
+                €
               </span>
               <span aria-hidden="true" className={`transition-transform duration-500 ${open ? "rotate-180" : ""}`}>
                 ▾
@@ -729,4 +765,4 @@ function Summary({
 }
 
 const inputClass =
-  "mt-2 w-full rounded-xl border border-navy-900/15 bg-white px-4 py-2.5 text-navy-900 placeholder:text-navy-400 focus:border-navy-500 focus:outline-none focus:ring-2 focus:ring-navy-200 aria-[invalid=true]:border-red-400";
+  "mt-2 w-full rounded-xl border border-neutral-900/15 bg-white px-4 py-2.5 text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-500 focus:outline-none focus:ring-2 focus:ring-neutral-200 aria-[invalid=true]:border-red-400";
